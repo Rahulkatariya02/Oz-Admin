@@ -1,7 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
-import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
 
 const Dashboard = () => {
   return (

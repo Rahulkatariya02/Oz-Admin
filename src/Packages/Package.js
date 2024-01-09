@@ -48,10 +48,10 @@ const Package = () => {
             </div>
             <div className="pb-20 pd-20 table-responsive">
               <table
-                className="data-table table stripe hover nowrap"
+                className="data-table table stripe hover nowrap text-center"
                 id="myTable"
               >
-                <thead>
+                <thead className="bg-light">
                   <tr>
                     <th>Title</th>
                     <th>Is Active</th>

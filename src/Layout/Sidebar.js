@@ -78,7 +78,7 @@ const Sidebar = () => {
 
                 <li>
                   <Link to="/emailtemplate" className="dropdown-toggle no-arrow">
-                    <span className="micon bi bi-gear-fill" />
+                    <span className="micon dw dw-email" />
                     <span className="mtext">Email Template</span>
                   </Link>
                 </li>
@@ -97,36 +97,10 @@ const Sidebar = () => {
 
                 <li>
                   <Link to="/packagemastermanage" className="dropdown-toggle no-arrow">
-                    <span className="micon bi bi-gear-fill" />
+                    <span className="micon ti-package" />
                     <span className="mtext">Package</span>
                   </Link>
                 </li>
-
-                {/* <li>
-                  <Link to="/SecoSetting" className="dropdown-toggle no-arrow">
-                    <span className="micon bi bi-gear-fill" />
-                    <span className="mtext">SEO Setting</span>
-                  </Link>
-                </li>
-
-                <li>
-                  <Link to="/emailtemplate" className="dropdown-toggle no-arrow">
-                    <span className="micon bi bi-gear-fill" />
-                    <span className="mtext">Email Template</span>
-                  </Link>
-                </li> */}
-
-                {/* <li className="dropdown">
-                  <Link to="#" className="dropdown-toggle">
-                    <span className="micon bi bi-command" />
-                    <span className="mtext"> Manage Brand</span>
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/managebrands">Manage brands</Link>
-                    </li>
-                  </ul>
-                </li> */}
 
                 <li className="dropdown">
                   <Link to="#" className="dropdown-toggle">

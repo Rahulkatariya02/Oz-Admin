@@ -23,6 +23,10 @@ const Category = () => {
     let response = await axios.request(reqOptions);
     setcategory(response.data.data);
   };
+
+  const handleDelete = () => {
+
+  }
   return (
     <>
       <div className="main-container">
@@ -41,10 +45,10 @@ const Category = () => {
             </div>
             <div className="pb-20 pd-20 table-responsive">
               <table
-                className="data-table table stripe hover nowrap"
+                className="table stripe hover nowrap text-center"
                 id="myTable"
               >
-                <thead>
+                <thead className="bg-light">
                   <tr>
                     <th>Sort Order</th>
                     <th>Category Name</th>
@@ -104,8 +108,8 @@ const Category = () => {
                           </div> */}
                         </td>
                         <td>
-                          <div
-                            className="dropdown-item"
+                          <span
+                            className="mx-2"
                             onClick={async () => {
                               try {
                                 if (e.products === 0) {
@@ -121,23 +125,34 @@ const Category = () => {
                                     headers: headersList,
                                   };
 
-                                  let response = await axios.request(
-                                    reqOptions
-                                  );
+                                  let response = await axios.request(reqOptions);
                                   if (response.data.status === 1) {
                                     toast.success(response.data.message);
                                     getcatagarydata();
                                   }
                                 } else {
-                                  toast.warning("please delete all products");
+                                  toast.warning("Please delete all products");
                                 }
                               } catch (error) {
                                 toast.error(error?.response?.data?.error);
                               }
                             }}
                           >
-                            <i className="dw dw-delete-3" /> Delete
-                          </div>
+                            <i className="dw dw-delete-3 text-danger fa-lg" />
+                          </span>
+                          <span
+                            className=""
+                            onClick={() => {
+                              navigate("/categorymastermanage", {
+                                state: {
+                                  data: { ...e, id: e._id },
+                                  type: "Edit",
+                                },
+                              });
+                            }}
+                          >
+                            <i className="dw dw-edit2 fa-lg" />
+                          </span>
                         </td>
                       </tr>
                     );

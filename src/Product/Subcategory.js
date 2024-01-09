@@ -52,7 +52,7 @@ const Subcategory = () => {
                 className="data-table table stripe hover nowrap"
                 id="myTable"
               >
-                <thead>
+                <thead className="bg-light"> 
                   <tr>
                     <th>Sort Order</th>
                     <th>Name</th>
@@ -68,7 +68,8 @@ const Subcategory = () => {
                         <td>{e.sortOrder}</td>
                         <td>{e.description}</td>
                         <td>
-                          <div
+                          <span 
+                          className="text-danger"
                             onClick={() => {
                               navigate("/subproductmasterlist", {
                                 state: {
@@ -81,7 +82,7 @@ const Subcategory = () => {
                             <span className="badge badge-pill badge-primary w-25">
                               {e.products}
                             </span>
-                          </div>
+                          </span>
                         </td>
                         <td>
                           <div className="custom-control custom-switch">
@@ -124,7 +125,7 @@ const Subcategory = () => {
                               }
                             }}
                           >
-                            <i className="dw dw-delete-3" /> Delete
+                            <i className="dw dw-delete-3 fa-lg text-danger" /> 
                           </div>
                         </td>
                       </tr>

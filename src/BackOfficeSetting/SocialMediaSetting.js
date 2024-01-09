@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -37,6 +37,37 @@ const SocialMediaSetting = () => {
     }
   };
 
+  const [socialMediaData, setSocialMediaData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      let accessToken = localStorage.getItem('accessToken');
+      let headersList = {
+        "Accept": "*/*",
+        "Authorization": `Bearer ${accessToken}`
+      }
+      const response = await axios.get(`https://api.ozsolarneeds.com.au/api/admin/socialmedia`, {
+        headers: headersList,
+      });
+      setSocialMediaData(response.data.document);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+  
+  useEffect(() => {
+    fetchData();
+  }, []);
+  
+  useEffect(() => {
+    if (socialMediaData[0]) {
+      reset(socialMediaData[0]);
+    }
+  }, [socialMediaData[0]]);
+
   return (
     <>
       <div className="card-body">
@@ -48,13 +79,12 @@ const SocialMediaSetting = () => {
                 <input
                   type="text"
                   name="Facebook"
-                  className={`form-control ${
-                    errors.Facebook ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${errors.Facebook ? "is-invalid" : ""
+                    }`}
                   {...register("Facebook", {
                     required: true,
                   })}
-                />{" "}
+                />
                 {errors.Facebook && (
                   <small className="text-danger">
                     Please enter a facebook link
@@ -68,9 +98,8 @@ const SocialMediaSetting = () => {
                 <input
                   type="text"
                   name="LinkedIn"
-                  className={`form-control ${
-                    errors.LinkedIn ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${errors.LinkedIn ? "is-invalid" : ""
+                    }`}
                   {...register("LinkedIn", {
                     required: true,
                   })}
@@ -88,9 +117,8 @@ const SocialMediaSetting = () => {
                 <input
                   type="text"
                   name="Twitter"
-                  className={`form-control ${
-                    errors.Twitter ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${errors.Twitter ? "is-invalid" : ""
+                    }`}
                   {...register("Twitter", {
                     required: true,
                   })}
@@ -108,33 +136,31 @@ const SocialMediaSetting = () => {
                 <input
                   type="text"
                   name="Pintrest"
-                  className={`form-control ${
-                    errors.Pintrest ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${errors.Pintrest ? "is-invalid" : ""
+                    }`}
                   {...register("Pintrest", {
                     required: true,
                   })}
-                />{" "}
+                />
                 {errors.Pintrest && (
                   <small className="text-danger">
                     Please enter a pintrest link
                   </small>
                 )}
               </div>
-            </div>{" "}
+            </div>
             <div className="col-md-6 col-sm-12">
               <div className="form-group">
                 <label>Instagram</label>
                 <input
                   type="text"
                   name="Instagram"
-                  className={`form-control ${
-                    errors.Instagram ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${errors.Instagram ? "is-invalid" : ""
+                    }`}
                   {...register("Instagram", {
                     required: true,
                   })}
-                />{" "}
+                />
                 {errors.Instagram && (
                   <small className="text-danger">
                     Please enter a instagram link
@@ -148,13 +174,12 @@ const SocialMediaSetting = () => {
                 <input
                   type="text"
                   name="YouTube"
-                  className={`form-control ${
-                    errors.YouTube ? "is-invalid" : ""
-                  }`}
+                  className={`form-control ${errors.YouTube ? "is-invalid" : ""
+                    }`}
                   {...register("YouTube", {
                     required: true,
                   })}
-                />{" "}
+                />
                 {errors.YouTube && (
                   <small className="text-danger">
                     Please enter a youtube link

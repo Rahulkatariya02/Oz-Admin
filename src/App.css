@@ -44,3 +44,12 @@
   transform: translateX(1.5rem);
 }
 
+.login {
+  padding: 80px 217px 2px 490px;
+  margin-left: 140px;
+}
+
+.forget-pass {
+  padding: 40px 85px 0 140px;
+  margin-left:100px;
+}

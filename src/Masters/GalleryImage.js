@@ -47,16 +47,19 @@ const GalleryImage = () => {
   };
   const columns = [
     {
+      align: "center",
       title: "sortOrder",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
+      align: "center",
       title: "title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
+      align: "center",
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.gallery_image.localeCompare(b.gallery_image),
@@ -67,6 +70,7 @@ const GalleryImage = () => {
       ),
     },
     {
+      align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -102,12 +106,13 @@ const GalleryImage = () => {
       ),
     },
     {
+      align: "center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
-          <div
-            className="dropdown-item"
+          <span
+            className=""
             to="#"
             onClick={async () => {
               try {
@@ -131,8 +136,8 @@ const GalleryImage = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3" /> Delete
-          </div>
+            <i className="dw dw-delete-3 text-danger fa-lg" />
+          </span>
         </>
       ),
     },
@@ -349,7 +354,7 @@ const GalleryImage = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                            error?.response?.data?.error
+                          error?.response?.data?.error
                         );
                       }
                     }}

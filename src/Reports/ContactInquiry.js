@@ -1,14 +1,17 @@
 import axios from "axios";
 import DataTable from "datatables.net-dt";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ContactInquiry = () => {
+  const navigate= useNavigate();
   const [Contactinquirydata1, setContactinquirydata] = useState([]);
+
   useEffect(() => {
     contactinquirydata();
   }, []);
+
   const contactinquirydata = async () => {
     let headersList = {
       Accept: "*/*",
@@ -65,8 +68,8 @@ const ContactInquiry = () => {
                             <td>{e.mobile_no}</td>
                             <td>{e.postalCode}</td>
                             <td>
-                              <div
-                                className="dropdown-item"
+                              <span
+                                className="mx-2 fa-lg"
                                 onClick={async () => {
                                   try {
                                     let headersList = {
@@ -93,8 +96,17 @@ const ContactInquiry = () => {
                                   }
                                 }}
                               >
-                                <i className="dw dw-delete-3" />
-                              </div>
+                                <i className="dw dw-delete-3 text-danger" />
+                              </span>
+                              <span className="fa-lg"  
+                               onClick={() => {
+                                navigate("/contactdetails", {
+                                  state: {
+                                    data: { ...e, id: e._id },
+                                    type: "Edit",
+                                  },
+                                });
+                              }}><i className="dw dw-edit2" /></span>
                             </td>
                           </tr>
                         );

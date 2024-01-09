@@ -44,17 +44,20 @@ const Brands = () => {
     }
   };
   const columns = [
-    {
+    {  
+      align:"center",   
       title: "sortOrder",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
+      align:"center",
       title: "title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
+      align:"center",
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.brand_image.localeCompare(b.brand_image),
@@ -65,6 +68,7 @@ const Brands = () => {
       ),
     },
     {
+      align:"center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -100,6 +104,7 @@ const Brands = () => {
       ),
     },
     {
+      align:"center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
@@ -129,7 +134,8 @@ const Brands = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3" /> Delete
+            <i className="dw dw-delete-3 fa-lg text-danger" />  Delete
+            
           </div>
         </>
       ),
@@ -159,7 +165,7 @@ const Brands = () => {
               </div>
             </div>
           </div>
-          <Table columns={columns} dataSource={Brandsdata1.document} />
+          <Table columns={columns} dataSource={Brandsdata1.document} className="text-center" />
         </div>
       </div>
       {/* modal */}

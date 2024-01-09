@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Accordion,
   AccordionContext,
@@ -46,6 +46,29 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
 const BackOffice = () => {
   const [LogoImage, setLogoImage] = useState({});
+  const [loading, setLoading] = useState();
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      let accessToken = localStorage.getItem('accessToken');
+      let headersList = {
+        "Accept": "*/*",
+        "Authorization": `Bearer ${accessToken}`
+      }
+      const response = await axios.get(`https://api.ozsolarneeds.com.au/api/admin/logo`, {
+        headers: headersList,
+      });
+      setLogoImage(response.data.document);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+ 
   return (
     <>
       <div className="main-container">
@@ -83,6 +106,10 @@ const BackOffice = () => {
                                         setLogoImage(files[0]);
                                       }}
                                     />
+                                  </div>
+
+                                  <div className="form-group">
+                                    <img src={LogoImage[0]?.logo_image} width={50}/>
                                   </div>
                                 </div>
                                 <div className="modal-footer col-md-12 mt-4">
@@ -130,7 +157,7 @@ const BackOffice = () => {
                                       }
                                     }}
                                   >
-                                    Save Changes{" "}
+                                    Save Changes
                                   </Button>
                                 </div>
                               </div>
@@ -167,7 +194,7 @@ const BackOffice = () => {
                       </div>
                     </div>
 
-                    <div className="col-sm-12 col-md-12 mb-30">
+                    {/* <div className="col-sm-12 col-md-12 mb-30">
                       <div className="card card-box mb-5 mt-5 rounded-0">
                         <div className="card-header d-flex justify-content-between">
                           <div>EMAIL CONFIGURATION SETTING</div>
@@ -179,7 +206,7 @@ const BackOffice = () => {
                           <EmailConfiguration />
                         </Accordion.Collapse>
                       </div>
-                    </div>
+                    </div> */}
                   </Accordion>
                 </div>
               </div>

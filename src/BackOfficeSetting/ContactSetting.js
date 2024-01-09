@@ -1,5 +1,5 @@
 import axios from "axios";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -17,9 +17,10 @@ const ContactSetting = () => {
   const onSubmit = async (data) => {
     try {
       let dataobject = {
-        company_name: data.CompanyName,
-        office_contact_no: data.OfficeContactNo,
-        office_address: data.OfficeAddress,
+        company_name: data.company_name,
+        office_contact_no: data.office_contact_no,
+        office_address: data.office_address,
+        map_url: data.map_url,
         Email: data.Email,
       };
       try {
@@ -49,6 +50,37 @@ const ContactSetting = () => {
     }
   };
 
+  const [contactData, setContactData] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      let accessToken = localStorage.getItem('accessToken');
+      let headersList = {
+        "Accept": "*/*",
+        "Authorization": `Bearer ${accessToken}`
+      }
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/admin/contact`, {
+        headers: headersList,
+      });
+      setContactData(response.data.document);
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  useEffect(() => {
+    if (contactData[0]) {
+      reset(contactData[0]);
+    }
+  }, [contactData[0]]);
+
   return (
     <>
       <div className="card-body">
@@ -57,19 +89,18 @@ const ContactSetting = () => {
             <div className="col-md-6 col-sm-12">
               <div className="form-group">
                 <label>
-                  CompanyName<span className="text-danger">*</span>
+                  Company Name<span className="text-danger">*</span>
                 </label>
                 <input
                   type="text"
-                  name="CompanyName"
-                  className={`form-control ${
-                    errors.CompanyName ? "is-invalid" : ""
-                  }`}
-                  {...register("CompanyName", {
+                  name="company_name"
+                  className={`form-control ${errors.company_name ? "is-invalid" : ""
+                    }`}
+                  {...register("company_name", {
                     required: true,
                   })}
                 />
-                {errors.CompanyName && (
+                {errors.company_name && (
                   <small className="text-danger">
                     Please enter a companyname
                   </small>
@@ -83,15 +114,14 @@ const ContactSetting = () => {
                 </label>
                 <input
                   type="text"
-                  name="OfficeContactNo"
-                  className={`form-control ${
-                    errors.OfficeContactNo ? "is-invalid" : ""
-                  }`}
-                  {...register("OfficeContactNo", {
+                  name="office_contact_no"
+                  className={`form-control ${errors.office_contact_no ? "is-invalid" : ""
+                    }`}
+                  {...register("office_contact_no", {
                     required: true,
                   })}
                 />
-                {errors.OfficeContactNo && (
+                {errors.office_contact_no && (
                   <small className="text-danger">
                     Please enter a office contact no
                   </small>
@@ -116,6 +146,24 @@ const ContactSetting = () => {
                 )}
               </div>
             </div>
+            <div className="col-md-6 col-sm-12">
+              <div className="form-group">
+                <label>
+                  Map url<span className="text-danger">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="map_url"
+                  className={`form-control ${errors.map_url ? "is-invalid" : ""}`}
+                  {...register("map_url", {
+                    required: true,
+                  })}
+                />
+                {errors.map_url && (
+                  <small className="text-danger">Please enter a map url</small>
+                )}
+              </div>
+            </div>
             <div className="col-md-12 col-sm-12">
               <div className="form-group">
                 <label>
@@ -123,17 +171,16 @@ const ContactSetting = () => {
                 </label>
                 <textarea
                   type="text"
-                  name="OfficeAddress"
-                  className={`form-control ${
-                    errors.OfficeAddress ? "is-invalid" : ""
-                  }`}
-                  {...register("OfficeAddress", {
+                  name="office_address"
+                  className={`form-control ${errors.office_address ? "is-invalid" : ""
+                    }`}
+                  {...register("office_address", {
                     required: true,
                   })}
                 />
-                {errors.OfficeAddress && (
+                {errors.office_address && (
                   <small className="text-danger">
-                    Please enter a officeaddress
+                    Please enter a office address
                   </small>
                 )}
               </div>
@@ -144,7 +191,7 @@ const ContactSetting = () => {
               Back
             </Button>
             <Button className="" type="submit">
-              Save Changes{" "}
+              Save Changes
             </Button>
           </div>
         </form>

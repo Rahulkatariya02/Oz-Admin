@@ -41,16 +41,19 @@ const GalleryType = () => {
 
   const columns = [
     {
+      align:"center",
       title: "sortOrder",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
+      align:"center",
       title: "title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
+      align:"center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -86,12 +89,13 @@ const GalleryType = () => {
       ),
     },
     {
+      align:"center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
-          <div
-            className="dropdown-item"
+          <span
+            className=""
             to="#"
             onClick={async () => {
               try {
@@ -117,8 +121,8 @@ const GalleryType = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3" /> Delete
-          </div>
+            <i className="dw dw-delete-3 fa-lg text-danger" />  
+          </span>
         </>
       ),
     },

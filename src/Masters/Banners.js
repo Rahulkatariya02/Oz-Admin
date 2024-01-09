@@ -39,16 +39,19 @@ const Banners = () => {
       title: "sortOrder",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
+      align: "center",
     },
     {
       title: "Banner Title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
+      align: "center",
     },
     {
       title: "Menu Name",
       dataIndex: "menuName",
       sorter: (a, b) => a.menuName.localeCompare(b.menuName),
+      align: "center",
     },
     {
       title: "Banner Type	",
@@ -59,10 +62,11 @@ const Banners = () => {
           {object.bannerType === 0
             ? "Default"
             : object.bannerType === 1
-            ? "Home Slider"
-            : "Box Image"}
+              ? "Home Slider"
+              : "Box Image"}
         </>
       ),
+      align: "center",
     },
     {
       title: "Image",
@@ -77,6 +81,7 @@ const Banners = () => {
           />
         </>
       ),
+      align: "center",
     },
     {
       title: "Is Active	",
@@ -112,15 +117,15 @@ const Banners = () => {
           />
         </>
       ),
+      align: "center",
     },
     {
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
-          <div
-            className="dropdown-item"
-            to="#"
+          <span
+            className="mx-2"
             onClick={async () => {
               try {
                 let headersList = {
@@ -143,14 +148,13 @@ const Banners = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3" /> Delete
-          </div>{" "}
-          <div
-            className="dropdown-item"
+            <i className="dw dw-delete-3 text-danger fa-lg" />
+          </span>
+          <span
+            className=""
             to="#"
             onClick={async () => {
               navigate("/bannermastermanage", { state: object });
-              console.log(object);
               // try {
               //   let headersList = {
               //     Accept: "*/*",
@@ -172,14 +176,15 @@ const Banners = () => {
               // }
             }}
           >
-            <i className="dw dw-delete-3" /> Edit
-          </div>
+            <i className="dw dw-edit2 fa-lg" />
+          </span>
         </>
       ),
+      align: "center",
     },
+
   ];
   let data12 = banner?.document?.sort((a, b) => b.sortOrder - a.sortOrder);
-  console.log(data12?.length > 0 ? data12[0].sortOrder : 0);
   return (
     <>
       <div className="main-container">
@@ -209,7 +214,7 @@ const Banners = () => {
               </div>
             </div>
           </div>
-          <Table columns={columns} dataSource={banner.document} />
+          <Table columns={columns} dataSource={banner.document} className="text-center" />
         </div>
       </div>
     </>

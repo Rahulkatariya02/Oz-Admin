@@ -22,7 +22,6 @@ import ProductList from "./Product/ProductList";
 import ProductManage from "./Product/ProductManage";
 import EditProduct from "./Product/EditProduct";
 import ProductForm from "./Product/ProductForm";
-import Header from "./Layout/Header";
 import Package from "./Packages/Package";
 import PackageForm from "./Packages/PackageForm";
 import BackOffice from "./BackOfficeSetting/BackOffice";
@@ -31,13 +30,14 @@ import PackageInquiryList from "./Reports/PackageInquiryList";
 import ChangePassword from "./Admin/ChangePassword";
 import Login from "./Admin/Login";
 import Forgotpassword from "./Admin/Forgotpassword";
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import SecoSetting from "./Masters/SecoSetting";
 import AddnewsubCategory from "./Product/AddnewsubCategory";
 import SubProductList from "./Product/SubProductList";
 import Sitemap from "./Masters/Sitemap";
 import Emailsender from "./Masters/Emailsender";
+import ContactDetails from "./Reports/ContactDetails";
 
 function RequireAuth({ children }) {
   let accessToken = localStorage.getItem("accessToken");
@@ -96,6 +96,8 @@ function App() {
           <Route path="/packageinquierylist" element={<RequireAuth><PackageInquiryList /></RequireAuth>} />
           <Route path="/changepassword" element={<RequireAuth><ChangePassword /></RequireAuth>} />
           <Route path="/forgotpassword" element={<Forgotpassword />} />
+          <Route path="/contactdetails" element={<ContactDetails />} />
+
         </Routes>
       </BrowserRouter>
     </div>

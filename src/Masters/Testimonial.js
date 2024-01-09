@@ -28,10 +28,12 @@ const Testimonial = () => {
 
   const columns = [
     {
+      align:"center",
       title: "Testimonial Name",
       dataIndex: "name",
     },
     {
+      align:"center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -67,12 +69,13 @@ const Testimonial = () => {
       ),
     },
     {
+      align:"center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
-          <div
-            className="dropdown-item"
+          <span
+            className="mx-2"
             to="#"
             onClick={async () => {
               try {
@@ -96,10 +99,10 @@ const Testimonial = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3" /> Delete
-          </div>
-          <div
-            className="dropdown-item"
+            <i className="dw dw-delete-3 fa-lg text-danger" /> 
+          </span>
+          <span
+            className=""
             onClick={async () => {
               navigate("/testimonialmastermanage", {
                 state: {
@@ -109,8 +112,8 @@ const Testimonial = () => {
               });
             }}
           >
-            <i className="dw dw-edit2" /> Edit
-          </div>
+            <i className="dw dw-edit2 fa-lg" /> 
+          </span>
         </>
       ),
     },
@@ -134,7 +137,7 @@ const Testimonial = () => {
               </div>
             </div>
           </div>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={data} className="text-center"/>
         </div>
       </div>
     </>
