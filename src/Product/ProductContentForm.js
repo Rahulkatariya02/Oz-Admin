@@ -1,0 +1,195 @@
+import axios from "axios";
+import React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import TinyMCE from "react-tinymce/lib/components/TinyMCE";
+import { toast } from "react-toastify";
+
+const ProductContentForm = ({
+  data123,
+  showForm,
+  activedata,
+  setShowForm,
+  type,
+}) => {
+  const navigate = useNavigate();
+  const [data, setdata] = useState(activedata ? activedata : {});
+  const handalchange = (e) => {
+    const { name, value, checked, files } = e.target;
+    if (name !== "products_img") {
+      if (name === "isActive") {
+        setdata({ ...data, [name]: checked });
+      } else {
+        setdata({ ...data, [name]: value });
+      }
+    } else {
+      setdata({ ...data, [name]: files[0] });
+    }
+  };
+  console.log("activedata111", data);
+  return (
+    <div className="row">
+      <div className="col-md-8 col-sm-12 mb-30">
+        <div className="pd-20 card-box height-100-p">
+          <div className="pd-20  ">
+            <form>
+              <div className="form-group row">
+                <label className="col-sm-12 col-md-4 mb-4 col-form-label">
+                  Sort Order
+                  <span className="text-danger">*</span>{" "}
+                </label>
+                <div className="col-md-8 mb-4">
+                  <input
+                    className="form-control"
+                    name="sortOrder"
+                    type="number"
+                    value={data?.sortOrder}
+                    disabled={type === "View"}
+                    onChange={(e) => handalchange(e)}
+                  />
+                </div>
+                <label className="col-sm-12 col-md-4 mb-4 col-form-label">
+                  Content Image<span className="text-danger">*</span>{" "}
+                </label>
+                <div className="col-md-8 mb-4">
+                  <input
+                    className="form-control"
+                    type="file"
+                    name="products_img"
+                    disabled={type === "View"}
+                    onChange={(e) => handalchange(e)}
+                  />
+                </div>
+
+                <label className="col-sm-12 col-md-12 mb-4 col-form-label">
+                  Content Text (Add HTML)
+                </label>
+                <div className="col-md-12 mb-4">
+                  {!data?.ContentText && (
+                    <TinyMCE
+                      content={data?.ContentText}
+                      onChange={(e) => {
+                        setdata({ ...data, ["ContentText"]: e.level.content });
+                      }}
+                      config={{
+                        plugins: "code",
+                        toolbar: "code",
+                        menubar: "tools",
+                        toolbar:
+                          "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
+                      }}
+                    />
+                  )}
+                  {data?.ContentText && (
+                    <TinyMCE
+                      content={data?.ContentText}
+                      onChange={(e) => {
+                        setdata({ ...data, ["ContentText"]: e.level.content });
+                      }}
+                      config={{
+                        plugins: "code",
+                        toolbar: "code",
+                        menubar: "tools",
+                        toolbar:
+                          "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
+                      }}
+                    />
+                  )}
+                </div>
+              </div>
+
+              <div className="custom-control custom-checkbox mb-5">
+                <input
+                  type="checkbox"
+                  className="custom-control-input my-5"
+                  id="customCheck3"
+                  name="isActive"
+                  checked={data.isActive}
+                  disabled={type === "View"}
+                  onChange={(e) => handalchange(e)}
+                />
+                <label className="custom-control-label" htmlFor="customCheck3">
+                  Is Active
+                </label>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  className="btn btn-secondary"
+                  onClick={() => {
+                    setShowForm(!showForm);
+                  }}
+                >
+                  Go to list
+                </button>
+                <button
+                  type="button"
+                  className="btn btn-primary"
+                  onClick={async () => {
+                    console.log("ss");
+                    try {
+                      let headersList = {
+                        Accept: "*/*",
+                        "User-Agent":
+                          "Thunder Client (https://www.thunderclient.com)",
+                        Authorization: `Bearer ${localStorage.getItem(
+                          "accessToken"
+                        )}`,
+                        "Content-Type": "multipart/form-data", // Updated Content-Type
+                      };
+
+                      let formdata = new FormData();
+                      formdata.append("sortOrder", data.sortOrder);
+                      formdata.append("ContentText", data.ContentText);
+                      formdata.append("isActive", true);
+                      formdata.append("products_id", data123._id);
+                      formdata.append("products_img", data.products_img);
+
+                      let formdata1 = new FormData();
+                      formdata1.append("sortOrder", data.sortOrder);
+                      formdata1.append("ContentText", data.ContentText);
+                      formdata1.append("isActive", true);
+                      formdata1.append("products_id", data123._id);
+                      formdata1.append("products_img", data.products_img);
+                      formdata1.append("id", data._id);
+                      let bodyContent = !data._id ? formdata : formdata1;
+                      console.log(formdata);
+                      console.log(bodyContent);
+                      let reqOptions = {
+                        url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/addProductContent`,
+                        method: "POST",
+                        headers: headersList,
+                        data: bodyContent,
+                      };
+
+                      let response = await axios.request(reqOptions);
+                      console.log(response.data);
+                      if (response.data.status === 1) {
+                        toast.success(response.data.message);
+                        navigate("/categorymasterlist");
+                      }
+                    } catch (error) {
+                      toast.error(error?.response?.data?.originalError);
+                    }
+                  }}
+                >
+                  Save
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div className="col-md-4 col-sm-12 mb-30">
+        <div className="pd-20 card-box h-25">
+          <div className="modal-header ">
+            <h4 className="text-dark h4">Preview Image</h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ProductContentForm;
