@@ -12,6 +12,7 @@ const Login = () => {
     reset,
     formState: { errors },
   } = useForm({});
+
   useEffect(() => {
     localStorage.clear();
   }, []);
@@ -29,7 +30,7 @@ const Login = () => {
         toast.success(data12.message);
         localStorage.setItem("token", data12.token);
         localStorage.setItem("accessToken", data12.accessToken);
-        navigate("/dashboard");
+        navigate("/");
         window.location.reload(true);
       }
     } catch (error) {
@@ -39,15 +40,15 @@ const Login = () => {
 
   return (
     <>
-      <div className="main-container">
+      <div className="main-container login ">
         <div className="xs-pd-20-10 pd-ltr-20 col-md-12">
           <div className="row d-block h-100">
-            <div className="col-md-8 col-sm-12xs-pd-20-10">
+            <div className="col-md-8 col-sm-12 xs-pd-20">
               <div className="pd-20 card-box height-100-p">
-                <div className="login-title">
-                  <div className="text-center text-primary py-5">
+                  <div className="login-title mb-3">
+                    <div className="text-center text-primary">
                     <img src="assets/images/logo.png" alt="" />
-                    <h4 className="mt-3">LogIn to OZ-Solar</h4>{" "}
+                    <h4 className="mt-3">Login to OZ-Solar</h4>{" "}
                   </div>
                 </div>
 

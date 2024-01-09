@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Route, Router, Routes } from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Router, Routes } from "react-router-dom";
 import Dashboard from "./component/Dashboard";
 import Cms from "./Masters/Cms";
 import Sidebar from "./Layout/Sidebar";
@@ -39,50 +39,62 @@ import SubProductList from "./Product/SubProductList";
 import Sitemap from "./Masters/Sitemap";
 import Emailsender from "./Masters/Emailsender";
 
+function RequireAuth({ children }) {
+  let accessToken = localStorage.getItem("accessToken");
+  let token = localStorage.getItem("token");
+  if (!accessToken || !token) {
+    return <Navigate to="/login" />;
+  }
+  return children;
+}
+
 function App() {
   return (
     <div>
       <BrowserRouter>
         <ToastContainer />
-        {window.location.pathname !== "/" && <Header />}
-        {window.location.pathname !== "/" && <Sidebar />}
+        {/* <Header /> */}
+        <Sidebar />
+        {/* <NewSidebar /> */}
+        {/* {window.location.pathname !== "/" && <Header /></RequireAuth>}
+        {window.location.pathname !== "/" && <Sidebar /></RequireAuth>} */}
         <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/Dashboard" element={<Dashboard />} />
-          <Route path="/SecoSetting" element={<SecoSetting />} />
-          <Route path="/sitemap" element={<Sitemap />} />
-          <Route path="/email-settings" element={<Emailsender />} />
-          <Route path="/cmsmasterlist" element={<Cms />} />
-          <Route path="/emailtemplate" element={<EmailTemplate />} />
-          <Route path="/cmsmastermanage" element={<CmsMaster />} />
-          <Route path="/menumasterlist" element={<Menu />} />
-          <Route path="/bannermasterlist" element={<Banners />} />
-          <Route path="/bannermastermanage" element={<AddNewBanner />} />
-          <Route path="/clientmasterlist" element={<Clients />} />
-          <Route path="/specialmasterlist" element={<Specials />} />
-          <Route path="/brandmasterlist" element={<Brands />} />
-          <Route path="/testimonialmasterlist" element={<Testimonial />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<RequireAuth><Dashboard /></RequireAuth>} />
+          <Route path="/SecoSetting" element={<RequireAuth><SecoSetting /></RequireAuth>} />
+          <Route path="/email-settings" element={<RequireAuth><Emailsender /></RequireAuth>} />
+          <Route path="/sitemap" element={<RequireAuth><Sitemap /></RequireAuth>} />
+          <Route path="/cmsmasterlist" element={<RequireAuth><Cms /></RequireAuth>} />
+          <Route path="/emailtemplate" element={<RequireAuth><EmailTemplate /></RequireAuth>} />
+          <Route path="/cmsmastermanage" element={<RequireAuth><CmsMaster /></RequireAuth>} />
+          <Route path="/menumasterlist" element={<RequireAuth><Menu /></RequireAuth>} />
+          <Route path="/bannermasterlist" element={<RequireAuth><Banners /></RequireAuth>} />
+          <Route path="/bannermastermanage" element={<RequireAuth><AddNewBanner /></RequireAuth>} />
+          <Route path="/clientmasterlist" element={<RequireAuth><Clients /></RequireAuth>} />
+          <Route path="/specialmasterlist" element={<RequireAuth><Specials /></RequireAuth>} />
+          <Route path="/brandmasterlist" element={<RequireAuth><Brands /></RequireAuth>} />
+          <Route path="/testimonialmasterlist" element={<RequireAuth><Testimonial /></RequireAuth>} />
           <Route
             path="/testimonialmastermanage"
-            element={<TestiminialForm />}
+            element={<RequireAuth><TestiminialForm /></RequireAuth>}
           />
-          <Route path="/gallerytypelist" element={<GalleryType />} />
-          <Route path="/gallerymasterlist" element={<GalleryImage />} />
-          <Route path="/categorymasterlist" element={<Category />} />
-          <Route path="/subcategory/:id" element={<Subcategory />} />
-          <Route path="/categorymastermanage" element={<AddnewCategory />} />
-          <Route path="/subcategorymastermanage/:id" element={<AddnewsubCategory />} />
-          <Route path="/productmasterlist" element={<ProductList />} />
-          <Route path="/subproductmasterlist" element={<SubProductList />} />
-          <Route path="/productmanage" element={<ProductManage />} />
-          <Route path="/editproduct" element={<EditProduct />} />
-          <Route path="/productform" element={<ProductForm />} />
-          <Route path="/packagemastermanage" element={<Package />} />
-          <Route path="/packageform" element={<PackageForm />} />
-          <Route path="/backofficeconfig" element={<BackOffice />} />
-          <Route path="/inquirymasterlist" element={<ContactInquiry />} />
-          <Route path="/packageinquierylist" element={<PackageInquiryList />} />
-          <Route path="/changepassword" element={<ChangePassword />} />
+          <Route path="/gallerytypelist" element={<RequireAuth><GalleryType /></RequireAuth>} />
+          <Route path="/gallerymasterlist" element={<RequireAuth><GalleryImage /></RequireAuth>} />
+          <Route path="/categorymasterlist" element={<RequireAuth><Category /></RequireAuth>} />
+          <Route path="/subcategory/:id" element={<RequireAuth><Subcategory /></RequireAuth>} />
+          <Route path="/categorymastermanage" element={<RequireAuth><AddnewCategory /></RequireAuth>} />
+          <Route path="/subcategorymastermanage/:id" element={<RequireAuth><AddnewsubCategory /></RequireAuth>} />
+          <Route path="/productmasterlist" element={<RequireAuth><ProductList /></RequireAuth>} />
+          <Route path="/subproductmasterlist" element={<RequireAuth><SubProductList /></RequireAuth>} />
+          <Route path="/productmanage" element={<RequireAuth><ProductManage /></RequireAuth>} />
+          <Route path="/editproduct" element={<RequireAuth><EditProduct /></RequireAuth>} />
+          <Route path="/productform" element={<RequireAuth><ProductForm /></RequireAuth>} />
+          <Route path="/packagemastermanage" element={<RequireAuth><Package /></RequireAuth>} />
+          <Route path="/packageform" element={<RequireAuth><PackageForm /></RequireAuth>} />
+          <Route path="/backofficeconfig" element={<RequireAuth><BackOffice /></RequireAuth>} />
+          <Route path="/inquirymasterlist" element={<RequireAuth><ContactInquiry /></RequireAuth>} />
+          <Route path="/packageinquierylist" element={<RequireAuth><PackageInquiryList /></RequireAuth>} />
+          <Route path="/changepassword" element={<RequireAuth><ChangePassword /></RequireAuth>} />
           <Route path="/forgotpassword" element={<Forgotpassword />} />
         </Routes>
       </BrowserRouter>

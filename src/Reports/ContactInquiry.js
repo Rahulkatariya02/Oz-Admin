@@ -54,7 +54,12 @@ const ContactInquiry = () => {
                       {Contactinquirydata1.map((e, i) => {
                         return (
                           <tr key={i}>
-                            <td>{e.createdAt}</td>
+                            {/* <td>{e.createdAt}</td> */}
+                            <td>{new Date(e.createdAt).toLocaleDateString('en-US', {
+                              year: 'numeric',
+                              month: '2-digit', 
+                              day: '2-digit',   
+                            })}</td>
                             <td>{e.name}</td>
                             <td>{e.email}</td>
                             <td>{e.mobile_no}</td>
