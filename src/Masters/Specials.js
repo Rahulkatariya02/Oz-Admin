@@ -21,7 +21,6 @@ const Specials = () => {
   const specialall = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
@@ -102,7 +101,6 @@ const Specials = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -131,7 +129,7 @@ const Specials = () => {
         <>
           <div
             className="dropdown-item"
-            to="#"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
@@ -174,11 +172,13 @@ const Specials = () => {
 
           <div className="pb-4">
             <div className="row">
-              <div className="col-md-4 col-sm-12">
+              <div className="col-md-12 col-sm-12">
                 <Button
                   data-toggle="modal"
                   data-target="#bd-example-modal-lg"
                   type="primary"
+                  size="large"
+                  style={{'float': 'inline-end'}}
                 >
                   Special Master
                   <i className="icon-copy bi bi-plus-circle mx-2" />
@@ -327,11 +327,7 @@ const Specials = () => {
                         if (data12 === true) {
                           let headersList = {
                             Accept: "*/*",
-                            "User-Agent":
-                              "Thunder Client (https://www.thunderclient.com)",
-                            Authorization: `Bearer ${localStorage.getItem(
-                              "accessToken"
-                            )}`,
+                            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                           };
                           let formdata = new FormData();
                           // formdata.append("id", data?.id);

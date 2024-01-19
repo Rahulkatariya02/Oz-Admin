@@ -3,13 +3,13 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ProductFileForm = ({ data123, type }) => {
-  const [data, setdata] = useState({ isActive: true });
+const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) => {
+  const [data, setdata] = useState(activedata ? activedata : {});
   const navigate = useNavigate();
   const handalchange = (e) => {
     console.log(e.target);
     const { name, value, checked, files } = e.target;
-    if (name !== "products_img1") {
+    if (name !== "file") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
       } else {
@@ -19,7 +19,9 @@ const ProductFileForm = ({ data123, type }) => {
       setdata({ ...data, [name]: files[0] });
     }
   };
-  console.log("datadatadata", data);
+  console.log("data123", data123);
+  console.log("showForm", showForm);
+  console.log("activedata", activedata);
   return (
     <>
       <div className="row">
@@ -37,7 +39,7 @@ const ProductFileForm = ({ data123, type }) => {
                       className="form-control"
                       type="text"
                       name="Title"
-                      value={data?.Title}
+                      value={data?.title}
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
@@ -62,7 +64,7 @@ const ProductFileForm = ({ data123, type }) => {
                     <input
                       className="form-control"
                       type="file"
-                      name="products_img1"
+                      name="file"
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
@@ -74,7 +76,8 @@ const ProductFileForm = ({ data123, type }) => {
                     <textarea
                       className="form-control"
                       type="text"
-                      name="ContentText"
+                      value={data?.contentText}
+                      name="contentText"
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
@@ -111,18 +114,31 @@ const ProductFileForm = ({ data123, type }) => {
                     className="btn btn-primary"
                     onClick={async () => {
                       try {
+                        let headersList = {
+                          Accept: "*/*",
+                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                          "Content-Type": "multipart/form-data", // Updated Content-Type
+                        };
+
                         let formdata = new FormData();
-                        formdata.append("ContentText", data.ContentText);
+                        formdata.append("contentText", data.contentText);
                         formdata.append("isActive", data.isActive);
-                        formdata.append("products_id", data123?._id);
-                        formdata.append("UploadType", data.UploadType);
-                        formdata.append("Title", data.Title);
+                        formdata.append("product_id", activedata.product_id);
+                        formdata.append("uploadType", data.uploadType);
+                        formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
-                        formdata.append("products_img1", data.products_img1);
+                        // formdata.append("file", data.file);
+                        if (data.file instanceof File) {
+                          formdata.append("file", data.file);
+                        } else if (activedata.file) {
+                          const blob = await fetch(activedata.file).then((res) => res.blob());
+                          formdata.append("file", blob, `${activedata.file}.jpg`);
+                        }
                         let bodyContent = formdata;
                         let reqOptions = {
-                          url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/addProductFile`,
+                          url: `${process.env.REACT_APP_API_BASE_URL}api/productfile`,
                           method: "POST",
+                          headers: headersList,
                           data: bodyContent,
                         };
                         let response = await axios.request(reqOptions);

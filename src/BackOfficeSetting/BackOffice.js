@@ -122,8 +122,6 @@ const BackOffice = () => {
                                       try {
                                         let headersList = {
                                           Accept: "*/*",
-                                          "User-Agent":
-                                            "Thunder Client (https://www.thunderclient.com)",
                                           Authorization: `Bearer ${localStorage.getItem(
                                             "accessToken"
                                           )}`,

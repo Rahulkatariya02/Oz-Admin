@@ -1138,7 +1138,7 @@ input:checked + .slider:before {
 }
 @media (min-width: 1301px) and (max-width: 1400px) {
   .header {
-    width: calc(100% - 250px) !important;
+    width: calc(100% - 300px) !important;
   }
   .main-container {
     padding-left: 300px !important;

@@ -20,7 +20,6 @@ const SecoSetting = () => {
     try {
       let headersList = {
         Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
         "Content-Type": "application/json",
       };

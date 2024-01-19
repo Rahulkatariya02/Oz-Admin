@@ -33,7 +33,6 @@ const Clients = () => {
   const allclints = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
@@ -88,11 +87,7 @@ const Clients = () => {
               try {
                 let headersList = {
                   Accept: "*/*",
-                  "User-Agent":
-                    "Thunder Client (https://www.thunderclient.com)",
-                  Authorization: `Bearer ${localStorage.getItem(
-                    "accessToken"
-                  )}`,
+                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                   "Content-Type": "application/json",
                 };
                 let bodyContent = JSON.stringify({
@@ -125,7 +120,7 @@ const Clients = () => {
         <>
           <div
             className="dropdown-item"
-            to="#"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
@@ -284,13 +279,8 @@ const Clients = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          "User-Agent":
-                            "Thunder Client (https://www.thunderclient.com)",
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "accessToken"
-                          )}`,
+                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                         };
-
                         let formdata = new FormData();
                         formdata.append(
                           "sortOrder",
@@ -313,7 +303,7 @@ const Clients = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                            error?.response?.data?.error
+                          error?.response?.data?.error
                         );
                       }
                     }}

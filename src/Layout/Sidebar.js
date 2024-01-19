@@ -63,7 +63,8 @@ const Sidebar = () => {
 
                 <li className="dropdown">
                   <Link to="#" className="dropdown-toggle">
-                    <span className="micon bi bi-command" />
+                    {/* <span className="micon bi bi-command" /> */}
+                    <span className="micon fa fa-image" />                 
                     <span className="mtext">Gallery</span>
                   </Link>
                   <ul className="submenu">
@@ -120,13 +121,14 @@ const Sidebar = () => {
 
                 <li>
                   <Link to="/email-settings" className="dropdown-toggle no-arrow">
-                    <span className="micon bi bi-gear-fill" />
+                    <span className="micon ion-ios-cog" />
+                    {/* <i class="icon-copy ion-ios-cog"></i> */}
                     <span className="mtext">Email Settings</span>
                   </Link>
                 </li>
                 <li>
                   <Link to="/sitemap" className="dropdown-toggle no-arrow">
-                    <span className="micon bi bi-gear-fill" />
+                    <span className="micon dw dw-diagram" />
                     <span className="mtext">Sitemap</span>
                   </Link>
                 </li>

@@ -15,10 +15,8 @@ const Package = () => {
   }, []);
   const AllPackage = async () => {
     let headersList = {
-     Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
+      Accept: "*/*",
+      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
     let reqOptions = {
@@ -72,9 +70,8 @@ const Package = () => {
                               checked={e.isActive}
                               onChange={async () => {
                                 let headersList = {
-                                 Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  Accept: "*/*",
+                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                                   "Content-Type": "application/json",
                                 };
                                 let bodyContent = JSON.stringify({
@@ -111,7 +108,7 @@ const Package = () => {
                             <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                               <div
                                 className="dropdown-item"
-                                to="#"
+                                type="button"
                                 onClick={async () => {
                                   navigate("/packageform", {
                                     state: { data: e, type: "View" },
@@ -122,7 +119,7 @@ const Package = () => {
                               </div>
                               <div
                                 className="dropdown-item"
-                                to="#"
+                                type="button"
                                 onClick={async () => {
                                   navigate("/packageform", {
                                     state: {
@@ -136,12 +133,12 @@ const Package = () => {
                               </div>
                               <div
                                 className="dropdown-item"
+                                type="button"
                                 onClick={async () => {
                                   try {
                                     let headersList = {
-                                     Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
-        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                      Accept: "*/*",
+                                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                                     };
                                     let reqOptions = {
                                       url: `${process.env.REACT_APP_API_BASE_URL}api/admin/package/${e._id}`,

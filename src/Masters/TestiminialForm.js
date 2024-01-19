@@ -10,6 +10,7 @@ const TestiminialForm = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? {} : location?.state?.data
   );
+  const [isActive, setIsActive] = useState(false);
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked } = e.target;
@@ -19,6 +20,7 @@ const TestiminialForm = () => {
       setdata({ ...data, [name]: value });
     }
   };
+
   const validateForm = () => {
     let valid = true;
     const errors = {};
@@ -54,9 +56,8 @@ const TestiminialForm = () => {
                 <div className="col-sm-4">
                   <input
                     type="text"
-                    className={`form-control ${
-                      formErrors.name ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${formErrors.name ? "is-invalid" : ""
+                      }`}
                     id="validationCustom01"
                     value={data?.name}
                     disabled={location?.state?.type === "View"}
@@ -78,9 +79,8 @@ const TestiminialForm = () => {
                 <div className="col-sm-4">
                   <textarea
                     type="text"
-                    className={`form-control ${
-                      formErrors.text ? "is-invalid" : ""
-                    }`}
+                    className={`form-control ${formErrors.text ? "is-invalid" : ""
+                      }`}
                     name="text"
                     value={data?.text}
                     disabled={location?.state?.type === "View"}
@@ -99,14 +99,15 @@ const TestiminialForm = () => {
                 </div>
                 <div className="col-md-4">
                   <input
-                    className="form-check-input "
+                    className="form-check-input"
                     type="checkbox"
                     value=""
                     name="isActive"
-                    checked={data.isActive}
+                    checked={isActive || data.isActive}
                     id="flexCheckDefault"
-                    onChange={(e) => handalchange(e)}
+                    onChange={(e) => setIsActive(e.target.checked)}
                   />
+
                   <label
                     className="form-check-label mx-2"
                     htmlFor="flexCheckDefault"
@@ -129,11 +130,7 @@ const TestiminialForm = () => {
                         try {
                           let headersList = {
                             Accept: "*/*",
-                            "User-Agent":
-                              "Thunder Client (https://www.thunderclient.com)",
-                            Authorization: `Bearer ${localStorage.getItem(
-                              "accessToken"
-                            )}`,
+                            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                           };
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/testimonial`,
@@ -141,7 +138,7 @@ const TestiminialForm = () => {
                             headers: headersList,
                             data: {
                               id: data.id,
-                              isActive: data.isActive,
+                              isActive: isActive,
                               name: data.name,
                               text: data.text,
                             },

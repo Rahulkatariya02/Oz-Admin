@@ -1,8 +1,9 @@
 import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const ContactDetails = () => {
     const location = useLocation();
+    const navigate= useNavigate();
     const data = location.state?.data || {};
     console.log('location', location);
     return (
@@ -117,7 +118,7 @@ const ContactDetails = () => {
 
                                 <div className="inquirylist">
                                     <div>
-                                        <Link to="/appointmentlist">
+                                        <Link to="/inquirymasterlist">
                                             <button
                                                 type="button"
                                                 className="btn btn-secondary"

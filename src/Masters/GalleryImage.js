@@ -16,7 +16,6 @@ const GalleryImage = () => {
   const GalleryType = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
@@ -32,7 +31,6 @@ const GalleryImage = () => {
   const Galleryimges = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
@@ -83,7 +81,6 @@ const GalleryImage = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -112,8 +109,7 @@ const GalleryImage = () => {
       render: (text, object, index) => (
         <>
           <span
-            className=""
-            to="#"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
@@ -164,9 +160,12 @@ const GalleryImage = () => {
           <div className="pb-4">
             <div className="">
               <Button
+                className="mb-3"
                 data-toggle="modal"
                 data-target="#bd-example-modal-lg"
                 type="primary"
+                size="large"
+                style={{ 'float': 'inline-end' }}
               >
                 <i className="icon-copy fi-plus mx-2" />
                 Add new Gallery Type
@@ -324,8 +323,6 @@ const GalleryImage = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          "User-Agent":
-                            "Thunder Client (https://www.thunderclient.com)",
                           Authorization: `Bearer ${localStorage.getItem(
                             "accessToken"
                           )}`,

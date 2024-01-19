@@ -55,17 +55,14 @@ const PackageInquiryList = () => {
                             <td>{e.mobile_no}</td>
                             <td>{e.postalCode}</td>
                             <td>
-                              <div
+                              <Link
                                 className="dropdown-item"
+                                type="button"
                                 onClick={async () => {
                                   try {
                                     let headersList = {
                                       Accept: "*/*",
-                                      "User-Agent":
-                                        "Thunder Client (https://www.thunderclient.com)",
-                                      Authorization: `Bearer ${localStorage.getItem(
-                                        "accessToken"
-                                      )}`,
+                                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                                       "Content-Type": "application/json",
                                     };
                                     let reqOptions = {
@@ -87,7 +84,8 @@ const PackageInquiryList = () => {
                                 }}
                               >
                                 <i className="dw dw-delete-3" />
-                              </div>
+                              </Link>
+
                             </td>
                           </tr>
                         );

@@ -2,18 +2,61 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ProductForm = ({ data123, type }) => {
+
+  const [isActive, setIsActive] = useState(false)
+
+
+  let accessToken = localStorage.getItem("accessToken");
   const [data, setdata] = useState(!data123 ? {} : data123);
   const [category, setcategory] = useState([]);
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedSubcategories, setSelectedSubcategories] = useState([]);
+  const [selectedChildcategories, setSelectedChildcategories] = useState([]);
+
+  const handleCategoryChange = (categoryIndex) => {
+    const updatedCategories = [...selectedCategories];
+
+    if (updatedCategories.includes(categoryIndex)) {
+      updatedCategories.splice(updatedCategories.indexOf(categoryIndex), 1);
+    } else {
+      updatedCategories.push(categoryIndex);
+    }
+
+    setSelectedCategories(updatedCategories);
+  };
+
+
+  // Function to handle subcategory checkbox change
+  const handleSubcategoryChange = (subcategoryIndex) => {
+    const updatedSubcategories = [...selectedSubcategories];
+    if (updatedSubcategories.includes(subcategoryIndex)) {
+      updatedSubcategories.splice(updatedSubcategories.indexOf(subcategoryIndex), 1);
+    } else {
+      updatedSubcategories.push(subcategoryIndex);
+    }
+    setSelectedSubcategories(updatedSubcategories);
+  };
+
+  const handleChildcategoryChange = (childcategoryIndex) => {
+    const updatedChildcategories = [...selectedChildcategories];
+    if (updatedChildcategories.includes(childcategoryIndex)) {
+      updatedChildcategories.splice(updatedChildcategories.indexOf(childcategoryIndex), 1);
+    } else {
+      updatedChildcategories.push(childcategoryIndex);
+    }
+    setSelectedChildcategories(updatedChildcategories);
+  };
   const navigate = useNavigate();
-  console.log(data123);
+  console.log('data123', data123, data);
   const handalchange = (e) => {
+    e.preventdefault()
     const { name, value, checked, files } = e.target;
-    if (name !== "subCat_product") {
-      if (name !== "logoimg") {
+    if (name !== "banner_img") {
+      if (name !== "logo_img") {
         if (name === "isActive") {
           setdata({ ...data, [name]: checked });
         } else {
@@ -36,7 +79,7 @@ const ProductForm = ({ data123, type }) => {
     };
 
     let response = await fetch(
-      `${process.env.REACT_APP_API_BASE_URL}api/category/getAllCategoriesall`,
+      `${process.env.REACT_APP_API_BASE_URL}api/category/getcategories`,
       {
         method: "GET",
         headers: headersList,
@@ -47,6 +90,7 @@ const ProductForm = ({ data123, type }) => {
     let data1 = await JSON.parse(data);
     setcategory(data1.data);
   };
+  console.log('category', category, data123, data);
   return (
     <>
       <div className="row">
@@ -56,7 +100,7 @@ const ProductForm = ({ data123, type }) => {
               <form>
                 <div className="form-group row">
                   <label className="col-sm-12 col-md-4 col-form-label mb-4">
-                    Product Name{" "}
+                    Product Name
                   </label>
                   <div className="col-md-8 mb-4">
                     <input
@@ -76,15 +120,15 @@ const ProductForm = ({ data123, type }) => {
                     <input
                       className="form-control"
                       type="text"
-                      name="ProductCode"
-                      value={data?.ProductCode}
+                      name="productCode"
+                      value={data?.productCode}
                       disabled={type === "View"}
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
 
                   <label className="col-sm-12 col-md-4 mb-4 col-form-label">
-                    Sort Order{" "}
+                    Sort Order
                   </label>
                   <div className="col-md-8 mb-4">
                     <input
@@ -98,25 +142,25 @@ const ProductForm = ({ data123, type }) => {
                   </div>
 
                   <label className="col-sm-12 col-md-4 mb-4 col-form-label">
-                    Banner Image<span className="text-danger">*</span>{" "}
+                    Banner Image<span className="text-danger">*</span>
                   </label>
                   <div className="col-md-8 mb-4">
                     <input
                       className="form-control"
                       type="file"
-                      name="subCat_product"
+                      name="banner_img"
                       disabled={type === "View"}
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
                   <label className="col-sm-12 col-md-4 mb-4 col-form-label">
-                    logo img<span className="text-danger">*</span>{" "}
+                    logo img<span className="text-danger">*</span>
                   </label>
                   <div className="col-md-8 mb-4">
                     <input
                       className="form-control"
                       type="file"
-                      name="logoimg"
+                      name="logo_img"
                       disabled={type === "View"}
                       onChange={(e) => handalchange(e)}
                     />
@@ -129,9 +173,9 @@ const ProductForm = ({ data123, type }) => {
                     <textarea
                       className="form-control"
                       type="text"
-                      name="Description"
+                      name="description"
                       disabled={type === "View"}
-                      value={data?.Description}
+                      value={data?.description}
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
@@ -163,7 +207,7 @@ const ProductForm = ({ data123, type }) => {
                     />
                   </div>
                   <label className="col-sm-12 col-md-4 mb-4 col-form-label">
-                    Meta Description <span className="text-danger">*</span>{" "}
+                    Meta Description <span className="text-danger">*</span>
                   </label>
                   <div className="col-md-8 mb-4">
                     <textarea
@@ -184,9 +228,9 @@ const ProductForm = ({ data123, type }) => {
                     className="custom-control-input my-5"
                     id="customCheck3"
                     disabled={type === "View"}
-                    checked={data?.isActive}
                     name="isActive"
-                    onChange={(e) => handalchange(e)}
+                    checked={isActive}
+                    onChange={(e) => setIsActive(e.target.checked)}
                   />
                   <label
                     className="custom-control-label"
@@ -216,26 +260,27 @@ const ProductForm = ({ data123, type }) => {
                             formdata.append("sortOrder", data.sortOrder);
                             formdata.append("productName", data.productName);
                             formdata.append("metaTitle", data.metaTitle);
-                            formdata.append("Description", data.Description);
-                            formdata.append("ProductCode", data.ProductCode);
+                            formdata.append("description", data.Description);
+                            formdata.append("productCode", data.ProductCode);
                             formdata.append("metaKeyword", data.metaKeyword);
-                            formdata.append("logoimg", data.logoimg);
+                            formdata.append("logo_img", data.logo_img);
+                            // formdata.append("banner_img", data.banner_img);
                             formdata.append("id", data._id);
                             formdata.append(
                               "metaDescription",
                               data.metaDescription
                             );
-                            formdata.append("slug", data.productName);
-                            formdata.append("category_id", data123?._id);
-                            formdata.append(
-                              "subCat_product",
-                              data.subCat_product
-                            );
+                            // formdata.append("slug", data.productName);
+                            // formdata.append("category[]", data123?._id);
+
+                            if (data?.category) { setSelectedCategories(data?.category); }
+
+                            formdata.append("banner_img", data.banner_img);
 
                             let bodyContent = formdata;
 
                             let reqOptions = {
-                              url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/addProduct`,
+                              url: `${process.env.REACT_APP_API_BASE_URL}api/product/addProduct`,
                               method: "POST",
                               data: bodyContent,
                             };
@@ -250,27 +295,32 @@ const ProductForm = ({ data123, type }) => {
                             formdata.append("sortOrder", data.sortOrder);
                             formdata.append("productName", data.productName);
                             formdata.append("metaTitle", data.metaTitle);
-                            formdata.append("Description", data.Description);
-                            formdata.append("ProductCode", data.ProductCode);
+                            formdata.append("description", data.Description);
+                            formdata.append("productCode", data.ProductCode);
                             formdata.append("metaKeyword", data.metaKeyword);
+                            formdata.append("metaDescription", data.metaDescription);
+                            formdata.append("isActive", isActive);
+                            // formdata.append("slug", data.productName);
+                            formdata.append("logo_img", data.logo_img);
+                            for (let i = 0; i < selectedCategories?.length; i++) {
+                              formdata.append('category[]', selectedCategories[i]);
+                            }
                             formdata.append(
-                              "metaDescription",
-                              data.metaDescription
-                            );
-                            formdata.append("slug", data.productName);
-                            formdata.append("logoimg", data.logoimg);
-                            formdata.append("category_id", data123?._id);
-                            formdata.append(
-                              "subCat_product",
-                              data.subCat_product
+                              "banner_img",
+                              data.banner_img
                             );
 
+                            let headersList = {
+                              "Accept": "*/*",
+                              "Authorization": `Bearer ${accessToken}`
+                            }
                             let bodyContent = formdata;
 
                             let reqOptions = {
-                              url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/addProduct`,
+                              url: `${process.env.REACT_APP_API_BASE_URL}api/product/addProduct`,
                               method: "POST",
                               data: bodyContent,
+                              headers: headersList,
                             };
 
                             let response = await axios.request(reqOptions);
@@ -298,7 +348,8 @@ const ProductForm = ({ data123, type }) => {
             <div className="modal-header ">
               <h4 className="text-dark h4">PRODUCT CATEGORIES</h4>
             </div>
-            {category?.map((e, i) => {
+            {/* {category?.map((e, i) => {
+              console.log('PRODUCT CATEGORIES', e);
               return (
                 <div
                   className="custom-control custom-checkbox mb-5 mt-3"
@@ -309,7 +360,7 @@ const ProductForm = ({ data123, type }) => {
                     type="checkbox"
                     className="custom-control-input my-5"
                     id="customCheck1"
-                    checked={e?._id === data123?._id}
+                    checked={e?._id }
                   />
                   <label
                     className="custom-control-label"
@@ -325,7 +376,7 @@ const ProductForm = ({ data123, type }) => {
                           type="checkbox"
                           className="custom-control-input my-5"
                           id="customCheck1"
-                          checked={e?._id === data123?._id}
+                          checked={e?._id }
                         />
                         <label
                           className="custom-control-label"
@@ -337,6 +388,80 @@ const ProductForm = ({ data123, type }) => {
                     );
                   })}
                 </div>
+              );
+            })} */}
+            {category?.map((e, i) => {
+              console.log(e);
+              return (
+                <ul className="dd-list" key={i}>
+                  <li>
+                    <div className="checkbox checkbox-primary inline-block">
+                      <input
+                        className=""
+                        type="checkbox"
+                        htmlFor={e._id}
+                        id={e._id}
+
+                        checked={selectedCategories.includes(e._id) || data?.category[0] === e._id}
+                        onChange={() => handleCategoryChange(e._id)}
+                      />
+                      <label className="mx-2" _id={e._id}>
+                        {e.category}
+                      </label>
+                    </div>
+                    <ul className="sub-menu mx-4">
+                      {e?.subcategories?.map((el, j) => {
+                        return (
+                          <ul className="dd-list">
+                            <li>
+                              <div className="checkbox checkbox-primary inline-block">
+                                <input
+                                  className=""
+                                  type="checkbox"
+                                  htmlFor={el._id}
+                                  id={el._id}
+                                  checked={selectedSubcategories.includes(el._id)}
+                                  onChange={() => handleSubcategoryChange(el._id)}
+                                />
+                                <label className="mx-2" _id={el._id}>
+                                  {el.name}
+                                </label>
+                              </div>
+                              <ul className="sub-menu mx-4">
+                                {el?.ChildCategory?.map((el2, i) => {
+                                  if (el2.category == el._id) {
+                                    return (
+                                      <ul className="dd-list">
+                                        <li>
+                                          <div className="checkbox checkbox-primary inline-block">
+                                            <input
+                                              className=""
+                                              type="checkbox"
+                                              htmlFor={el2._id}
+                                              checked={selectedChildcategories.includes(el2._id)}
+                                              onChange={() => handleChildcategoryChange(el2._id)}
+                                            />
+                                            <label
+                                              className="mx-2"
+                                              _id={el2._id}
+                                            >
+                                              {el2.name}
+                                            </label>
+                                          </div>
+                                          <ul className="sub-menu mx-4"></ul>
+                                        </li>
+                                      </ul>
+                                    );
+                                  }
+                                })}
+                              </ul>
+                            </li>
+                          </ul>
+                        );
+                      })}
+                    </ul>
+                  </li>
+                </ul>
               );
             })}
           </div>

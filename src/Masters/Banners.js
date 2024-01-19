@@ -12,11 +12,11 @@ const Banners = () => {
     // new DataTable("#myTable");
     cmsdata();
   }, []);
+
   const cmsdata = async () => {
     try {
       let headersList = {
         Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       };
 
@@ -59,11 +59,11 @@ const Banners = () => {
       sorter: (a, b) => a.menuName.localeCompare(b.menuName),
       render: (text, object, index) => (
         <>
-          {object.bannerType === 0
-            ? "Default"
-            : object.bannerType === 1
-              ? "Home Slider"
-              : "Box Image"}
+          {object.bannerType === 1
+            ? "Home Slider"
+            : object.bannerType === 2
+              ? "Box Image"
+              : "Default"}
         </>
       ),
       align: "center",
@@ -96,7 +96,6 @@ const Banners = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -126,6 +125,7 @@ const Banners = () => {
         <>
           <span
             className="mx-2"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
@@ -152,31 +152,13 @@ const Banners = () => {
           </span>
           <span
             className=""
-            to="#"
+            type="button"
             onClick={async () => {
               navigate("/bannermastermanage", { state: object });
-              // try {
-              //   let headersList = {
-              //     Accept: "*/*",
-              //     Authorization: `Bearer ${localStorage.getItem(
-              //       "accessToken"
-              //     )}`,
-              //   };
-              //   let reqOptions = {
-              //     url: `${process.env.REACT_APP_API_BASE_URL}api/admin/banner/${object._id}`,
-              //     method: "DELETE",
-              //     headers: headersList,
-              //   };
-
-              //   let response = await axios.request(reqOptions);
-              //   toast.success(response.data.message);
-              //   cmsdata();
-              // } catch (error) {
-              //   toast.error(error.response.data.originalError);
-              // }
             }}
           >
             <i className="dw dw-edit2 fa-lg" />
+            {console.log('object', object, text, index)}
           </span>
         </>
       ),
@@ -194,7 +176,7 @@ const Banners = () => {
           </div>
           <div className="pb-4">
             <div className="row">
-              <div className="col-md-4 col-sm-12">
+              <div className="col-md-12 col-sm-12">
                 <div
                   to="/bannermastermanage"
                   onClick={() => {
@@ -206,7 +188,7 @@ const Banners = () => {
                     });
                   }}
                 >
-                  <Button type="primary">
+                  <Button type="primary" size="large" style={{ 'float': 'inline-end' }}>
                     <i className="icon-copy bi bi-plus-circle mx-2" />
                     Add New Banner
                   </Button>

@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Link } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
@@ -9,9 +8,11 @@ import { Button, Spin, Switch, Table } from "antd";
 const Cms = () => {
   const [data, setdata] = useState([]);
   const navigate = useNavigate();
+
   useEffect(() => {
     cmsdata();
   }, []);
+
   const cmsdata = async () => {
     try {
       let reqOptions = {
@@ -50,7 +51,6 @@ const Cms = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -88,6 +88,7 @@ const Cms = () => {
             </div>
             <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
               <div
+                type="button"
                 className="dropdown-item"
                 onClick={async () => {
                   navigate("/cmsmastermanage", {
@@ -99,6 +100,7 @@ const Cms = () => {
               </div>
               <div
                 className="dropdown-item"
+                type="button"
                 onClick={async () => {
                   navigate("/cmsmastermanage", {
                     state: {
@@ -112,16 +114,12 @@ const Cms = () => {
               </div>
               <div
                 className="dropdown-item"
-                to="#"
+                type="button"
                 onClick={async () => {
                   try {
                     let headersList = {
                       Accept: "*/*",
-                      "User-Agent":
-                        "Thunder Client (https://www.thunderclient.com)",
-                      Authorization: `Bearer ${localStorage.getItem(
-                        "accessToken"
-                      )}`,
+                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                     };
                     let reqOptions = {
                       url: `${process.env.REACT_APP_API_BASE_URL}api/admin/cms/${object._id}`,
@@ -167,20 +165,11 @@ const Cms = () => {
                   },
                 });
               }}
-              // to={{
-              //   pathname: "/cmsmastermanage",
-              //   state: {
-              //     // data: {
-              //     //   sortOrder: data12?.length > 0 ? data12[0].sortOrder : 0,
-              //     // },
-              //     type: "ADD",
-              //   },
-              // }}
             >
-              {" "}
-              <Button type="primary">
+
+              <Button className="mb-3" type="primary" size="large" style={{ 'float': 'inline-end' }}>
                 <i className="icon-copy fi-plus mr-3" />
-                Add new
+                Add New CMS
               </Button>
             </div>
           </div>

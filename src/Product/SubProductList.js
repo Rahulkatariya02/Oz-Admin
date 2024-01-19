@@ -117,6 +117,7 @@ const SubProductList = () => {
                               <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                                 <div
                                   className="dropdown-item"
+                                  type="button"
                                   onClick={() => {
                                     navigate("/editproduct", {
                                       state: {
@@ -130,6 +131,7 @@ const SubProductList = () => {
                                 </div>
                                 <div
                                   className="dropdown-item"
+                                  type="button"
                                   onClick={() => {
                                     navigate("/editproduct", {
                                       state: {
@@ -141,7 +143,7 @@ const SubProductList = () => {
                                 >
                                   <i className="dw dw-edit2" /> Edit
                                 </div>
-                                <div className="dropdown-item">
+                                <div className="dropdown-item" type="button">
                                   <i className="dw dw-delete-3" /> Delete
                                 </div>
                               </div>

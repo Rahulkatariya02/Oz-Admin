@@ -6,6 +6,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ProductList = () => {
   const location = useLocation();
@@ -13,6 +14,7 @@ const ProductList = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? {} : location?.state?.data
   );
+  console.log('data', data.category?._id, location);
   const [category, setcategory] = useState([]);
   useEffect(() => {
     // new DataTable("#myTable");
@@ -20,7 +22,8 @@ const ProductList = () => {
   }, []);
   const getcatagarydata = async () => {
     let reqOptions = {
-      url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/fetchAllProducts`,
+      // url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/fetchAllProducts`,
+      url: `${process.env.REACT_APP_API_BASE_URL}api/product/getcategoryproduct/${location.state.item}`,
       method: "GET",
     };
 
@@ -79,30 +82,37 @@ const ProductList = () => {
                 <tbody>
                   {category.map((e, i) => {
                     if (e.category_id === data._id) {
+                      console.log('product', e);
                       return (
                         <tr key={i}>
                           <td>{e.sortOrder}</td>
                           <td>{e.productName}</td>
-                          <td>{e.ProductCode}</td>
+                          <td>{e.productCode}</td>
                           <td>
                             <Switch
                               checkedChildren={<CheckOutlined />}
                               unCheckedChildren={<CloseOutlined />}
                               checked={e.isActive}
+                              onChange={async () => {
+                                let bodyContent = {
+                                  isActive: !e.isActive,
+                                  id: e._id
+                                };
+                                console.log(e.isActive);
+                                let reqOptions = {
+                                  url: `${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`,
+                                  method: "POST",
+                                  data: bodyContent,
+                                };
+
+                                let response = await axios.request(reqOptions);
+                                toast.success(response.data.message);
+                                getcatagarydata();
+                              }}
                             />
-                            {/* <div className="custom-control custom-switch">
-                              <input
-                                type="checkbox"
-                                className="custom-control-input"
-                                id="customSwitch1"
-                                checked={e.isActive}
-                              />
-                              <label
-                                className="custom-control-label"
-                                htmlFor="customSwitch1"
-                              ></label>
-                            </div> */}
+
                           </td>
+
                           <td>
                             <div className="dropdown">
                               <div
@@ -116,6 +126,7 @@ const ProductList = () => {
                               <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
                                 <div
                                   className="dropdown-item"
+                                  type="button"
                                   onClick={() => {
                                     navigate("/editproduct", {
                                       state: {
@@ -129,6 +140,7 @@ const ProductList = () => {
                                 </div>
                                 <div
                                   className="dropdown-item"
+                                  type="button"
                                   onClick={() => {
                                     navigate("/editproduct", {
                                       state: {
@@ -140,7 +152,33 @@ const ProductList = () => {
                                 >
                                   <i className="dw dw-edit2" /> Edit
                                 </div>
-                                <div className="dropdown-item">
+                                <div className="dropdown-item" type="button"
+                                  onClick={async () => {
+                                    try {
+                                      {
+                                        let headersList = {
+                                          Accept: "*/*",
+                                          Authorization: `Bearer ${localStorage.getItem(
+                                            "accessToken"
+                                          )}`,
+                                        };
+                                        let reqOptions = {
+                                          url: `${process.env.REACT_APP_API_BASE_URL}api/product/${e._id}`,
+                                          method: "DELETE",
+                                          headers: headersList,
+                                        };
+
+                                        let response = await axios.request(reqOptions);
+                                        if (response.data.status === 1) {
+                                          toast.success(response.data.message);
+                                          getcatagarydata();
+                                        }
+                                      }
+                                    } catch (error) {
+                                      toast.error(error?.response?.data?.error);
+                                    }
+                                  }}
+                                >
                                   <i className="dw dw-delete-3" /> Delete
                                 </div>
                               </div>

@@ -15,31 +15,38 @@ const ProductFile = ({ data123, type }) => {
 
   const [ProductFiledata1, setProductFiledata] = useState([]);
   const [showForm, setShowForm] = useState(false);
+  const [activedata, setactivedata] = useState([]);
+  console.log("activedata", activedata);
+  const [data, setdata] = useState(!data123 ? {} : data123);
   const ProductFiledata = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
     };
 
     let reqOptions = {
-      url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/all`,
+      url: `${process.env.REACT_APP_API_BASE_URL}api/getproductfile/${data123._id}`,
       method: "GET",
       headers: headersList,
     };
 
     let response = await axios.request(reqOptions);
-    setProductFiledata(response.data.document);
+    console.log('response', response);
+    setProductFiledata(response.data.data);
   };
   const toggleForm = () => {
     setShowForm(!showForm);
   };
-  console.log({ data123, type });
+  console.log('ProductFiledata1', ProductFiledata1);
   return (
     <>
       {showForm ? (
-        <ProductFileForm data123={data123} type={type} />
+        <ProductFileForm
+          data123={ProductFiledata1}
+          showForm={showForm}
+          activedata={activedata}
+          type={type}
+          setShowForm={setShowForm} />
       ) : (
         <div className="card-box mb-30">
           <div className="pd-20">
@@ -65,34 +72,35 @@ const ProductFile = ({ data123, type }) => {
                 </tr>
               </thead>
               <tbody>
-                {ProductFiledata1.map((e, i) => {
-                  if (data123._id === e.products_id) {
-                    return (
-                      <tr key={i}>
-                        <td>{e.sortOrder}</td>
-                        <td>{e.Title}</td>
-                        <td>
-                          <Switch
-                            checkedChildren={<CheckOutlined />}
-                            unCheckedChildren={<CloseOutlined />}
-                            checked={e.isActive}
-                            onChange={async () => {
-                              let bodyContent = {
-                                isActive: !e.isActive,
-                              };
-                              console.log(e.isActive);
-                              let reqOptions = {
-                                url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/changeStatus/${e._id}`,
-                                method: "POST",
-                                data: bodyContent,
-                              };
+                {ProductFiledata1?.map((e, i) => {
+                  // if (data123._id === e.products_id) {
+                  console.log('data123', e);
+                  return (
+                    <tr key={i}>
+                      <td>{e.sortOrder}</td>
+                      <td>{e.title}</td>
+                      <td>
+                        <Switch
+                          checkedChildren={<CheckOutlined />}
+                          unCheckedChildren={<CloseOutlined />}
+                          checked={e.isActive}
+                          onChange={async () => {
+                            let bodyContent = {
+                              isActive: !e.isActive,
+                            };
+                            console.log(e.isActive);
+                            let reqOptions = {
+                              url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/changeStatus/${e._id}`,
+                              method: "POST",
+                              data: bodyContent,
+                            };
 
-                              let response = await axios.request(reqOptions);
-                              toast.success(response.data.message);
-                              ProductFiledata();
-                            }}
-                          />
-                          {/* <div className="custom-control custom-switch">
+                            let response = await axios.request(reqOptions);
+                            toast.success(response.data.message);
+                            ProductFiledata();
+                          }}
+                        />
+                        {/* <div className="custom-control custom-switch">
                             <label class="switch">
                               <input
                                 type="checkbox"
@@ -118,27 +126,52 @@ const ProductFile = ({ data123, type }) => {
                               <span class="slider"></span>
                             </label>
                           </div> */}
-                        </td>
-                        <td>
-                          <div
-                            className="dropdown-item"
-                            onClick={async () => {
-                              let reqOptions = {
-                                url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/productfileremove/${e._id}`,
-                                method: "GET",
-                              };
+                      </td>
+                      <td>
+                        <div
+                          className="dropdown-item"
+                          type="button"
+                          onClick={async () => {
+                            let reqOptions = {
+                              url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/productfileremove/${e._id}`,
+                              method: "GET",
+                            };
 
-                              let response = await axios.request(reqOptions);
-                              toast.success(response.data.message);
-                              ProductFiledata();
-                            }}
-                          >
-                            <i className="dw dw-delete-3" /> Delete
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  }
+                            let response = await axios.request(reqOptions);
+                            toast.success(response.data.message);
+                            ProductFiledata();
+                          }}
+                        >
+                          <i className="dw dw-delete-3" /> Delete
+                        </div>
+                        <div
+                          className="dropdown-item "
+                          // onClick={toggleForm}
+                          style={{ width: 120 }}
+                          onClick={() => {
+                            toggleForm();
+                            console.log(e);
+                            setactivedata(e);
+                          }}
+
+                        // onClick={() => {
+                        //   navigate("/categorymastermanage", {
+                        //     state: {
+                        //       data: { ...e, id: e._id },
+                        //       type: "Edit",
+                        //     },
+                        //   });
+                        // }}
+
+
+                        >
+                          <i className="dw dw-edit2 mx-2" />
+                          Edit
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                  // }
                 })}
               </tbody>
             </table>

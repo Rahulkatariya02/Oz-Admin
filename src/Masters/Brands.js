@@ -2,11 +2,38 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Spin, Switch, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const Brands = () => {
+  const navigate = useNavigate();
   const [data, setdata] = useState({});
   const [Brandsdata1, setBrandsdata1] = useState([]);
+  const [ACTIVEDATA, setACTIVEDATA] = useState({});
+  const [type, settype] = useState("ADD");
+  const [title, setTitle] = useState('');
+  const [brand_image, setBrand_image] = useState('');
+  const [sortOrder, setsortOrder] = useState('');
+  const [isActive, setIsActive] = useState(false);
+  console.log('Brandsdata1', Brandsdata1);
+
+  const handleCheckboxChange = (e) => {
+    setIsActive(e.target.checked);
+    // You can perform additional actions here if needed
+  };
+
+  console.log('ACTIVEDATA', ACTIVEDATA);
+  useEffect(() => {
+    if (type !== "ADD") {
+      setsortOrder(ACTIVEDATA.sortOrder);
+      setTitle(ACTIVEDATA.title);
+      setIsActive(ACTIVEDATA.isActive);
+      setBrand_image(ACTIVEDATA.brand_image);
+    } 
+  }, [ACTIVEDATA, type]);
+
+
+
   useEffect(() => {
     Brandsdata();
   }, []);
@@ -14,7 +41,6 @@ const Brands = () => {
     try {
       let headersList = {
         Accept: "*/*",
-        "User-Agent": "Thunder Client (https://www.thunderclient.com)",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       };
 
@@ -31,8 +57,22 @@ const Brands = () => {
       console.error(error);
     }
   };
+  // const handalchange = (e) => {
+  //   const { name, value, checked, files } = e.target;
+  //   if (name !== "BannerImage") {
+  //     if (name === "isActive") {
+  //       setdata({ ...data, [name]: checked });
+  //     } else {
+  //       setdata({ ...data, [name]: value });
+  //     }
+  //   } else {
+  //     setdata({ ...data, [name]: files[0] });
+  //   }
+  // };
+
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
+
     if (name !== "BannerImage") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -43,32 +83,33 @@ const Brands = () => {
       setdata({ ...data, [name]: files[0] });
     }
   };
+
   const columns = [
-    {  
-      align:"center",   
+    {
+      align: "center",
       title: "sortOrder",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
-      align:"center",
+      align: "center",
       title: "title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
-      align:"center",
+      align: "center",
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.brand_image.localeCompare(b.brand_image),
       render: (text, object, index) => (
         <>
-          <img src={object.brand_image} alt="slider-img" width={150} />
+          <img src={process.env.REACT_APP_API_BASE_URL + object.brand_image} alt="slider-img" width={150} />
         </>
       ),
     },
     {
-      align:"center",
+      align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -81,7 +122,6 @@ const Brands = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -104,14 +144,26 @@ const Brands = () => {
       ),
     },
     {
-      align:"center",
+      align: "center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
-          <div
-            className="dropdown-item"
-            to="#"
+          <span
+            className=""
+            data-toggle="modal"
+            data-target="#bd-example-modal-lg"
+            type="button"
+            onClick={() => {
+              settype("Edit");
+              setACTIVEDATA(object);
+            }}
+          >
+            <i className="dw dw-edit2" />
+          </span>
+          <span
+            className="mx-2"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
@@ -134,14 +186,15 @@ const Brands = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3 fa-lg text-danger" />  Delete
-            
-          </div>
+            <i className="dw dw-delete-3 fa-lg text-danger" />
+          </span>
+
         </>
       ),
     },
   ];
   let data12 = Brandsdata1.document?.sort((a, b) => b.sortOrder - a.sortOrder);
+  // const brands = Brandsdata1?.map((item)=> console.log(item))
   console.log(data12?.length > 0 ? data12[0].sortOrder : 0);
   return (
     <>
@@ -152,14 +205,18 @@ const Brands = () => {
           </div>
           <div className="pb-4">
             <div className="row">
-              <div className="col-md-4 col-sm-12">
+              <div className="col-md-12 col-sm-12">
                 <Button
                   data-toggle="modal"
+                  size="large"
+                  style={{ 'float': 'inline-end' }}
                   data-target="#bd-example-modal-lg"
                   type="primary"
+                  onClick={() => {
+                   setACTIVEDATA('')
+                  }}
                 >
-                  {" "}
-                  Brand Master
+                  Add New Brand
                   <i className="icon-copy bi bi-plus-circle mx-2" />
                 </Button>
               </div>
@@ -204,16 +261,18 @@ const Brands = () => {
                           </label>
                           <input
                             type="number"
-                            value={
-                              data.sortOrder
-                                ? data.sortOrder
-                                : data12?.length > 0
-                                ? data12[0].sortOrder + 1
-                                : 0
-                            }
+                            defaultValue={ACTIVEDATA.sortOrder}
+                            // value={
+                            //   data.sortOrder
+                            //   // ? data.sortOrder
+                            //   // : data12?.length > 0
+                            //   //   ? data12[0].sortOrder + 1
+                            //   //   : 0
+                            // }
                             className="form-control"
                             name="SortOrder"
-                            onChange={(e) => handalchange(e)}
+                            // onChange={(e) => handalchange(e)}
+                            onChange={(e) => setsortOrder(e.target.value)}
                           />
                         </div>
                       </div>
@@ -226,7 +285,10 @@ const Brands = () => {
                             type="text"
                             className="form-control"
                             name="Title"
-                            onChange={(e) => handalchange(e)}
+                            defaultValue={ACTIVEDATA.title}
+                            // value={data.title || ""}
+                            // onChange={(e) => handalchange(e)}
+                            onChange={(e) => setTitle(e.target.value)}
                           />
                         </div>
                       </div>
@@ -238,10 +300,13 @@ const Brands = () => {
                           <input
                             type="file"
                             className="form-control"
+                            defaultValue={ACTIVEDATA.brand_image}
                             name="BannerImage"
-                            onChange={(e) => handalchange(e)}
+                            // onChange={(e) => handalchange(e)}
+                            onChange={(e) => setBrand_image(e.target.files[0])}
                           />
                         </div>
+                       {ACTIVEDATA? <img src={process.env.REACT_APP_API_BASE_URL + ACTIVEDATA.brand_image} alt="slider-img" width={150} /> :''}
                       </div>
                     </div>
 
@@ -254,7 +319,10 @@ const Brands = () => {
                               className="custom-control-input my-5"
                               id="customCheck3"
                               name="isActive"
-                              onChange={(e) => handalchange(e)}
+                              onChange={handleCheckboxChange}
+                              // checked={isActive}
+                              checked={ACTIVEDATA.isActive === true || isActive}
+
                             />
                             <label
                               className="custom-control-label"
@@ -284,25 +352,19 @@ const Brands = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          "User-Agent":
-                            "Thunder Client (https://www.thunderclient.com)",
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "accessToken"
-                          )}`,
+                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                         };
                         let formdata = new FormData();
-                        formdata.append(
-                          "sortOrder",
-                            data.sortOrder
-                              ? data.sortOrder
-                              : data12?.length > 0
-                              ? data12[0].sortOrder + 1
-                              : 0
-                        );
-                        formdata.append("title", data?.Title);
-                        formdata.append("isActive", data?.isActive);
-                        formdata.append("brand_image", data?.BannerImage);
-
+                        formdata.append("sortOrder", sortOrder);
+                        formdata.append('id', ACTIVEDATA._id ? ACTIVEDATA._id : '')
+                        formdata.append("title", title);
+                        formdata.append("isActive", isActive);
+                        if (brand_image instanceof File) {
+                          formdata.append("brand_image", brand_image);
+                        } else if (ACTIVEDATA.brand_image) {
+                          const blob = await fetch(ACTIVEDATA.brand_image).then((res) => res.blob());
+                          formdata.append("brand_image", blob, "ACTIVEDATA.brand_image.jpg");
+                        }
                         let bodyContent = formdata;
                         console.log(data);
                         let reqOptions = {
@@ -320,7 +382,7 @@ const Brands = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                            error?.response?.data?.error
+                          error?.response?.data?.error
                         );
                       }
                     }}

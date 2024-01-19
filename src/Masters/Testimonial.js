@@ -28,12 +28,12 @@ const Testimonial = () => {
 
   const columns = [
     {
-      align:"center",
+      align: "center",
       title: "Testimonial Name",
       dataIndex: "name",
     },
     {
-      align:"center",
+      align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -46,7 +46,6 @@ const Testimonial = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -69,14 +68,14 @@ const Testimonial = () => {
       ),
     },
     {
-      align:"center",
+      align: "center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
           <span
             className="mx-2"
-            to="#"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
@@ -99,10 +98,11 @@ const Testimonial = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3 fa-lg text-danger" /> 
+            <i className="dw dw-delete-3 fa-lg text-danger" />
           </span>
           <span
             className=""
+            type="button"
             onClick={async () => {
               navigate("/testimonialmastermanage", {
                 state: {
@@ -112,7 +112,7 @@ const Testimonial = () => {
               });
             }}
           >
-            <i className="dw dw-edit2 fa-lg" /> 
+            <i className="dw dw-edit2 fa-lg" />
           </span>
         </>
       ),
@@ -127,17 +127,17 @@ const Testimonial = () => {
           </div>
           <div className="pb-4">
             <div className="row">
-              <div className="col-md-4 col-sm-12">
+              <div className="col-md-12 col-sm-12">
                 <Link to="/testimonialmastermanage">
-                  <Button type="primary">
-                    Add New Testimonial{" "}
-                    <i className="icon-copy bi bi-plus-circle mx-2" />{" "}
+                  <Button type="primary" size="large"   style={{'float': 'inline-end'}}>
+                    Add New Testimonial
+                    <i className="icon-copy bi bi-plus-circle mx-2" />
                   </Button>
                 </Link>
               </div>
             </div>
           </div>
-          <Table columns={columns} dataSource={data} className="text-center"/>
+          <Table columns={columns} dataSource={data} className="text-center" />
         </div>
       </div>
     </>

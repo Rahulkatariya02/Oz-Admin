@@ -1,7 +1,7 @@
 import DataTable from "datatables.net-dt";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ProductContentForm from "./ProductContentForm";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -9,20 +9,22 @@ import { Switch } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 const ProductContent = ({ data123, type }) => {
+const navigate =useNavigate()
   const [productcontent, setproductcontent] = useState([]);
   const [activedata, setactivedata] = useState([]);
   console.log("activedata", activedata);
   const [data, setdata] = useState(!data123 ? {} : data123);
+  console.log('data', data);
   useEffect(() => {
     getproductcontent();
   }, []);
   const getproductcontent = async () => {
     let reqOptions = {
-      url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/all`,
+      url: `${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`,
       method: "GET",
     };
     let response = await axios.request(reqOptions);
-    setproductcontent(response.data);
+    setproductcontent(response.data.data);
   };
   console.log(productcontent);
   const [showForm, setShowForm] = useState(false);
@@ -30,7 +32,7 @@ const ProductContent = ({ data123, type }) => {
   const toggleForm = () => {
     setShowForm(!showForm);
   };
-  console.log(data);
+  console.log('productcontent', productcontent, data123._id);
   return (
     <>
       {showForm ? (
@@ -63,8 +65,9 @@ const ProductContent = ({ data123, type }) => {
                 </tr>
               </thead>
               <tbody>
-                {productcontent?.document?.map((e, i) => {
-                  if (data123._id === e.products_id) {
+                {productcontent?.map((e, i) => {
+                  if (data123._id === e.product_id) {
+                    console.log('map', e, data123._id === e.product_id);
                     return (
                       <tr key={i}>
                         <td>{e.sortOrder}</td>
@@ -76,10 +79,11 @@ const ProductContent = ({ data123, type }) => {
                             onChange={async () => {
                               let bodyContent = {
                                 isActive: !e.isActive,
+                                id:e._id
                               };
                               console.log(e.isActive);
                               let reqOptions = {
-                                url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/changeStatus/${e._id}`,
+                                url: `${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`,
                                 method: "POST",
                                 data: bodyContent,
                               };
@@ -120,7 +124,7 @@ const ProductContent = ({ data123, type }) => {
                           <img
                             src={
                               process.env.REACT_APP_API_BASE_URL +
-                              e.products_img
+                              e.product_img
                             }
                             className="img-fluid"
                             width={100}
@@ -129,6 +133,7 @@ const ProductContent = ({ data123, type }) => {
                         <td className="d-flex">
                           <div
                             className="dropdown-item"
+                            type="button"
                             style={{ width: 120 }}
                             onClick={async () => {
                               try {
@@ -156,12 +161,24 @@ const ProductContent = ({ data123, type }) => {
                           </div>
                           <div
                             className="dropdown-item "
+                            // onClick={toggleForm}
                             style={{ width: 120 }}
                             onClick={() => {
                               toggleForm();
                               console.log(e);
                               setactivedata(e);
                             }}
+                            
+                            // onClick={() => {
+                            //   navigate("/categorymastermanage", {
+                            //     state: {
+                            //       data: { ...e, id: e._id },
+                            //       type: "Edit",
+                            //     },
+                            //   });
+                            // }}
+
+
                           >
                             <i className="dw dw-edit2 mx-2" />
                             Edit

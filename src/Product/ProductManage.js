@@ -4,8 +4,8 @@ import ProductForm from "./ProductForm";
 
 const ProductManage = () => {
   const location = useLocation();
-  const [data, setdata] = useState(location.state.data);
-  
+  const [data, setdata] = useState(location.state?.data);
+
   return (
     <>
       <div className="main-container">

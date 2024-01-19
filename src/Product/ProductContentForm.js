@@ -2,7 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import TinyMCE from "react-tinymce/lib/components/TinyMCE";
+import ReactQuill, { Quill } from 'react-quill';
+import 'react-quill/dist/quill.snow.css'; // Import the styles
 import { toast } from "react-toastify";
 
 const ProductContentForm = ({
@@ -12,21 +13,84 @@ const ProductContentForm = ({
   setShowForm,
   type,
 }) => {
+  console.log("data123", data123);
+  console.log("showForm", showForm);
+  console.log("activedata", activedata);
+  // console.log("setShowForm", setShowForm);
+  console.log("type", type);
+
   const navigate = useNavigate();
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
+    // imageResize: {
+    //   parchment: Quill.import("parchment"),
+    //   modules: ["Resize", "DisplaySize"],
+    // },
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+  ];
+
+  const [isActive, setIsActive] = useState(false)
   const [data, setdata] = useState(activedata ? activedata : {});
+  const [productImg, setProductImg] = useState(activedata ? activedata.product_img : null);
+
+
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-    if (name !== "products_img") {
+    if (name !== "product_img") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
       } else {
         setdata({ ...data, [name]: value });
       }
     } else {
-      setdata({ ...data, [name]: files[0] });
+      setProductImg(files[0]);
     }
   };
-  console.log("activedata111", data);
+  
+  // const handalchange = (e) => {
+  //   const { name, value, checked, files } = e.target;
+  //   if (name !== "product_img") {
+  //     if (name === "isActive") {
+  //       setdata({ ...data, [name]: checked });
+  //     } else {
+  //       setdata({ ...data, [name]: value });
+  //     }
+  //   } else {
+  //     setdata({ ...data, [name]: files[0] });
+  //   }
+  // };
+  console.log("activedata111", data, data123);
   return (
     <div className="row">
       <div className="col-md-8 col-sm-12 mb-30">
@@ -55,21 +119,24 @@ const ProductContentForm = ({
                   <input
                     className="form-control"
                     type="file"
-                    name="products_img"
+                    // value={data?.product_img}
+                    name="product_img"
                     disabled={type === "View"}
                     onChange={(e) => handalchange(e)}
                   />
+                  {data.product_img ? <img src={process.env.REACT_APP_API_BASE_URL + data.product_img} /> :''}
+                  
                 </div>
 
                 <label className="col-sm-12 col-md-12 mb-4 col-form-label">
                   Content Text (Add HTML)
                 </label>
                 <div className="col-md-12 mb-4">
-                  {!data?.ContentText && (
+                  {/* {!data?.ContentText && (
                     <TinyMCE
                       content={data?.ContentText}
                       onChange={(e) => {
-                        setdata({ ...data, ["ContentText"]: e.level.content });
+                        setdata({ ...data, ["contentText"]: e.level.content });
                       }}
                       config={{
                         plugins: "code",
@@ -94,7 +161,17 @@ const ProductContentForm = ({
                           "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
                       }}
                     />
-                  )}
+                  )} */}
+                  <ReactQuill
+                    theme="snow"
+                    modules={modules}
+                    name="description"
+                    value={data.contentText} // Use 'value' instead of 'content'
+                    // onChange={(content, delta, source, editor) => {
+                    //   // 'content' is the updated content
+                    //   setdata({ ...data, ["ContentText"]: content });
+                    // }}
+                  />
                 </div>
               </div>
 
@@ -104,9 +181,8 @@ const ProductContentForm = ({
                   className="custom-control-input my-5"
                   id="customCheck3"
                   name="isActive"
-                  checked={data.isActive}
-                  disabled={type === "View"}
-                  onChange={(e) => handalchange(e)}
+                  checked={isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
                 />
                 <label className="custom-control-label" htmlFor="customCheck3">
                   Is Active
@@ -126,37 +202,32 @@ const ProductContentForm = ({
                   type="button"
                   className="btn btn-primary"
                   onClick={async () => {
-                    console.log("ss");
                     try {
                       let headersList = {
                         Accept: "*/*",
-                        "User-Agent":
-                          "Thunder Client (https://www.thunderclient.com)",
-                        Authorization: `Bearer ${localStorage.getItem(
-                          "accessToken"
-                        )}`,
+                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                         "Content-Type": "multipart/form-data", // Updated Content-Type
                       };
 
                       let formdata = new FormData();
                       formdata.append("sortOrder", data.sortOrder);
-                      formdata.append("ContentText", data.ContentText);
-                      formdata.append("isActive", true);
-                      formdata.append("products_id", data123._id);
-                      formdata.append("products_img", data.products_img);
+                      formdata.append("contentText", data.ContentText);
+                      formdata.append("isActive", isActive);
+                      formdata.append("product_id", data123._id);
+                      formdata.append("product_img", data.product_img);
 
                       let formdata1 = new FormData();
                       formdata1.append("sortOrder", data.sortOrder);
-                      formdata1.append("ContentText", data.ContentText);
-                      formdata1.append("isActive", true);
-                      formdata1.append("products_id", data123._id);
-                      formdata1.append("products_img", data.products_img);
+                      formdata1.append("contentText", data.ContentText);
+                      formdata1.append("isActive", isActive);
+                      formdata1.append("product_id", data123._id);
+                      formdata1.append("product_img", data.product_img);
                       formdata1.append("id", data._id);
                       let bodyContent = !data._id ? formdata : formdata1;
                       console.log(formdata);
                       console.log(bodyContent);
                       let reqOptions = {
-                        url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/addProductContent`,
+                        url: `${process.env.REACT_APP_API_BASE_URL}api/productcontent`,
                         method: "POST",
                         headers: headersList,
                         data: bodyContent,

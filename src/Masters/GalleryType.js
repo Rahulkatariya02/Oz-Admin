@@ -16,7 +16,6 @@ const GalleryType = () => {
   const GalleryType = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
     };
 
@@ -41,19 +40,19 @@ const GalleryType = () => {
 
   const columns = [
     {
-      align:"center",
+      align: "center",
       title: "sortOrder",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
-      align:"center",
+      align: "center",
       title: "title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
     {
-      align:"center",
+      align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
       render: (text, object, index) => (
@@ -66,7 +65,6 @@ const GalleryType = () => {
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
-                "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                 Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 "Content-Type": "application/json",
               };
@@ -89,23 +87,19 @@ const GalleryType = () => {
       ),
     },
     {
-      align:"center",
+      align: "center",
       title: "Action",
       dataIndex: "Action",
       render: (text, object, index) => (
         <>
           <span
             className=""
-            to="#"
+            type="button"
             onClick={async () => {
               try {
                 let headersList = {
                   Accept: "*/*",
-                  "User-Agent":
-                    "Thunder Client (https://www.thunderclient.com)",
-                  Authorization: `Bearer ${localStorage.getItem(
-                    "accessToken"
-                  )}`,
+                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                 };
                 let reqOptions = {
                   url: `${process.env.REACT_APP_API_BASE_URL}api/admin/gallery/${object._id}`,
@@ -121,7 +115,7 @@ const GalleryType = () => {
               }
             }}
           >
-            <i className="dw dw-delete-3 fa-lg text-danger" />  
+            <i className="dw dw-delete-3 fa-lg text-danger" />
           </span>
         </>
       ),
@@ -137,9 +131,12 @@ const GalleryType = () => {
           <div className="pb-4">
             <div className="">
               <Button
+                className="mb-3"
                 data-toggle="modal"
                 data-target="#bd-example-modal-lg"
                 type="primary"
+                style={{ 'float': 'inline-end' }}
+                size="large"
               >
                 <i className="icon-copy fi-plus mx-2" />
                 Add new Gallery Type
@@ -245,11 +242,7 @@ const GalleryType = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          "User-Agent":
-                            "Thunder Client (https://www.thunderclient.com)",
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "accessToken"
-                          )}`,
+                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                         };
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/gallery`,

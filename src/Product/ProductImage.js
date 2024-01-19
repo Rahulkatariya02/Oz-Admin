@@ -62,7 +62,7 @@ const ProductImage = () => {
                                         <td><img src="vendors/images/deskapp-logo.svg" alt='slider-img' width={200} /></td>
                                         <td>yes</td>
                                         <td>
-                                            <Link className="dropdown-item" to="#">
+                                            <Link className="dropdown-item" type="button">
                                                 <i className="dw dw-delete-3" /> Delete
                                             </Link>
 

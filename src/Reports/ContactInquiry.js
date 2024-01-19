@@ -15,7 +15,6 @@ const ContactInquiry = () => {
   const contactinquirydata = async () => {
     let headersList = {
       Accept: "*/*",
-      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       "Content-Type": "application/json",
     };
@@ -74,7 +73,6 @@ const ContactInquiry = () => {
                                   try {
                                     let headersList = {
                                       Accept: "*/*",
-                                      "User-Agent": "Thunder Client (https://www.thunderclient.com)",
                                       Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                                       "Content-Type": "application/json",
                                     };

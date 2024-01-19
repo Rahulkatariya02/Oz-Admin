@@ -11,22 +11,41 @@ import { toast } from "react-toastify";
 const Category = () => {
   const navigate = useNavigate();
   const [category, setcategory] = useState([]);
+  const [categoryId, setcategoryId] = useState([]);
   useEffect(() => {
     getcatagarydata();
   }, []);
   const getcatagarydata = async () => {
     let reqOptions = {
-      url: `${process.env.REACT_APP_API_BASE_URL}api/category/getAllCategories`,
-      method: "GET",
+      url: `${process.env.REACT_APP_API_BASE_URL}api/getcategory`,
+      method: "POST",
     };
 
     let response = await axios.request(reqOptions);
     setcategory(response.data.data);
+
   };
+  console.log('category', category);
 
   const handleDelete = () => {
 
   }
+
+  // const handleSubcat = (categoryId) => {
+  //   setcategoryId(categoryId);
+  //   getcatagarydata(categoryId);
+  // }
+
+  const handleSubcat = (item) => {
+    console.log('id', item);
+    navigate(`/subcategory/${item.category?._id}`, { state: { item, _id: item._id } });
+  };
+
+  const handleOpen = (item) => {
+    console.log('id', item);
+    navigate(`/productmasterlist`, { state: { item, _id: item._id } });
+  };
+
   return (
     <>
       <div className="main-container">
@@ -60,59 +79,76 @@ const Category = () => {
                 </thead>
                 <tbody>
                   {category.map((e, i) => {
+                    console.log('category', e, e.category._id);
                     return (
                       <tr key={i}>
-                        <td>{e.sortOrder}</td>
-                        <td>{e.category}</td>
+                        <td>{e.category.sortOrder}</td>
+                        <td>{e.category.category}</td>
                         <td>
-                          <Link to={`/subcategory/${e._id}`}>
-                            <span className="badge badge-pill badge-primary w-25">
-                              {e.result12}
-                            </span>
-                          </Link>
-                        </td>
-                        <td>
-                          <div
-                            onClick={() => {
-                              navigate("/productmasterlist", {
-                                state: {
-                                  data: { ...e, id: e._id },
-                                  type: "View",
-                                },
-                              });
-                            }}
+                          <span
+                            //  to={`/subcategory/${e.category._id}`} 
+                            onClick={() => handleSubcat(e)}
                           >
                             <span className="badge badge-pill badge-primary w-25">
-                              {e.products}
+                              {e.subcategoryCount}
                             </span>
-                          </div>
+                          </span>
                         </td>
 
                         <td>
-                          <Switch
-                            checkedChildren={<CheckOutlined />}
-                            unCheckedChildren={<CloseOutlined />}
-                            checked={e.isActive}
-                          />
-                          {/* <div className="custom-control custom-switch">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id="customSwitch1"
-                              checked={e.isActive}
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor="customSwitch1"
-                            ></label>
-                          </div> */}
+                          <div
+                            // onClick={() => {
+                            //   navigate(`/productmasterlist`, {
+                            //     state: {
+                            //       data: { ...e, id: e.category._id },
+                            //       type: "View",
+                            //     },
+                            //   });
+                            // }}
+                            onClick={()=>handleOpen(e.category._id)}
+                          >
+                            <span className="badge badge-pill badge-primary w-25">
+                              {e.productCount}
+                            </span>
+                          </div>
                         </td>
+                        <td>
+                            <Switch
+                              checkedChildren={<CheckOutlined />}
+                              unCheckedChildren={<CloseOutlined />}
+                              checked={e.isActive}
+                              onChange={async () => {
+                                let headersList = {
+                                  Accept: "*/*",
+                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  "Content-Type": "application/json",
+                                };
+                                let bodyContent = {
+                                  isActive: !e.isActive,
+                                  id: e.category._id,
+                                };
+                                console.log(e.isActive);
+                                let reqOptions = {
+                                  url: `${process.env.REACT_APP_API_BASE_URL}api/category/changeStatus`,
+                                  method: "PUT",
+                                  headers: headersList,
+                                  data: bodyContent,
+                                };
+
+                                let response = await axios.request(reqOptions);
+                                toast.success(response.data.message);
+                                getcatagarydata();
+                              }}
+                            />
+                          </td>                 
                         <td>
                           <span
                             className="mx-2"
+                            type="button"
                             onClick={async () => {
                               try {
-                                if (e.products === 0) {
+                                // if (e.products === 0)
+                                 {
                                   let headersList = {
                                     Accept: "*/*",
                                     Authorization: `Bearer ${localStorage.getItem(
@@ -120,7 +156,7 @@ const Category = () => {
                                     )}`,
                                   };
                                   let reqOptions = {
-                                    url: `${process.env.REACT_APP_API_BASE_URL}api/category/removeCategory/${e._id}`,
+                                    url: `${process.env.REACT_APP_API_BASE_URL}api/category/${e.category._id}`,
                                     method: "DELETE",
                                     headers: headersList,
                                   };
@@ -130,9 +166,10 @@ const Category = () => {
                                     toast.success(response.data.message);
                                     getcatagarydata();
                                   }
-                                } else {
-                                  toast.warning("Please delete all products");
                                 }
+                                //  else {
+                                //   toast.warning("Please delete all products");
+                                // }
                               } catch (error) {
                                 toast.error(error?.response?.data?.error);
                               }
@@ -142,6 +179,7 @@ const Category = () => {
                           </span>
                           <span
                             className=""
+                            type="button"
                             onClick={() => {
                               navigate("/categorymastermanage", {
                                 state: {
