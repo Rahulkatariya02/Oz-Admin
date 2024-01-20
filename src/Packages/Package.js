@@ -5,6 +5,8 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";
+import { Switch } from "antd";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 
 const Package = () => {
   const [allPackage, setAllPackage] = useState([]);
@@ -60,40 +62,36 @@ const Package = () => {
                   {allPackage.map((e, i) => {
                     return (
                       <tr key={i}>
-                        <td>{e.title}</td>
+                        <td>{e.title}</td>                      
                         <td>
-                          <div className="custom-control custom-switch">
-                            <input
-                              type="checkbox"
-                              className="custom-control-input"
-                              id={`customSwitch${i + 1}`}
-                              checked={e.isActive}
-                              onChange={async () => {
-                                let headersList = {
-                                  Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                                  "Content-Type": "application/json",
-                                };
-                                let bodyContent = JSON.stringify({
-                                  isActive: !e.isActive,
-                                  id: e._id,
-                                });
-                                let reqOptions = {
-                                  url: `${process.env.REACT_APP_API_BASE_URL}api/admin/packagestatus`,
-                                  method: "POST",
-                                  headers: headersList,
-                                  data: bodyContent,
-                                };
-                                let response = await axios.request(reqOptions);
-                                toast.success(response.data.message);
-                                AllPackage();
-                              }}
-                            />
-                            <label
-                              className="custom-control-label"
-                              htmlFor={`customSwitch${i + 1}`}
-                            ></label>
-                          </div>
+                          <Switch
+                            checkedChildren={<CheckOutlined />}
+                            unCheckedChildren={<CloseOutlined />}
+                            checked={e.isActive}
+                            onChange={async () => {
+                              let headersList = {
+                                Accept: "*/*",
+                                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                "Content-Type": "application/json",
+                              };
+                              let bodyContent = {
+                                isActive: !e.isActive,
+                                id: e._id
+                              };
+                              
+                              let reqOptions = {
+                                url: `${process.env.REACT_APP_API_BASE_URL}api/admin/packagestatus`,
+                                method: "POST",
+                                headers: headersList,
+                                data: bodyContent,
+                              };
+
+                              let response = await axios.request(reqOptions);
+                              toast.success(response.data.message);
+                              AllPackage();
+                            }}
+                          />
+
                         </td>
                         <td>
                           <div className="dropdown">

@@ -23,9 +23,7 @@ const SubProductList = () => {
       url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/fetchAllProducts`,
       method: "GET",
     };
-
-    let response = await axios.request(reqOptions);
-    console.log("response.data.data", response.data.data);
+    let response = await axios.request(reqOptions);  
     setcategory(response.data.data);
   };
   return (

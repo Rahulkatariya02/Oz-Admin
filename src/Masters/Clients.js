@@ -16,7 +16,7 @@ const Clients = () => {
   const [previewImage, setPreviewImage] = useState("");
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-    console.log(files);
+   
     if (name !== "BannerImage") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -290,7 +290,6 @@ const Clients = () => {
                         formdata.append("client_image", data?.BannerImage);
 
                         let bodyContent = formdata;
-                        console.log(data?.BannerImage);
 
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/client`,

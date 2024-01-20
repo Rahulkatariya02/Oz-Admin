@@ -35,7 +35,7 @@ const Specials = () => {
   };
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-    console.log(files);
+   
     if (name !== "SpecialImage") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -158,10 +158,8 @@ const Specials = () => {
       ),
     },
   ];
-  console.log(data);
-
+ 
   let data12 = Allspecia?.sort((a, b) => b.sortOrder - a.sortOrder);
-  console.log(data12?.length > 0 ? data12[0].sortOrder : 0);
   return (
     <>
       <div className="main-container">
@@ -323,7 +321,6 @@ const Specials = () => {
                     onClick={async () => {
                       try {
                         const data12 = validateForm();
-                        console.log(data);
                         if (data12 === true) {
                           let headersList = {
                             Accept: "*/*",
@@ -337,7 +334,6 @@ const Specials = () => {
                           formdata.append("special_image", data?.SpecialImage);
 
                           let bodyContent = formdata;
-                          console.log(data?.BannerImage);
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/special`,
                             method: "POST",

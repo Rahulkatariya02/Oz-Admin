@@ -8,9 +8,8 @@ const AddnewsubCategory = () => {
   const location = useLocation();
   const subcatData = location.state?.data?.categories;
   const subcatName = subcatData?.category;
-const parentCatName=location.state[0].categories.category
-  console.log('subcatData', subcatData, location, );
-  console.log('parentCatName', parentCatName);
+  const parentCatName = location.state[0].categories.category
+
   const [data, setData] = useState({
     productName: subcatData?.category || "",
     SortOrder: subcatData?.sortOrder || "",
@@ -22,7 +21,7 @@ const parentCatName=location.state[0].categories.category
     isActive: subcatData?.isActive || false,
   });
   const [errors, setErrors] = useState({});
-  console.log('location', location);
+
   const handleChange = (e) => {
     const { name, value, checked, files } = e.target;
     if (name !== "CategoryImage") {
@@ -32,7 +31,6 @@ const parentCatName=location.state[0].categories.category
     }
   };
 
-  console.log(location.pathname.split("/")[2]);
   const handleCustomValidation = () => {
     const newErrors = {};
 
@@ -151,7 +149,7 @@ const parentCatName=location.state[0].categories.category
                         name="CategoryImage"
                         onChange={(e) => handleChange(e)}
                       />
-                    {subcatData?.category_image ? <img src={`${process.env.REACT_APP_API_BASE_URL} +
+                      {subcatData?.category_image ? <img src={`${process.env.REACT_APP_API_BASE_URL} +
                             ${subcatData?.category_image}`} alt="category_image" /> : ''}
                       {errors.CategoryImage && (
                         <div className="invalid-feedback">
@@ -252,8 +250,8 @@ const parentCatName=location.state[0].categories.category
                         if (handleCustomValidation()) {
                           try {
                             let formdata = new FormData();
-                            formdata.append("id", subcatData?._id? subcatData?._id :'');
-                            formdata.append("parentCategory", subcatData ? subcatData.parentCategory :location.pathname.split("/")[2]);
+                            formdata.append("id", subcatData?._id ? subcatData?._id : '');
+                            formdata.append("parentCategory", subcatData ? subcatData.parentCategory : location.pathname.split("/")[2]);
                             formdata.append("sortOrder", data.SortOrder);
                             // formdata.append("productName", data.productName);
                             formdata.append("category", data.productName);

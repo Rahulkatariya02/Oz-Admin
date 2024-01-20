@@ -12,12 +12,12 @@ const ProductContent = ({ data123, type }) => {
 const navigate =useNavigate()
   const [productcontent, setproductcontent] = useState([]);
   const [activedata, setactivedata] = useState([]);
-  console.log("activedata", activedata);
-  const [data, setdata] = useState(!data123 ? {} : data123);
-  console.log('data', data);
+   const [data, setdata] = useState(!data123 ? {} : data123);
+
   useEffect(() => {
     getproductcontent();
   }, []);
+
   const getproductcontent = async () => {
     let reqOptions = {
       url: `${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`,
@@ -26,13 +26,13 @@ const navigate =useNavigate()
     let response = await axios.request(reqOptions);
     setproductcontent(response.data.data);
   };
-  console.log(productcontent);
+
   const [showForm, setShowForm] = useState(false);
 
   const toggleForm = () => {
     setShowForm(!showForm);
   };
-  console.log('productcontent', productcontent, data123._id);
+
   return (
     <>
       {showForm ? (
@@ -60,14 +60,13 @@ const navigate =useNavigate()
                 <tr>
                   <th> Sort Order</th>
                   <th>Is Active</th>
-                  <th>Is Active</th>
+                  <th>Image</th>
                   <th className="datatable-nosort">Action</th>
                 </tr>
               </thead>
               <tbody>
                 {productcontent?.map((e, i) => {
                   if (data123._id === e.product_id) {
-                    console.log('map', e, data123._id === e.product_id);
                     return (
                       <tr key={i}>
                         <td>{e.sortOrder}</td>
@@ -77,14 +76,19 @@ const navigate =useNavigate()
                             unCheckedChildren={<CloseOutlined />}
                             checked={e.isActive}
                             onChange={async () => {
+                              let headersList = {
+                                Accept: "*/*",
+                                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                "Content-Type": "application/json",
+                              };
                               let bodyContent = {
                                 isActive: !e.isActive,
                                 id:e._id
-                              };
-                              console.log(e.isActive);
+                              };                            
                               let reqOptions = {
                                 url: `${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`,
                                 method: "POST",
+                                headers: headersList,
                                 data: bodyContent,
                               };
 
@@ -92,33 +96,7 @@ const navigate =useNavigate()
                               toast.success(response.data.message);
                               getproductcontent();
                             }}
-                          />
-                          {/* <div className="custom-control custom-switch">
-                            <label class="switch">
-                              <input
-                                type="checkbox"
-                                checked={e.isActive}
-                                onChange={async () => {
-                                  let bodyContent = {
-                                    isActive: !e.isActive,
-                                  };
-                                  console.log(e.isActive);
-                                  let reqOptions = {
-                                    url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/changeStatus/${e._id}`,
-                                    method: "POST",
-                                    data: bodyContent,
-                                  };
-
-                                  let response = await axios.request(
-                                    reqOptions
-                                  );
-                                  toast.success(response.data.message);
-                                  getproductcontent();
-                                }}
-                              />
-                              <span class="slider"></span>
-                            </label>
-                          </div> */}
+                          />                         
                         </td>
                         <td>
                           <img
@@ -131,10 +109,9 @@ const navigate =useNavigate()
                           />
                         </td>
                         <td className="d-flex">
-                          <div
-                            className="dropdown-item"
-                            type="button"
-                            style={{ width: 120 }}
+                          <span
+                            className="mx-2"
+                            type="button"                           
                             onClick={async () => {
                               try {
                                 let headersList = {
@@ -157,32 +134,20 @@ const navigate =useNavigate()
                               }
                             }}
                           >
-                            <i className="dw dw-delete-3" /> Delete
-                          </div>
-                          <div
-                            className="dropdown-item "
-                            // onClick={toggleForm}
-                            style={{ width: 120 }}
+                            <i className="dw dw-delete-3" /> 
+                          </span>
+                          <span
+                            className=""
+                            type="button"
                             onClick={() => {
-                              toggleForm();
-                              console.log(e);
+                              toggleForm();                           
                               setactivedata(e);
-                            }}
-                            
-                            // onClick={() => {
-                            //   navigate("/categorymastermanage", {
-                            //     state: {
-                            //       data: { ...e, id: e._id },
-                            //       type: "Edit",
-                            //     },
-                            //   });
-                            // }}
-
-
+                            }}                         
+                           
                           >
                             <i className="dw dw-edit2 mx-2" />
-                            Edit
-                          </div>
+                           
+                          </span>
                         </td>
                       </tr>
                     );

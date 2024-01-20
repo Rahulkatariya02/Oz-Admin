@@ -14,12 +14,11 @@ const AddnewCategory = () => {
     CategoryImage: catData?.category_image || null,
     MetaTitle: catData?.metaTitle || "",
     MetaKeyWord: catData?.metaKeyword || "",
-    MetaDescription:catData?.metaDescription || "",
+    MetaDescription: catData?.metaDescription || "",
     isActive: catData?.isActive || false,
   });
   const [errors, setErrors] = useState({});
 
-  console.log('Category', catData);
   const handleChange = (e) => {
     const { name, value, checked, files } = e.target;
     if (name !== "CategoryImage") {
@@ -93,7 +92,7 @@ const AddnewCategory = () => {
 
                         className={`form-control ${errors.productName ? "is-invalid" : ""
                           }`}
-                        value={data.productName }
+                        value={data.productName}
                         onChange={(e) => handleChange(e)}
                       />
                       {errors.productName && (
@@ -249,7 +248,7 @@ const AddnewCategory = () => {
                         if (handleCustomValidation()) {
                           try {
                             let formdata = new FormData();
-                            formdata.append("id", catData?._id ? catData?._id :'');
+                            formdata.append("id", catData?._id ? catData?._id : '');
                             formdata.append("sortOrder", data.SortOrder);
                             formdata.append("category", data.productName);
                             formdata.append("description", data.Description);

@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const AddNewBanner = ({ data12 }) => {
   const location = useLocation();
-  console.log(location.state.data);
+  
   const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [menuNameId, setmenuNameId] = useState("");
@@ -17,7 +17,7 @@ const AddNewBanner = ({ data12 }) => {
   const [editerdata, setediterdata] = useState(EditorState.createEmpty());
   const [data, setdata] = useState(
     !location.state
-      ? { BannerType:'', sortOrder: location.state.sortOrder }
+      ? { BannerType: '', sortOrder: location.state.sortOrder }
       : {
         id: location.state._id,
         sortOrder: location.state.sortOrder,
@@ -30,9 +30,9 @@ const AddNewBanner = ({ data12 }) => {
         BannerImage: location.state.banner_image,
       }
   );
-  console.log('menuNameId', menuNameId,);
+  
   const [formErrors, setFormErrors] = useState({});
-const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false)
   const handleContentChange = (newContent) => {
     setContent(newContent);
   };
@@ -48,8 +48,8 @@ const [isActive, setIsActive] = useState(false)
   }, []);
   const [previewImage, setPreviewImage] = useState("");
   const [previewImage1, setPreviewImage1] = useState("");
-  const [selectedBannerType, setSelectedBannerType] = useState("1"); 
-  
+  const [selectedBannerType, setSelectedBannerType] = useState("1");
+
   const handleFileChange = (event, setImagePreview) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -61,7 +61,7 @@ const [isActive, setIsActive] = useState(false)
     if (file) {
       reader.readAsDataURL(file);
     }
-    
+
   };
 
   const handalchange = (e) => {
@@ -96,7 +96,7 @@ const [isActive, setIsActive] = useState(false)
     if (name === "MenuName") {
       setmenuNameId(value); // Update menuNameId with the selected menu id
     }
-    if (name === "BannerType" ) {
+    if (name === "BannerType") {
       setSelectedBannerType(value); // Update selectedBannerType with the selected BannerType value
       setdata({ ...data, [name]: value });
     }
@@ -113,7 +113,7 @@ const [isActive, setIsActive] = useState(false)
       errors.MenuName = "Menu Name is required.";
     }
 
-    if (!data.BannerType  && !selectedBannerType ) {
+    if (!data.BannerType && !selectedBannerType) {
       errors.BannerType = "Banner Type is required.";
     }
 
@@ -157,7 +157,7 @@ const [isActive, setIsActive] = useState(false)
       console.error(error);
     }
   };
-  console.log('data', selectedBannerType);
+  
   return (
     <>
       <div className="main-container">
@@ -236,7 +236,7 @@ const [isActive, setIsActive] = useState(false)
                               value={data.BannerType}
                               onChange={(e) => setSelectedBannerType(e.target.value)}
                             >
-                               <option value="">--- Select type ---</option>
+                              <option value="">--- Select type ---</option>
                               <option value="1">Home Slider</option>
                               <option value="2">Box Image</option>
                             </select>
@@ -343,7 +343,7 @@ const [isActive, setIsActive] = useState(false)
 
                         <div className="form-group row">
                           <label className="col-sm-12 col-md-3 col-form-label">
-                            Mobile Banner Image{" "}
+                            Mobile Banner Image
                             <span className="text-danger">*</span>
                           </label>
                           <div className="col-sm-12 col-md-9">
@@ -376,8 +376,8 @@ const [isActive, setIsActive] = useState(false)
                             className="custom-control-input my-5"
                             id="customCheck3"
                             name="isActive"
-                            checked={data.isActive === true || isActive}
-                            onChange={(e)=> setIsActive(e.target.checked)}
+                            checked={isActive || location.state.isActive}
+                            onChange={(e) => setIsActive(e.target.checked)}
                           />
                           <label
                             className="custom-control-label"
@@ -412,10 +412,10 @@ const [isActive, setIsActive] = useState(false)
                                   let formdata = new FormData();
                                   formdata.append("sortOrder", data.sortOrder);
                                   formdata.append("id", location.state._id ? location.state._id : '');
-                                  formdata.append("menuName", data.menuName ? data.menuName :data.MenuName);
+                                  formdata.append("menuName", data.menuName ? data.menuName : data.MenuName);
                                   formdata.append(
                                     "bannerType",
-                                  selectedBannerType
+                                    selectedBannerType
                                   );
                                   formdata.append("title", data.BannerTitle);
                                   formdata.append("click_url", data.ClickUrl);
@@ -438,9 +438,7 @@ const [isActive, setIsActive] = useState(false)
                                     formdata.append("banner_mobile_image", blob, "previewImage1.jpg");
                                   }
 
-
                                   let bodyContent = formdata;
-                                  console.log('formdata', formdata);
                                   let reqOptions = {
                                     url: `${process.env.REACT_APP_API_BASE_URL}api/admin/banner`,
                                     method: "POST",

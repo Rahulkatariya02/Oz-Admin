@@ -4,6 +4,7 @@ import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import TinyMCE from "react-tinymce/lib/components/TinyMCE";
+import ReactQuill from "react-quill";
 
 const PackageForm = () => {
   const navigate = useNavigate();
@@ -11,6 +12,30 @@ const PackageForm = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? { isActive: true } : location?.state?.data
   );
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+    clipboard: {
+      matchVisual: false,
+    },
+    // imageResize: {
+    //   parchment: Quill.import("parchment"),
+    //   modules: ["Resize", "DisplaySize"],
+    // },
+  };
+
+
   const addpackage = async () => {
     try {
       let headersList = {
@@ -41,8 +66,7 @@ const PackageForm = () => {
       };
 
       let response = await axios.request(reqOptions);
-      console.log(response.data);
-      if (response.data.status === 1) {
+            if (response.data.status === 1) {
         toast.success(response.data.message);
       }
     } catch (error) {
@@ -83,7 +107,7 @@ const PackageForm = () => {
                         disabled={location?.state?.type === "View"}
                         onChange={(e) => handalchange(e)}
                       >
-                        <option></option>
+                        <option value=''>--- Select type ---</option>
                         <option selected={data.package === "Residential"}>
                           Residential
                         </option>
@@ -212,7 +236,7 @@ const PackageForm = () => {
                         disabled={location?.state?.type === "View"}
                         onChange={(e) => handalchange(e)}
                       /> */}
-                      {!data?.description && (
+                      {/* {!data?.description && (
                         <TinyMCE
                           content={data?.description}
                           onChange={(e) => {
@@ -247,7 +271,18 @@ const PackageForm = () => {
                               "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
                           }}
                         />
-                      )}
+                      )} */}
+                      <ReactQuill
+                        theme="snow"
+                        modules={modules}
+                        // className={`${formErrors.description ? "is-invalid" : ""}`}
+                        name="description"
+                        value={data?.description}
+                        onChange={(value) => {
+                          setdata({ ...data, description: value });
+                          // setFormErrors({ ...formErrors, description: "" }); // Clear the description error when the user starts typing
+                        }}
+                      />
                     </div>
                   </div>
                   <div className="col-md-4 mx-3">

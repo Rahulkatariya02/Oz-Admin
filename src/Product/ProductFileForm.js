@@ -7,7 +7,6 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
   const [data, setdata] = useState(activedata ? activedata : {});
   const navigate = useNavigate();
   const handalchange = (e) => {
-    console.log(e.target);
     const { name, value, checked, files } = e.target;
     if (name !== "file") {
       if (name === "isActive") {
@@ -19,9 +18,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
       setdata({ ...data, [name]: files[0] });
     }
   };
-  console.log("data123", data123);
-  console.log("showForm", showForm);
-  console.log("activedata", activedata);
+
   return (
     <>
       <div className="row">

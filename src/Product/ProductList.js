@@ -14,7 +14,7 @@ const ProductList = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? {} : location?.state?.data
   );
-  console.log('data', data.category?._id, location);
+
   const [category, setcategory] = useState([]);
   useEffect(() => {
     // new DataTable("#myTable");
@@ -82,7 +82,6 @@ const ProductList = () => {
                 <tbody>
                   {category.map((e, i) => {
                     if (e.category_id === data._id) {
-                      console.log('product', e);
                       return (
                         <tr key={i}>
                           <td>{e.sortOrder}</td>
@@ -94,14 +93,20 @@ const ProductList = () => {
                               unCheckedChildren={<CloseOutlined />}
                               checked={e.isActive}
                               onChange={async () => {
+                                let headersList = {
+                                  Accept: "*/*",
+                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  "Content-Type": "application/json",
+                                };
                                 let bodyContent = {
                                   isActive: !e.isActive,
                                   id: e._id
                                 };
-                                console.log(e.isActive);
+                                                               
                                 let reqOptions = {
-                                  url: `${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`,
+                                  url: `${process.env.REACT_APP_API_BASE_URL}api/productstatus`,
                                   method: "POST",
+                                  headers: headersList,
                                   data: bodyContent,
                                 };
 

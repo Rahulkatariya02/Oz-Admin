@@ -8,6 +8,7 @@ const GalleryImage = () => {
   const [data, setdata] = useState({ Title: "" });
   const [AllGalleryType, setAllGalleryType] = useState([]);
   const [AllGalleryimges, setAllGalleryimges] = useState([]);
+  
   useEffect(() => {
     GalleryType();
     Galleryimges();
@@ -28,6 +29,7 @@ const GalleryImage = () => {
     let response = await axios.request(reqOptions);
     setAllGalleryType(response?.data?.document);
   };
+
   const Galleryimges = async () => {
     let headersList = {
       Accept: "*/*",
@@ -43,6 +45,7 @@ const GalleryImage = () => {
     let response = await axios.request(reqOptions);
     setAllGalleryimges(response?.data?.document);
   };
+
   const columns = [
     {
       align: "center",
@@ -138,6 +141,7 @@ const GalleryImage = () => {
       ),
     },
   ];
+
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
     if (name !== "SpecialImage") {
@@ -213,7 +217,8 @@ const GalleryImage = () => {
                             type="text"
                             className="form-control"
                             name="sortOrder"
-                            value={data.sortOrder}
+                            // value={data.sortOrder}
+                            value={data && data.sortOrder ? data && data.sortOrder : AllGalleryimges.length + 1} 
                             onChange={(e) => handalchange(e)}
                           />
                         </div>
@@ -337,7 +342,6 @@ const GalleryImage = () => {
                         formdata.append("title", data?.Title);
 
                         let bodyContent = formdata;
-                        console.log(data?.BannerImage);
 
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/galleryImage`,

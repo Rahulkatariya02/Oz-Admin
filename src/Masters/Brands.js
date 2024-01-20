@@ -15,21 +15,19 @@ const Brands = () => {
   const [brand_image, setBrand_image] = useState('');
   const [sortOrder, setsortOrder] = useState('');
   const [isActive, setIsActive] = useState(false);
-  console.log('Brandsdata1', Brandsdata1);
 
   const handleCheckboxChange = (e) => {
     setIsActive(e.target.checked);
     // You can perform additional actions here if needed
   };
 
-  console.log('ACTIVEDATA', ACTIVEDATA);
   useEffect(() => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
       setTitle(ACTIVEDATA.title);
       setIsActive(ACTIVEDATA.isActive);
       setBrand_image(ACTIVEDATA.brand_image);
-    } 
+    }
   }, [ACTIVEDATA, type]);
 
 
@@ -194,8 +192,7 @@ const Brands = () => {
     },
   ];
   let data12 = Brandsdata1.document?.sort((a, b) => b.sortOrder - a.sortOrder);
-  // const brands = Brandsdata1?.map((item)=> console.log(item))
-  console.log(data12?.length > 0 ? data12[0].sortOrder : 0);
+  
   return (
     <>
       <div className="main-container">
@@ -213,7 +210,7 @@ const Brands = () => {
                   data-target="#bd-example-modal-lg"
                   type="primary"
                   onClick={() => {
-                   setACTIVEDATA('')
+                    setACTIVEDATA('')
                   }}
                 >
                   Add New Brand
@@ -260,15 +257,15 @@ const Brands = () => {
                             Sort Order <span className="text-danger">*</span>
                           </label>
                           <input
-                            type="number"
-                            defaultValue={ACTIVEDATA.sortOrder}
-                            // value={
-                            //   data.sortOrder
-                            //   // ? data.sortOrder
-                            //   // : data12?.length > 0
-                            //   //   ? data12[0].sortOrder + 1
-                            //   //   : 0
-                            // }
+                            type="number"                            
+                            value={
+                              ACTIVEDATA.sortOrder
+                                ? ACTIVEDATA.sortOrder
+                                : data12?.length > 0
+                                  ? data12[0].sortOrder + 1
+                                  : 0
+                            }
+                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}  
                             className="form-control"
                             name="SortOrder"
                             // onChange={(e) => handalchange(e)}
@@ -306,7 +303,7 @@ const Brands = () => {
                             onChange={(e) => setBrand_image(e.target.files[0])}
                           />
                         </div>
-                       {ACTIVEDATA? <img src={process.env.REACT_APP_API_BASE_URL + ACTIVEDATA.brand_image} alt="slider-img" width={150} /> :''}
+                        {ACTIVEDATA ? <img src={process.env.REACT_APP_API_BASE_URL + ACTIVEDATA.brand_image} alt="slider-img" width={150} /> : ''}
                       </div>
                     </div>
 
@@ -321,7 +318,7 @@ const Brands = () => {
                               name="isActive"
                               onChange={handleCheckboxChange}
                               // checked={isActive}
-                              checked={ACTIVEDATA.isActive === true || isActive}
+                              defaultChecked={ACTIVEDATA.isActive === true || isActive}
 
                             />
                             <label
@@ -366,7 +363,6 @@ const Brands = () => {
                           formdata.append("brand_image", blob, "ACTIVEDATA.brand_image.jpg");
                         }
                         let bodyContent = formdata;
-                        console.log(data);
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/brand`,
                           method: "POST",

@@ -5,7 +5,6 @@ const ContactDetails = () => {
     const location = useLocation();
     const navigate= useNavigate();
     const data = location.state?.data || {};
-    console.log('location', location);
     return (
         <>
             <div className="main-container">

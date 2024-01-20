@@ -13,12 +13,6 @@ const ProductContentForm = ({
   setShowForm,
   type,
 }) => {
-  console.log("data123", data123);
-  console.log("showForm", showForm);
-  console.log("activedata", activedata);
-  // console.log("setShowForm", setShowForm);
-  console.log("type", type);
-
   const navigate = useNavigate();
   const modules = {
     toolbar: [
@@ -64,7 +58,6 @@ const ProductContentForm = ({
   const [data, setdata] = useState(activedata ? activedata : {});
   const [productImg, setProductImg] = useState(activedata ? activedata.product_img : null);
 
-
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
     if (name !== "product_img") {
@@ -76,22 +69,9 @@ const ProductContentForm = ({
     } else {
       setProductImg(files[0]);
     }
-  };
-  
-  // const handalchange = (e) => {
-  //   const { name, value, checked, files } = e.target;
-  //   if (name !== "product_img") {
-  //     if (name === "isActive") {
-  //       setdata({ ...data, [name]: checked });
-  //     } else {
-  //       setdata({ ...data, [name]: value });
-  //     }
-  //   } else {
-  //     setdata({ ...data, [name]: files[0] });
-  //   }
-  // };
-  console.log("activedata111", data, data123);
-  return (
+  }; 
+
+   return (
     <div className="row">
       <div className="col-md-8 col-sm-12 mb-30">
         <div className="pd-20 card-box height-100-p">
@@ -224,8 +204,7 @@ const ProductContentForm = ({
                       formdata1.append("product_img", data.product_img);
                       formdata1.append("id", data._id);
                       let bodyContent = !data._id ? formdata : formdata1;
-                      console.log(formdata);
-                      console.log(bodyContent);
+                     
                       let reqOptions = {
                         url: `${process.env.REACT_APP_API_BASE_URL}api/productcontent`,
                         method: "POST",
@@ -234,7 +213,7 @@ const ProductContentForm = ({
                       };
 
                       let response = await axios.request(reqOptions);
-                      console.log(response.data);
+                     
                       if (response.data.status === 1) {
                         toast.success(response.data.message);
                         navigate("/categorymasterlist");

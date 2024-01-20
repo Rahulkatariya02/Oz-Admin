@@ -23,10 +23,10 @@ const Emailsender = (props) => {
     const authentication = async (newFormData) => {
         let accessToken = localStorage.getItem('accessToken');
         const formData = new FormData();
-        if (props.edit) {
-            formData.append("authentication_id", editParams.id);
-        }
-        formData.append("authentication_id", 1);
+        // if (props.edit) {
+        //     formData.append("authentication_id", editParams.id);
+        // }
+        // formData.append("authentication_id", 1);
         formData.append("email", newFormData.email);
         formData.append("password", newFormData.password);
         formData.append("host", newFormData.host);

@@ -18,15 +18,12 @@ const AdminsidebarSetting = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Logout failed');
-            }
+                throw new Error('Logout failed');            }
 
             const data = await response.json();
-            console.log(data); // handle success, if needed
         } catch (error) {
-            console.log('error', error);
-            console.error('Logout failed:', error.message);
-            // handle error, if needed
+            console.log('error', error);          
+           
         }
     };
 

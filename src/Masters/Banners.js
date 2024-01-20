@@ -157,8 +157,7 @@ const Banners = () => {
               navigate("/bannermastermanage", { state: object });
             }}
           >
-            <i className="dw dw-edit2 fa-lg" />
-            {console.log('object', object, text, index)}
+            <i className="dw dw-edit2 fa-lg" />            
           </span>
         </>
       ),

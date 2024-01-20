@@ -143,8 +143,7 @@ const Cms = () => {
       ),
     },
   ];
-  let data12 = data?.document?.sort((a, b) => b.sortOrder - a.sortOrder);
-  console.log(data12?.length > 0 ? data12[0].sortOrder : 0);
+
   return (
     <>
       <div className="main-container">
@@ -157,10 +156,6 @@ const Cms = () => {
               onClick={() => {
                 navigate("/cmsmastermanage", {
                   state: {
-                    data: {
-                      sortOrder:
-                        data12?.length > 0 ? data12[0].sortOrder + 1 : 0,
-                    },
                     type: "ADD",
                   },
                 });

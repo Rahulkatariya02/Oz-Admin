@@ -35,7 +35,7 @@ const Menu = () => {
 
   // Custom form validation errors
   const [formErrors, setFormErrors] = useState({});
-  console.log('cms', cmsData);
+
   useEffect(() => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
@@ -105,7 +105,7 @@ const Menu = () => {
     }
   };
   let data12 = data?.document?.sort((a, b) => b.sortOrder - a.sortOrder);
-  console.log(data12?.length > 0 ? data12[0].sortOrder : 0);
+
   const columns = [
     {
       title: "sortOrder",
@@ -311,8 +311,6 @@ const Menu = () => {
     return valid;
   };
 
-
-  console.log('initialFormData', parentId);
   return (
     <>
       <div className="main-container">

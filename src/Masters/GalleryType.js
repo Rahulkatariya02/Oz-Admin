@@ -9,6 +9,10 @@ const GalleryType = () => {
   const [data, setdata] = useState({});
   const navigate = useNavigate();
   const [AllGalleryType, setAllGalleryType] = useState([]);
+  const [ACTIVEDATA, setACTIVEDATA] = useState({});
+  const [type, settype] = useState("ADD");
+  const [isActive, setIsActive] = useState(false);
+
   useEffect(() => {
     GalleryType();
   }, []);
@@ -28,6 +32,7 @@ const GalleryType = () => {
     let response = await axios.request(reqOptions);
     setAllGalleryType(response?.data?.document);
   };
+
   const handalchange = (e) => {
     const { name, value, checked } = e.target;
     if (name === "isActive") {
@@ -36,7 +41,6 @@ const GalleryType = () => {
       setdata({ ...data, [name]: value });
     }
   };
-  console.log(AllGalleryType);
 
   const columns = [
     {
@@ -93,6 +97,18 @@ const GalleryType = () => {
       render: (text, object, index) => (
         <>
           <span
+            className="mx-2"
+            data-toggle="modal"
+            data-target="#bd-example-modal-lg"
+            type="button"
+            onClick={() => {
+              settype("Edit");
+              setACTIVEDATA(object);
+            }}
+          >
+            <i className="dw dw-edit2" />
+          </span>
+          <span
             className=""
             type="button"
             onClick={async () => {
@@ -121,6 +137,8 @@ const GalleryType = () => {
       ),
     },
   ];
+
+  let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>
       <div className="main-container">
@@ -137,6 +155,9 @@ const GalleryType = () => {
                 type="primary"
                 style={{ 'float': 'inline-end' }}
                 size="large"
+                onClick={() => {
+                  setACTIVEDATA('')
+                }}
               >
                 <i className="icon-copy fi-plus mx-2" />
                 Add new Gallery Type
@@ -183,6 +204,12 @@ const GalleryType = () => {
                             type="number"
                             name="sortOrder"
                             className="form-control"
+                            value={ACTIVEDATA && ACTIVEDATA.sortOrder ? ACTIVEDATA && ACTIVEDATA.sortOrder : AllGalleryType?.length + 1}
+                            // defaultValue={  ACTIVEDATA.sortOrder
+                            //   ? ACTIVEDATA.sortOrder
+                            //   : data12?.length 
+                            //     ? data12[0].sortOrder + 1
+                            //     : 0}
                             onChange={(e) => handalchange(e)}
                           />
                         </div>
@@ -196,6 +223,7 @@ const GalleryType = () => {
                             type="text"
                             name="Title"
                             className="form-control"
+                            defaultValue={ACTIVEDATA.title}
                             onChange={(e) => handalchange(e)}
                           />
                         </div>
@@ -211,8 +239,13 @@ const GalleryType = () => {
                               className="custom-control-input my-5"
                               id="customCheck3"
                               name="isActive"
-                              onChange={(e) => handalchange(e)}
+                              defaultChecked={ACTIVEDATA.isActive ?? isActive}
+                              onChange={(e) => {
+                                const { checked } = e.target;
+                                setIsActive(checked);
+                              }}
                             />
+
                             <label
                               className="custom-control-label"
                               htmlFor="customCheck3"
@@ -250,7 +283,7 @@ const GalleryType = () => {
                           headers: headersList,
                           data: {
                             id: data.id,
-                            isActive: data.isActive,
+                            isActive: isActive,
                             sortOrder: data.sortOrder,
                             title: data.Title,
                           },

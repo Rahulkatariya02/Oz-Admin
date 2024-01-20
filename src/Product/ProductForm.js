@@ -9,7 +9,6 @@ const ProductForm = ({ data123, type }) => {
 
   const [isActive, setIsActive] = useState(false)
 
-
   let accessToken = localStorage.getItem("accessToken");
   const [data, setdata] = useState(!data123 ? {} : data123);
   const [category, setcategory] = useState([]);
@@ -51,7 +50,7 @@ const ProductForm = ({ data123, type }) => {
     setSelectedChildcategories(updatedChildcategories);
   };
   const navigate = useNavigate();
-  console.log('data123', data123, data);
+  
   const handalchange = (e) => {
     e.preventdefault()
     const { name, value, checked, files } = e.target;
@@ -90,7 +89,7 @@ const ProductForm = ({ data123, type }) => {
     let data1 = await JSON.parse(data);
     setcategory(data1.data);
   };
-  console.log('category', category, data123, data);
+ 
   return (
     <>
       <div className="row">
@@ -229,7 +228,7 @@ const ProductForm = ({ data123, type }) => {
                     id="customCheck3"
                     disabled={type === "View"}
                     name="isActive"
-                    checked={isActive}
+                    checked={isActive || data?.isActive}
                     onChange={(e) => setIsActive(e.target.checked)}
                   />
                   <label
@@ -348,50 +347,7 @@ const ProductForm = ({ data123, type }) => {
             <div className="modal-header ">
               <h4 className="text-dark h4">PRODUCT CATEGORIES</h4>
             </div>
-            {/* {category?.map((e, i) => {
-              console.log('PRODUCT CATEGORIES', e);
-              return (
-                <div
-                  className="custom-control custom-checkbox mb-5 mt-3"
-                  key={i}
-                >
-                  <label className="col-sm-12 col-md-2 col-form-label "></label>
-                  <input
-                    type="checkbox"
-                    className="custom-control-input my-5"
-                    id="customCheck1"
-                    checked={e?._id }
-                  />
-                  <label
-                    className="custom-control-label"
-                    htmlFor="customCheck1"
-                  >
-                    {e.category}
-                  </label>
-                  {e.subcategories.map((e, i) => {
-                    return (
-                      <div className="custom-control custom-checkbox mb-5 mt-3">
-                        <label className="col-sm-12 col-md-2 col-form-label "></label>
-                        <input
-                          type="checkbox"
-                          className="custom-control-input my-5"
-                          id="customCheck1"
-                          checked={e?._id }
-                        />
-                        <label
-                          className="custom-control-label"
-                          htmlFor="customCheck1"
-                        >
-                          {e.productName}
-                        </label>
-                      </div>
-                    );
-                  })}
-                </div>
-              );
-            })} */}
-            {category?.map((e, i) => {
-              console.log(e);
+            {category?.map((e, i) => {         
               return (
                 <ul className="dd-list" key={i}>
                   <li>
@@ -424,7 +380,7 @@ const ProductForm = ({ data123, type }) => {
                                   onChange={() => handleSubcategoryChange(el._id)}
                                 />
                                 <label className="mx-2" _id={el._id}>
-                                  {el.name}
+                                  {el.category}
                                 </label>
                               </div>
                               <ul className="sub-menu mx-4">

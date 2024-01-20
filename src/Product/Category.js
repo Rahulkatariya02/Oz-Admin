@@ -23,26 +23,13 @@ const Category = () => {
 
     let response = await axios.request(reqOptions);
     setcategory(response.data.data);
-
   };
-  console.log('category', category);
-
-  const handleDelete = () => {
-
-  }
-
-  // const handleSubcat = (categoryId) => {
-  //   setcategoryId(categoryId);
-  //   getcatagarydata(categoryId);
-  // }
 
   const handleSubcat = (item) => {
-    console.log('id', item);
     navigate(`/subcategory/${item.category?._id}`, { state: { item, _id: item._id } });
   };
 
   const handleOpen = (item) => {
-    console.log('id', item);
     navigate(`/productmasterlist`, { state: { item, _id: item._id } });
   };
 
@@ -79,14 +66,12 @@ const Category = () => {
                 </thead>
                 <tbody>
                   {category.map((e, i) => {
-                    console.log('category', e, e.category._id);
                     return (
                       <tr key={i}>
                         <td>{e.category.sortOrder}</td>
                         <td>{e.category.category}</td>
                         <td>
                           <span
-                            //  to={`/subcategory/${e.category._id}`} 
                             onClick={() => handleSubcat(e)}
                           >
                             <span className="badge badge-pill badge-primary w-25">
@@ -97,15 +82,8 @@ const Category = () => {
 
                         <td>
                           <div
-                            // onClick={() => {
-                            //   navigate(`/productmasterlist`, {
-                            //     state: {
-                            //       data: { ...e, id: e.category._id },
-                            //       type: "View",
-                            //     },
-                            //   });
-                            // }}
-                            onClick={()=>handleOpen(e.category._id)}
+
+                            onClick={() => handleOpen(e.category._id)}
                           >
                             <span className="badge badge-pill badge-primary w-25">
                               {e.productCount}
@@ -113,34 +91,33 @@ const Category = () => {
                           </div>
                         </td>
                         <td>
-                            <Switch
-                              checkedChildren={<CheckOutlined />}
-                              unCheckedChildren={<CloseOutlined />}
-                              checked={e.isActive}
-                              onChange={async () => {
-                                let headersList = {
-                                  Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                                  "Content-Type": "application/json",
-                                };
-                                let bodyContent = {
-                                  isActive: !e.isActive,
-                                  id: e.category._id,
-                                };
-                                console.log(e.isActive);
-                                let reqOptions = {
-                                  url: `${process.env.REACT_APP_API_BASE_URL}api/category/changeStatus`,
-                                  method: "PUT",
-                                  headers: headersList,
-                                  data: bodyContent,
-                                };
+                          <Switch
+                            checkedChildren={<CheckOutlined />}
+                            unCheckedChildren={<CloseOutlined />}
+                            checked={e.isActive}
+                            onChange={async () => {
+                              let headersList = {
+                                Accept: "*/*",
+                                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                "Content-Type": "application/json",
+                              };
+                              let bodyContent = {
+                                isActive: !e.isActive,
+                                id: e.category._id,
+                              };
+                              let reqOptions = {
+                                url: `${process.env.REACT_APP_API_BASE_URL}api/category/changeStatus`,
+                                method: "PUT",
+                                headers: headersList,
+                                data: bodyContent,
+                              };
 
-                                let response = await axios.request(reqOptions);
-                                toast.success(response.data.message);
-                                getcatagarydata();
-                              }}
-                            />
-                          </td>                 
+                              let response = await axios.request(reqOptions);
+                              toast.success(response.data.message);
+                              getcatagarydata();
+                            }}
+                          />
+                        </td>
                         <td>
                           <span
                             className="mx-2"
@@ -148,7 +125,7 @@ const Category = () => {
                             onClick={async () => {
                               try {
                                 // if (e.products === 0)
-                                 {
+                                {
                                   let headersList = {
                                     Accept: "*/*",
                                     Authorization: `Bearer ${localStorage.getItem(

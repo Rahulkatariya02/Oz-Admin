@@ -12,10 +12,8 @@ const Subcategory = () => {
   const location = useLocation();
   const subcatData = location.state?.item?.category
   const categoryId = subcatData?._id
-  console.log('subcatData', subcatData, categoryId);
-  const [category, setcategory] = useState([]);
-  // const categoryId = location.pathname.split("/")[2]
-  console.log('categoryId', categoryId);
+   const [category, setcategory] = useState([]);
+  
   useEffect(() => {
     getcatagarydata();
   }, []);
@@ -28,19 +26,12 @@ const Subcategory = () => {
         data: { categoryId }, // Use data to pass parameters in a POST request
       };
 
-      let response = await axios.request(reqOptions);
-      console.log('response', response.data.data
-      );
-
-      let data = response.data.data.filter((e) => {
-        return e.category === location.pathname.split("/")[2];
-      });
+      let response = await axios.request(reqOptions);       
       setcategory(response.data.data);
     } catch (error) {
       console.error(error);
     }
-  };
-  console.log('category', category);
+  }; 
 
   const addSubcat = () => {
     navigate(`/subcategorymastermanage/${categoryId}`, { state: category });
@@ -80,23 +71,14 @@ const Subcategory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {category.map((e, i) => {
-                    console.log('Subcategory', e);
+                  {category.map((e, i) => {                   
                     return (
                       <tr key={i}>
                         <td>{e.category?.sortOrder}</td>
                         <td>{e.category?.category}</td>
                         <td>
                           <span
-                            className="text-danger"
-                          // onClick={() => {
-                          //   navigate("/subproductmasterlist", {
-                          //     state: {
-                          //       data: { ...e, id: e._id },
-                          //       type: "View",
-                          //     },
-                          //   });
-                          // }}
+                            className="text-danger"                        
                           >
                             <span className="badge badge-pill badge-primary w-25">
                               {e.subcategoryCount}
@@ -135,7 +117,6 @@ const Subcategory = () => {
                                   isActive: !e.isActive,
                                   id: e.category?._id,
                                 };
-                                console.log(e.isActive);
                                 let reqOptions = {
                                   url: `${process.env.REACT_APP_API_BASE_URL}api/category/changeStatus`,
                                   method: "PUT",

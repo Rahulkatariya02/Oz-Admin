@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
@@ -11,6 +11,25 @@ import { ImageResize } from "quill-image-resize-module-react";
 // Quill.register("modules/imageResize", ImageResize);
 
 const CmsMaster = () => {
+  const [cmsData, setCmsData]= useState();
+  useEffect(() => {
+    cmsdata();
+  }, []);
+
+  const cmsdata = async () => {
+    try {
+      let reqOptions = {
+        url: `${process.env.REACT_APP_API_BASE_URL}api/admin/cmsall1`,
+        method: "GET",
+      };
+      const response = await axios.request(reqOptions);
+      // Handle the successful response here
+      setCmsData(response.data.document);
+    } catch (error) {
+      // Handle any errors here
+      console.error(error);
+    }
+  };
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -64,7 +83,7 @@ const CmsMaster = () => {
       }
       : location?.state?.data
   );
-  console.log(location);
+
   const [formErrors, setFormErrors] = useState({});
 
   const handalchange = (e) => {
@@ -111,6 +130,7 @@ const CmsMaster = () => {
     return Object.keys(errors).length === 0;
   };
 
+
   return (
     <>
       <div className="main-container">
@@ -153,9 +173,10 @@ const CmsMaster = () => {
                   </div>
                   <div className="col-sm-4">
                     <input
-                      type="text"
+                      type="number"
                       name="sortOrder"
-                      value={data?.sortOrder}
+                      // value={data?.sortOrder}
+                      value={data && data.sortOrder ? data && data.sortOrder : cmsData?.length + 1}  
                       className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
                         }`}
                       id="validationCustom01"
