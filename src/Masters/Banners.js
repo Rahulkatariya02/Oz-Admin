@@ -157,7 +157,7 @@ const Banners = () => {
               navigate("/bannermastermanage", { state: object });
             }}
           >
-            <i className="dw dw-edit2 fa-lg" />            
+            <i className="dw dw-edit2 fa-lg" />
           </span>
         </>
       ),
@@ -181,8 +181,7 @@ const Banners = () => {
                   onClick={() => {
                     navigate("/bannermastermanage", {
                       state: {
-                        sortOrder:
-                          data12?.length > 0 ? data12[0].sortOrder + 1 : 0,
+                        sortOrder: data12?.length > 0 ? data12[0].sortOrder + 1 : 0,
                       },
                     });
                   }}

@@ -138,6 +138,7 @@ const GalleryType = () => {
     },
   ];
 
+  console.log("sdsf", AllGalleryType);
   let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>
@@ -204,14 +205,22 @@ const GalleryType = () => {
                             type="number"
                             name="sortOrder"
                             className="form-control"
-                            value={ACTIVEDATA && ACTIVEDATA.sortOrder ? ACTIVEDATA && ACTIVEDATA.sortOrder : AllGalleryType?.length + 1}
+                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? ACTIVEDATA && ACTIVEDATA.sortOrder : AllGalleryType?.length + 1}
                             // defaultValue={  ACTIVEDATA.sortOrder
                             //   ? ACTIVEDATA.sortOrder
                             //   : data12?.length 
                             //     ? data12[0].sortOrder + 1
                             //     : 0}
+                            defaultValue={
+                              ACTIVEDATA.sortOrder
+                                ? ACTIVEDATA.sortOrder
+                                : data12?.length > 0
+                                  ? data12[0].sortOrder + 1
+                                  : 0
+                            }
                             onChange={(e) => handalchange(e)}
                           />
+                          {console.log('ACTIVEDATA', ACTIVEDATA)}
                         </div>
                       </div>
                       <div className="col-md-6 col-sm-12">
@@ -239,7 +248,7 @@ const GalleryType = () => {
                               className="custom-control-input my-5"
                               id="customCheck3"
                               name="isActive"
-                              defaultChecked={ACTIVEDATA.isActive ?? isActive}
+                              defaultChecked={ACTIVEDATA.isActive ? ACTIVEDATA.isActive : isActive}
                               onChange={(e) => {
                                 const { checked } = e.target;
                                 setIsActive(checked);
@@ -282,10 +291,10 @@ const GalleryType = () => {
                           method: "POST",
                           headers: headersList,
                           data: {
-                            id: data.id,
+                            id: ACTIVEDATA._id,
                             isActive: isActive,
                             sortOrder: data.sortOrder,
-                            title: data.Title,
+                            title: ACTIVEDATA.title ? ACTIVEDATA.title : data.Title,
                           },
                         };
 

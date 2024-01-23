@@ -5,8 +5,10 @@ import "react-toastify/dist/ReactToastify.css";
 import Sidebar from "../Layout/Sidebar";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const ChangePassword = () => {
+  const navigate = useNavigate(); 
   const [isSaving, setIsSaving] = useState(false);
 
   const {
@@ -151,7 +153,7 @@ const ChangePassword = () => {
                       <div className="col-md-8 mb-4 ">
                         <Button
                           className="btn btn-outline-dark btn-light my-2 mx-2"
-                          type="submit"
+                          onClick={()=> navigate("/")}
                         >
                           Back
                         </Button>

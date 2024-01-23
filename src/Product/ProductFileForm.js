@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 
 const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) => {
   const [data, setdata] = useState(activedata ? activedata : {});
+  const [isActive, setIsActive] = useState(false)
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
@@ -19,6 +20,8 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
     }
   };
 
+  console.log('data', data, data123, showForm, activedata, setShowForm, type,);
+  console.log('data123', data123);
   return (
     <>
       <div className="row">
@@ -35,7 +38,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
                     <input
                       className="form-control"
                       type="text"
-                      name="Title"
+                      name="title"
                       value={data?.title}
                       onChange={(e) => handalchange(e)}
                     />
@@ -82,19 +85,27 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
 
                 <div className="custom-control custom-checkbox mb-5">
                   <label className="col-sm-12 col-md-4 col-form-label"></label>
-                  <input
+                  {/* <input
                     type="checkbox"
                     className="custom-control-input my-5"
                     name="isActive"
-                    checked={data.isActive}
-                    onChange={(e) => handalchange(e)}
+                    // defaultChecked={data.isActive}
+                    // onChange={(e) => handalchange(e)}
+                    defaultChecked={isActive || data?.isActive}
+                    onChange={(e) => setIsActive(e.target.checked)}
+                  /> */}
+                  <input
+                    type="checkbox"
+                    // className="custom-control-input my-5"
+                    // id="customCheck3"
+                    name="isActive"
+                    checked={data.isActive ?? isActive}
+                    onChange={(e) => setIsActive(e.target.checked)}
                   />
-                  <label
-                    className="custom-control-label"
-                    htmlFor="customCheck3"
-                  >
+                  <label className="" htmlFor="customCheck3">
                     Is Active
                   </label>
+               
                 </div>
                 <div className="modal-footer">
                   <Link to="/categorymasterlist">
@@ -119,9 +130,9 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
 
                         let formdata = new FormData();
                         formdata.append("contentText", data.contentText);
-                        formdata.append("isActive", data.isActive);
-                        formdata.append("product_id", activedata.product_id);
-                        formdata.append("uploadType", data.uploadType);
+                        formdata.append("isActive", isActive);
+                        formdata.append("product_id", data123[0].product_id);
+                        // formdata.append("uploadType", data.uploadType);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
                         // formdata.append("file", data.file);

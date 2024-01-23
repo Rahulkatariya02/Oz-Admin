@@ -9,7 +9,7 @@ import { toast } from "react-toastify";
 
 const AddNewBanner = ({ data12 }) => {
   const location = useLocation();
-  
+
   const navigate = useNavigate();
   const [content, setContent] = useState("");
   const [menuNameId, setmenuNameId] = useState("");
@@ -30,7 +30,7 @@ const AddNewBanner = ({ data12 }) => {
         BannerImage: location.state.banner_image,
       }
   );
-  
+  console.log('menhdh', location.state, data.menuName, data.MenuName);
   const [formErrors, setFormErrors] = useState({});
   const [isActive, setIsActive] = useState(false)
   const handleContentChange = (newContent) => {
@@ -48,7 +48,7 @@ const AddNewBanner = ({ data12 }) => {
   }, []);
   const [previewImage, setPreviewImage] = useState("");
   const [previewImage1, setPreviewImage1] = useState("");
-  const [selectedBannerType, setSelectedBannerType] = useState("1");
+  const [selectedBannerType, setSelectedBannerType] = useState("");
 
   const handleFileChange = (event, setImagePreview) => {
     const file = event.target.files[0];
@@ -157,7 +157,7 @@ const AddNewBanner = ({ data12 }) => {
       console.error(error);
     }
   };
-  
+
   return (
     <>
       <div className="main-container">
@@ -202,11 +202,11 @@ const AddNewBanner = ({ data12 }) => {
                               name="MenuName"
                               className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
                                 }`}
-                              value={data.menuName}
+                              defaultValue={data.MenuName}
                               onChange={(e) => handalchange(e)}
                             >
                               <option disabled value="">
-                                --Menu Name--
+                              --- Menu Name ---
                               </option>
                               {menudata1.document &&
                                 menudata1.document?.map((el, i) => {
@@ -233,10 +233,10 @@ const AddNewBanner = ({ data12 }) => {
                             <select
                               className={`form-control ${formErrors.BannerType ? "is-invalid" : ""
                                 }`}
-                              value={data.BannerType}
+                              defaultValue={data.BannerType}
                               onChange={(e) => setSelectedBannerType(e.target.value)}
                             >
-                              <option value="">--- Select type ---</option>
+                              <option value=""> --- Select type ---</option>
                               <option value="1">Home Slider</option>
                               <option value="2">Box Image</option>
                             </select>
@@ -412,7 +412,7 @@ const AddNewBanner = ({ data12 }) => {
                                   let formdata = new FormData();
                                   formdata.append("sortOrder", data.sortOrder);
                                   formdata.append("id", location.state._id ? location.state._id : '');
-                                  formdata.append("menuName", data.menuName ? data.menuName : data.MenuName);
+                                  formdata.append("menuName", data.menuName);
                                   formdata.append(
                                     "bannerType",
                                     selectedBannerType

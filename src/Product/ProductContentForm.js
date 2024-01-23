@@ -147,10 +147,19 @@ const ProductContentForm = ({
                     modules={modules}
                     name="description"
                     value={data.contentText} // Use 'value' instead of 'content'
-                    // onChange={(content, delta, source, editor) => {
-                    //   // 'content' is the updated content
-                    //   setdata({ ...data, ["ContentText"]: content });
-                    // }}
+                    onChange={(content, delta, source, editor) => {
+                      // Check if the change is from the user (not programmatic)
+                      if (source === 'user') {
+                        // Update your component state without causing an infinite loop
+                        setdata((prevData) => ({ ...prevData, contentText: content }));
+                      }
+                    }}
+                    // onChange={(value) => {
+                    //   setdata({ ...data, description: value });}}
+                    // // onChange={(content, delta, source, editor) => {
+                    // //   // 'content' is the updated content
+                    // //   setdata({ ...data, ["ContentText"]: content });
+                    // // }}
                   />
                 </div>
               </div>
@@ -161,7 +170,7 @@ const ProductContentForm = ({
                   className="custom-control-input my-5"
                   id="customCheck3"
                   name="isActive"
-                  checked={isActive}
+                  checked={data.isActive ?? isActive}
                   onChange={(e) => setIsActive(e.target.checked)}
                 />
                 <label className="custom-control-label" htmlFor="customCheck3">
@@ -191,17 +200,17 @@ const ProductContentForm = ({
 
                       let formdata = new FormData();
                       formdata.append("sortOrder", data.sortOrder);
-                      formdata.append("contentText", data.ContentText);
+                      formdata.append("contentText", data.contentText);
                       formdata.append("isActive", isActive);
                       formdata.append("product_id", data123._id);
                       formdata.append("product_img", data.product_img);
-
+                     
                       let formdata1 = new FormData();
                       formdata1.append("sortOrder", data.sortOrder);
-                      formdata1.append("contentText", data.ContentText);
+                      formdata1.append("contentText", data.contentText);
                       formdata1.append("isActive", isActive);
                       formdata1.append("product_id", data123._id);
-                      formdata1.append("product_img", data.product_img);
+                      formdata1.append("product_img", productImg);
                       formdata1.append("id", data._id);
                       let bodyContent = !data._id ? formdata : formdata1;
                      

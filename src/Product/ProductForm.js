@@ -357,8 +357,10 @@ const ProductForm = ({ data123, type }) => {
                         type="checkbox"
                         htmlFor={e._id}
                         id={e._id}
+                        // checked={selectedCategories.includes(e._id) || data?.category[0] === e._id}
+                        checked={selectedCategories.includes(e._id) || (data?.category?.[0] === e._id ?? false)}
 
-                        checked={selectedCategories.includes(e._id) || data?.category[0] === e._id}
+                        // checked={selectedCategories.includes(e._id) || data?.category[0] === e._id}
                         onChange={() => handleCategoryChange(e._id)}
                       />
                       <label className="mx-2" _id={e._id}>

@@ -8,7 +8,7 @@ const GalleryImage = () => {
   const [data, setdata] = useState({ Title: "" });
   const [AllGalleryType, setAllGalleryType] = useState([]);
   const [AllGalleryimges, setAllGalleryimges] = useState([]);
-  
+console.log('AllGalleryimges', AllGalleryimges.length, data);
   useEffect(() => {
     GalleryType();
     Galleryimges();
@@ -216,9 +216,9 @@ const GalleryImage = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="sortOrder"
-                            // value={data.sortOrder}
-                            value={data && data.sortOrder ? data && data.sortOrder : AllGalleryimges.length + 1} 
+                            name="sortOrder"                           
+                            // defaultValue={data.sortOrder ? data.sortOrder : AllGalleryimges?.length > 0 ? AllGalleryimges.length +1 : 0} 
+                            value={data.sortOrder ? data.sortOrder : AllGalleryimges?.length > 0 ? AllGalleryimges.length + 1 : 0}
                             onChange={(e) => handalchange(e)}
                           />
                         </div>
