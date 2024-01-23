@@ -40,12 +40,12 @@ const Menu = () => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
       setFormErrors({});
-      setMenuType(
-        ACTIVEDATA.menuType == 1
-          ? "CMS"
-          : ACTIVEDATA.menuType == 2
-            ? "Product"
-            : "Other"
+      setMenuType(ACTIVEDATA.menuType
+        // ACTIVEDATA.menuType == 1
+        //   ? "CMS"
+        //   : ACTIVEDATA.menuType == 2
+        //     ? "Product"
+        //     : "Other"
       );
       setMenuName(ACTIVEDATA.name);
       setshowInHeader(ACTIVEDATA.showInHeader);
@@ -58,6 +58,8 @@ const Menu = () => {
       setDescription(ACTIVEDATA.Description);
     }
   }, [ACTIVEDATA]);
+  console.log('parentId', parentId);
+  console.log('menuType', menuType);
   const Description1 = ACTIVEDATA.Description;
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
@@ -387,7 +389,7 @@ const Menu = () => {
                             className={`form-control ${formErrors.parentId ? "is-invalid" : ""
                               }`}
                             disabled={type === "View"}
-                            defaultValue={data?._id}
+                            // defaultValue={data?.parentId}
                             onChange={(E) => {
                               setparentId(E.target.value);
                             }}
@@ -411,7 +413,6 @@ const Menu = () => {
                       </div>
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
-                          {menuType}
                           <label>Menu Type</label>
                           <select
                             className={`form-control ${formErrors.menuType ? "is-invalid" : ""
@@ -420,9 +421,10 @@ const Menu = () => {
                             disabled={type === "View"}
                             onChange={handleMenuTypeChange}
                           >
-                            <option value="">{menuType ? menuType :'-- Select --'}</option>
-                            <option value="CMS">CMS</option>
-                            <option value="Other">Other</option>
+                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Other" : '--- Select menu type ---') : '--- Select menu type ---'}</option>
+                            <option value="1">CMS</option>
+                            <option value="2">Product</option>
+                            <option value="3">Other</option>
                           </select>
                           {formErrors.menuType && (
                             <div className="invalid-feedback d-block">
@@ -747,47 +749,49 @@ const Menu = () => {
                               : data12?.length > 0
                                 ? data12[0].sortOrder + 1
                                 : 0,
-                            cms: cms_id,
+                            // cms: cms_id,
                             menuName: MenuName,
-                            menuType:
-                              menuType === "CMS"
-                                ? 1
-                                : menuType === "Product"
-                                  ? 2
-                                  : 3,
+                            menuType: menuType,
+                            // menuType === "CMS"
+                            //   ? 1
+                            //   : menuType === "Product"
+                            //     ? 2
+                            //     : 3
                             showInHeader: showInHeader,
                             showInFooter: showInFooter,
                             id: ACTIVEDATA._id,
                             isActive: Active,
                             Description: Description,
                           };
-                          let bodyContent1 = {
-                            menuName: MenuName,
-                            sortOrder: sortOrder
-                              ? sortOrder
-                              : data12?.length > 0
-                                ? data12[0].sortOrder + 1
-                                : 0,
-                            menu_URL_unique_key: menu_URL_unique_key,
-                            menuType:
-                              menuType === "CMS"
-                                ? 1
-                                : menuType === "Product"
-                                  ? 2
-                                  : 3,
-                            showInHeader: showInHeader,
-                            showInFooter: showInFooter,
-                            isActive: Active,
-                            Description: Description,
-                            id: ACTIVEDATA._id,
-                          };
+                          // let bodyContent1 = {
+                          //   menuName: MenuName,
+                          //   sortOrder: sortOrder
+                          //     ? sortOrder
+                          //     : data12?.length > 0
+                          //       ? data12[0].sortOrder + 1
+                          //       : 0,
+                          //   menu_URL_unique_key: menu_URL_unique_key,
+                          //   menuType: menuType,
+                          //   // menuType:
+                          //   //   menuType === "CMS"
+                          //   //     ? 1
+                          //   //     : menuType === "Product"
+                          //   //       ? 2
+                          //   //       : 3,
+                          //   showInHeader: showInHeader,
+                          //   showInFooter: showInFooter,
+                          //   isActive: Active,
+                          //   Description: Description,
+                          //   id: ACTIVEDATA._id,
+                          // };
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu`,
                             method: "POST",
                             headers: headersList,
-                            data: type === "CMS" ? bodyContent : bodyContent1,
+                            // data: type === "CMS" ? bodyContent : bodyContent1,
+                            data: bodyContent,
                           };
-
+                          console.log('bodyContent', bodyContent,);
                           let response = await axios.request(reqOptions);
                           toast.success(response.data.message);
                           menudata();

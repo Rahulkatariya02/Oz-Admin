@@ -23,9 +23,9 @@ const Emailsender = (props) => {
     const authentication = async (newFormData) => {
         let accessToken = localStorage.getItem('accessToken');
         const formData = new FormData();
-        // if (props.edit) {
-        //     formData.append("authentication_id", editParams.id);
-        // }
+        if (props.edit) {
+            formData.append("authentication_id", editParams.id);
+        }
         // formData.append("authentication_id", 1);
         formData.append("email", newFormData.email);
         formData.append("password", newFormData.password);
@@ -41,7 +41,7 @@ const Emailsender = (props) => {
         });
 
         const data = await response.json();
-        data.message.code ? toast.error(data.message.code) : toast.success(data.message);
+        data.message?.code ? toast.error(data.message?.code) : toast.success(data.message);
         // navigator("/admin/testimonials");
     }
     const [showPassword, setShowPassword] = useState(false);
