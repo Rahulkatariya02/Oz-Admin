@@ -32,7 +32,7 @@ const AddNewBanner = ({ data12 }) => {
   );
   console.log('menhdh', location.state, data.menuName, data.MenuName);
   const [formErrors, setFormErrors] = useState({});
-  const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(location.state.isActive || false)
   const handleContentChange = (newContent) => {
     setContent(newContent);
   };
@@ -49,7 +49,7 @@ const AddNewBanner = ({ data12 }) => {
   const [previewImage, setPreviewImage] = useState("");
   const [previewImage1, setPreviewImage1] = useState("");
   const [selectedBannerType, setSelectedBannerType] = useState("");
-  console.log('BannerType', data.BannerType);
+
   const handleFileChange = (event, setImagePreview) => {
     const file = event.target.files[0];
     const reader = new FileReader();
@@ -206,7 +206,7 @@ const AddNewBanner = ({ data12 }) => {
                               onChange={(e) => handalchange(e)}
                             >
                               <option disabled value="">
-                                --- Menu Name ---
+                              --- Menu Name ---
                               </option>
                               {menudata1.document &&
                                 menudata1.document?.map((el, i) => {
@@ -376,7 +376,7 @@ const AddNewBanner = ({ data12 }) => {
                             className="custom-control-input my-5"
                             id="customCheck3"
                             name="isActive"
-                            checked={isActive || location.state.isActive}
+                            defaultChecked={isActive || location.state.isActive}
                             onChange={(e) => setIsActive(e.target.checked)}
                           />
                           <label
@@ -386,7 +386,7 @@ const AddNewBanner = ({ data12 }) => {
                             Is Active
                           </label>
                         </div>
-                        {console.log('selectedBannerType', selectedBannerType)}
+
                         <div className="modal-footer">
                           <Link to="/bannermasterlist">
                             <button
@@ -413,7 +413,10 @@ const AddNewBanner = ({ data12 }) => {
                                   formdata.append("sortOrder", data.sortOrder);
                                   formdata.append("id", location.state._id ? location.state._id : '');
                                   formdata.append("menuName", data.menuName);
-                                  formdata.append("bannerType",data.BannerType ? data.BannerType : selectedBannerType);
+                                  formdata.append(
+                                    "bannerType",
+                                    data.BannerType ? data.BannerType :  selectedBannerType
+                                  );
                                   formdata.append("title", data.BannerTitle);
                                   formdata.append("click_url", data.ClickUrl);
                                   formdata.append("description", data.BannerDescription);
@@ -426,6 +429,7 @@ const AddNewBanner = ({ data12 }) => {
                                     const blob = await fetch(previewImage).then((res) => res.blob());
                                     formdata.append("banner_image", blob, "previewImage.jpg");
                                   }
+
                                   // formdata.append("banner_mobile_image", data.MobileBannerImage);
                                   if (data.BannerImage instanceof File) {
                                     formdata.append("banner_mobile_image", data.BannerImage);

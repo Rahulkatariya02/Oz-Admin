@@ -743,7 +743,7 @@ const Menu = () => {
                             )}`,
                           };
                           let bodyContent = {
-                            parentId: parentId,
+                            // parentId: parentId,
                             sortOrder: sortOrder
                               ? sortOrder
                               : data12?.length > 0
@@ -763,6 +763,8 @@ const Menu = () => {
                             isActive: Active,
                             Description: Description,
                           };
+
+                          if(parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
                           // let bodyContent1 = {
                           //   menuName: MenuName,
                           //   sortOrder: sortOrder
