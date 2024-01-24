@@ -7,7 +7,8 @@ import { toast } from "react-toastify";
 
 const ProductForm = ({ data123, type }) => {
 
-  const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false);
+  const [showInHome, setShowInHome] = useState(false);
 
   let accessToken = localStorage.getItem("accessToken");
   const [data, setdata] = useState(!data123 ? {} : data123);
@@ -28,7 +29,7 @@ const ProductForm = ({ data123, type }) => {
     setSelectedCategories(updatedCategories);
   };
 
-
+console.log('data', data);
   // Function to handle subcategory checkbox change
   const handleSubcategoryChange = (subcategoryIndex) => {
     const updatedSubcategories = [...selectedSubcategories];
@@ -52,7 +53,7 @@ const ProductForm = ({ data123, type }) => {
   const navigate = useNavigate();
   
   const handalchange = (e) => {
-    e.preventdefault()
+    // e.preventdefault()
     const { name, value, checked, files } = e.target;
     if (name !== "banner_img") {
       if (name !== "logo_img") {
@@ -70,6 +71,7 @@ const ProductForm = ({ data123, type }) => {
   };
   useEffect(() => {
     getdata();
+    setShowInHome(data.showInHome);
   }, []);
 
   const getdata = async () => {
@@ -228,7 +230,7 @@ const ProductForm = ({ data123, type }) => {
                     id="customCheck3"
                     disabled={type === "View"}
                     name="isActive"
-                    checked={isActive || data?.isActive}
+                    defaultChecked={isActive || data?.isActive}
                     onChange={(e) => setIsActive(e.target.checked)}
                   />
                   <label
@@ -238,6 +240,30 @@ const ProductForm = ({ data123, type }) => {
                     Is Active
                   </label>
                 </div>
+                <div className="custom-control custom-checkbox mb-5">
+                  <label className="col-sm-12 col-md-4 col-form-label"></label>
+                  <input
+                    type="checkbox"
+                    className="custom-control-input my-5"
+                    id="customCheck1"
+                    disabled={type === "View"}
+                    name="showInHome"
+                    defaultChecked={showInHome || data.showInHome} 
+                    onChange={(e) => setShowInHome(e.target)}
+                    // onChange={(e) => {
+                    //   const { checked } = e.target;
+                    //   setShowInHome(checked);
+                    // }}
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customCheck1"
+                  >
+                   ShowInHome
+                  </label>
+                </div>
+
+
                 <div className="modal-footer">
                   <Link to="/categorymasterlist">
                     <button
@@ -259,8 +285,8 @@ const ProductForm = ({ data123, type }) => {
                             formdata.append("sortOrder", data.sortOrder);
                             formdata.append("productName", data.productName);
                             formdata.append("metaTitle", data.metaTitle);
-                            formdata.append("description", data.Description);
-                            formdata.append("productCode", data.ProductCode);
+                            formdata.append("description", data.description);
+                            formdata.append("productCode", data.productCode);
                             formdata.append("metaKeyword", data.metaKeyword);
                             formdata.append("logo_img", data.logo_img);
                             // formdata.append("banner_img", data.banner_img);
@@ -269,8 +295,10 @@ const ProductForm = ({ data123, type }) => {
                               "metaDescription",
                               data.metaDescription
                             );
+                            formdata.append("isActive", isActive);
+                            formdata.append("showInHome", showInHome);
                             // formdata.append("slug", data.productName);
-                            // formdata.append("category[]", data123?._id);
+                            formdata.append("category[]", data?.category);
 
                             if (data?.category) { setSelectedCategories(data?.category); }
 
@@ -278,9 +306,15 @@ const ProductForm = ({ data123, type }) => {
 
                             let bodyContent = formdata;
 
+                            let headersList = {
+                              "Accept": "*/*",
+                              "Authorization": `Bearer ${accessToken}`
+                            }
+
                             let reqOptions = {
                               url: `${process.env.REACT_APP_API_BASE_URL}api/product/addProduct`,
                               method: "POST",
+                              headers: headersList,
                               data: bodyContent,
                             };
 
@@ -294,11 +328,12 @@ const ProductForm = ({ data123, type }) => {
                             formdata.append("sortOrder", data.sortOrder);
                             formdata.append("productName", data.productName);
                             formdata.append("metaTitle", data.metaTitle);
-                            formdata.append("description", data.Description);
-                            formdata.append("productCode", data.ProductCode);
+                            formdata.append("description", data.description);
+                            formdata.append("productCode", data.productCode);
                             formdata.append("metaKeyword", data.metaKeyword);
                             formdata.append("metaDescription", data.metaDescription);
                             formdata.append("isActive", isActive);
+                            formdata.append("showInHome", showInHome);
                             // formdata.append("slug", data.productName);
                             formdata.append("logo_img", data.logo_img);
                             for (let i = 0; i < selectedCategories?.length; i++) {
