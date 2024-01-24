@@ -7,11 +7,12 @@ import { toast } from "react-toastify";
 
 const ProductForm = ({ data123, type }) => {
 
-  const [isActive, setIsActive] = useState(false);
+  // const [isActive, setIsActive] = useState(false);
+  const [data, setdata] = useState(!data123 ? {} : data123);
+  const [isActive, setIsActive] = useState(data?.isActive || false);
   const [showInHome, setShowInHome] = useState(false);
 
   let accessToken = localStorage.getItem("accessToken");
-  const [data, setdata] = useState(!data123 ? {} : data123);
   const [category, setcategory] = useState([]);
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedSubcategories, setSelectedSubcategories] = useState([]);
@@ -227,20 +228,39 @@ console.log('data', data);
                   <input
                     type="checkbox"
                     className="custom-control-input my-5"
-                    id="customCheck3"
+                    id="customCheck1"
                     disabled={type === "View"}
                     name="isActive"
-                    defaultChecked={isActive || data?.isActive}
+                    defaultChecked={isActive }
                     onChange={(e) => setIsActive(e.target.checked)}
                   />
                   <label
                     className="custom-control-label"
-                    htmlFor="customCheck3"
+                    htmlFor="customCheck1"
                   >
                     Is Active
                   </label>
                 </div>
+                
                 <div className="custom-control custom-checkbox mb-5">
+                  <label className="col-sm-12 col-md-4 col-form-label"></label>
+                  <input
+                    type="checkbox"
+                    className="custom-control-input my-5"
+                    id="customCheck2"
+                    disabled={type === "View"}
+                    name="showInHome"
+                    defaultChecked={showInHome || data?.showInHome}
+                    onChange={(e) => setShowInHome(e.target.checked)}
+                  />
+                  <label
+                    className="custom-control-label"
+                    htmlFor="customCheck2"
+                  >
+                 Show in home
+                  </label>
+                </div>
+                {/* <div className="custom-control custom-checkbox mb-5">
                   <label className="col-sm-12 col-md-4 col-form-label"></label>
                   <input
                     type="checkbox"
@@ -261,7 +281,7 @@ console.log('data', data);
                   >
                    ShowInHome
                   </label>
-                </div>
+                </div> */}
 
 
                 <div className="modal-footer">

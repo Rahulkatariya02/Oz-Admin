@@ -69,9 +69,9 @@ const ProductContentForm = ({
     } else {
       setProductImg(files[0]);
     }
-  }; 
+  };
 
-   return (
+  return (
     <div className="row">
       <div className="col-md-8 col-sm-12 mb-30">
         <div className="pd-20 card-box height-100-p">
@@ -104,8 +104,7 @@ const ProductContentForm = ({
                     disabled={type === "View"}
                     onChange={(e) => handalchange(e)}
                   />
-                  {data.product_img ? <img src={process.env.REACT_APP_API_BASE_URL + data.product_img} /> :''}
-                  
+
                 </div>
 
                 <label className="col-sm-12 col-md-12 mb-4 col-form-label">
@@ -154,33 +153,28 @@ const ProductContentForm = ({
                         setdata((prevData) => ({ ...prevData, contentText: content }));
                       }
                     }}
-                    // onChange={(value) => {
-                    //   setdata({ ...data, description: value });}}
-                    // // onChange={(content, delta, source, editor) => {
-                    // //   // 'content' is the updated content
-                    // //   setdata({ ...data, ["ContentText"]: content });
-                    // // }}
+                  // onChange={(value) => {
+                  //   setdata({ ...data, description: value });}}
+                  // // onChange={(content, delta, source, editor) => {
+                  // //   // 'content' is the updated content
+                  // //   setdata({ ...data, ["ContentText"]: content });
+                  // // }}
                   />
                 </div>
               </div>
 
               <div className="custom-control custom-checkbox mb-5">
-              <input
-                      className="form-check-input "
-                      type="checkbox"
-                      name="isActive"
-                      // disabled={location?.state?.type === "View"}
-                      // value={data?.isActive}
-                      // id="flexCheckDefault"
-                      defaultChecked={data.isActive ?? isActive}
-                      onChange={(e) => setIsActive(e.target.checked)}
-                    />
-                    <label
-                      // className="form-check-label mx-2"
-                      htmlFor="flexCheckDefault"
-                    >
-                      Is Active
-                    </label>
+                <input
+                  type="checkbox"
+                  className="custom-control-input my-5"
+                  id="customCheck3"
+                  name="isActive"
+                  defaultChecked={data.isActive ?? isActive}
+                  onChange={(e) => setIsActive(e.target.checked)}
+                />
+                <label className="custom-control-label" htmlFor="customCheck3">
+                  Is Active
+                </label>
               </div>
               <div className="modal-footer">
                 <button
@@ -208,8 +202,8 @@ const ProductContentForm = ({
                       formdata.append("contentText", data.contentText);
                       formdata.append("isActive", isActive);
                       formdata.append("product_id", data123._id);
-                      formdata.append("product_img", data.product_img);
-                     
+                      formdata.append("product_img", data.productImg);
+
                       let formdata1 = new FormData();
                       formdata1.append("sortOrder", data.sortOrder);
                       formdata1.append("contentText", data.contentText);
@@ -218,7 +212,7 @@ const ProductContentForm = ({
                       formdata1.append("product_img", productImg);
                       formdata1.append("id", data._id);
                       let bodyContent = !data._id ? formdata : formdata1;
-                     
+
                       let reqOptions = {
                         url: `${process.env.REACT_APP_API_BASE_URL}api/productcontent`,
                         method: "POST",
@@ -227,7 +221,7 @@ const ProductContentForm = ({
                       };
 
                       let response = await axios.request(reqOptions);
-                     
+
                       if (response.data.status === 1) {
                         toast.success(response.data.message);
                         navigate("/categorymasterlist");
@@ -249,6 +243,14 @@ const ProductContentForm = ({
         <div className="pd-20 card-box h-25">
           <div className="modal-header ">
             <h4 className="text-dark h4">Preview Image</h4>
+          </div>
+          <div>
+            {data.product_img ? <img src={process.env.REACT_APP_API_BASE_URL + data.product_img} /> :
+              <img
+                src={typeof productImg === 'string' ? productImg : URL.createObjectURL(productImg)}
+                alt="Preview"
+                style={{ maxWidth: '100%', height: 'auto' }}
+              />}
           </div>
         </div>
       </div>
