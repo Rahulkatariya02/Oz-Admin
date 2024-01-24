@@ -9,6 +9,7 @@ import ReactQuill from "react-quill";
 const PackageForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const [isActive, setIsActive] = useState(false)
   const [data, setdata] = useState(
     !location?.state?.data ? { isActive: true } : location?.state?.data
   );
@@ -54,7 +55,7 @@ const PackageForm = () => {
         amount: data.amount,
         amount_text: data.amount_text,
         description: data.description,
-        isActive: data.isActive,
+        isActive: isActive,
         id: data._id,
       });
 
@@ -66,7 +67,7 @@ const PackageForm = () => {
       };
 
       let response = await axios.request(reqOptions);
-            if (response.data.status === 1) {
+      if (response.data.status === 1) {
         toast.success(response.data.message);
       }
     } catch (error) {
@@ -280,6 +281,7 @@ const PackageForm = () => {
                         value={data?.description}
                         onChange={(value) => {
                           setdata({ ...data, description: value });
+
                           // setFormErrors({ ...formErrors, description: "" }); // Clear the description error when the user starts typing
                         }}
                       />
@@ -291,11 +293,13 @@ const PackageForm = () => {
                       type="checkbox"
                       name="isActive"
                       disabled={location?.state?.type === "View"}
-                      value={data?.isActive}
-                      id="flexCheckDefault"
+                      // value={data?.isActive}
+                      // id="flexCheckDefault"
+                      defaultChecked={data.isActive ?? isActive}
+                      onChange={(e) => setIsActive(e.target.checked)}
                     />
                     <label
-                      className="form-check-label mx-2"
+                      // className="form-check-label mx-2"
                       htmlFor="flexCheckDefault"
                     >
                       Is Active

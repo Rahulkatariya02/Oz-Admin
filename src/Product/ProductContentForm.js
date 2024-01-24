@@ -165,17 +165,22 @@ const ProductContentForm = ({
               </div>
 
               <div className="custom-control custom-checkbox mb-5">
-                <input
-                  type="checkbox"
-                  className="custom-control-input my-5"
-                  id="customCheck3"
-                  name="isActive"
-                  checked={data.isActive ?? isActive}
-                  onChange={(e) => setIsActive(e.target.checked)}
-                />
-                <label className="custom-control-label" htmlFor="customCheck3">
-                  Is Active
-                </label>
+              <input
+                      className="form-check-input "
+                      type="checkbox"
+                      name="isActive"
+                      // disabled={location?.state?.type === "View"}
+                      // value={data?.isActive}
+                      // id="flexCheckDefault"
+                      defaultChecked={data.isActive ?? isActive}
+                      onChange={(e) => setIsActive(e.target.checked)}
+                    />
+                    <label
+                      // className="form-check-label mx-2"
+                      htmlFor="flexCheckDefault"
+                    >
+                      Is Active
+                    </label>
               </div>
               <div className="modal-footer">
                 <button
