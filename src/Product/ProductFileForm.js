@@ -140,7 +140,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
                           formdata.append("file", data.file);
                         } else if (activedata.file) {
                           const blob = await fetch(activedata.file).then((res) => res.blob());
-                          formdata.append("file", blob, `${activedata.file}.jpg`);
+                          formdata.append("file", blob, `${activedata.file}`);
                         }
                         let bodyContent = formdata;
                         let reqOptions = {
@@ -167,13 +167,13 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
           </div>
         </div>
 
-        <div className="col-md-4 col-sm-12 mb-30">
+        {/* <div className="col-md-4 col-sm-12 mb-30">
           <div className="pd-20 card-box h-25">
             <div className="modal-header ">
               <h4 className="text-dark h4">Preview Image</h4>
             </div>
           </div>
-        </div>
+        </div> */}
       </div>
     </>
   );
