@@ -17,7 +17,7 @@ const AddNewBanner = ({ data12 }) => {
   const [editerdata, setediterdata] = useState(EditorState.createEmpty());
   const [data, setdata] = useState(
     !location.state
-      ? { BannerType: '', sortOrder: location.state.sortOrder }
+      ? { BannerType: '', sortOrder: '' }
       : {
         id: location.state._id,
         sortOrder: location.state.sortOrder,
@@ -376,7 +376,7 @@ const AddNewBanner = ({ data12 }) => {
                             className="custom-control-input my-5"
                             id="customCheck3"
                             name="isActive"
-                            checked={isActive || location.state.isActive}
+                            checked={isActive || location.state?.isActive}
                             onChange={(e) => setIsActive(e.target.checked)}
                           />
                           <label
@@ -413,7 +413,7 @@ const AddNewBanner = ({ data12 }) => {
                                   formdata.append("sortOrder", data.sortOrder);
                                   formdata.append("id", location.state._id ? location.state._id : '');
                                   formdata.append("menuName", data.menuName);
-                                  formdata.append("bannerType",data.BannerType ? data.BannerType : selectedBannerType);
+                                  formdata.append("bannerType", data.BannerType ? data.BannerType : selectedBannerType);
                                   formdata.append("title", data.BannerTitle);
                                   formdata.append("click_url", data.ClickUrl);
                                   formdata.append("description", data.BannerDescription);
