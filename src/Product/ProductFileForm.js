@@ -20,8 +20,6 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
     }
   };
 
-  console.log('data', data, data123, showForm, activedata, setShowForm, type,);
-  console.log('data123', data123);
   return (
     <>
       <div className="row">

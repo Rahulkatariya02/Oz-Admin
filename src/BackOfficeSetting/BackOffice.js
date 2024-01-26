@@ -55,7 +55,7 @@ const BackOffice = () => {
         "Accept": "*/*",
         "Authorization": `Bearer ${accessToken}`
       }
-      const response = await axios.get(`https://api.ozsolarneeds.com.au/api/admin/logo`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/admin/logo`, {
         headers: headersList,
       });
       setLogoImage(response.data.document);

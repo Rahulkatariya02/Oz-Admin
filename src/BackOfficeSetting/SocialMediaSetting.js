@@ -48,7 +48,7 @@ const SocialMediaSetting = () => {
         "Accept": "*/*",
         "Authorization": `Bearer ${accessToken}`
       }
-      const response = await axios.get(`https://api.ozsolarneeds.com.au/api/admin/socialmedia`, {
+      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/admin/socialmedia`, {
         headers: headersList,
       });
       setSocialMediaData(response.data.document);
@@ -57,11 +57,11 @@ const SocialMediaSetting = () => {
       setLoading(false);
     }
   };
-  
+
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   useEffect(() => {
     if (socialMediaData[0]) {
       reset(socialMediaData[0]);

@@ -58,8 +58,7 @@ const Menu = () => {
       setDescription(ACTIVEDATA.Description);
     }
   }, [ACTIVEDATA]);
-  console.log('parentId', parentId);
-  console.log('menuType', menuType);
+
   const Description1 = ACTIVEDATA.Description;
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
@@ -743,7 +742,7 @@ const Menu = () => {
                             )}`,
                           };
                           let bodyContent = {
-                            parentId: parentId,
+                            // parentId: parentId,
                             sortOrder: sortOrder
                               ? sortOrder
                               : data12?.length > 0
@@ -763,6 +762,8 @@ const Menu = () => {
                             isActive: Active,
                             Description: Description,
                           };
+
+                          if(parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
                           // let bodyContent1 = {
                           //   menuName: MenuName,
                           //   sortOrder: sortOrder
@@ -791,7 +792,6 @@ const Menu = () => {
                             // data: type === "CMS" ? bodyContent : bodyContent1,
                             data: bodyContent,
                           };
-                          console.log('bodyContent', bodyContent,);
                           let response = await axios.request(reqOptions);
                           toast.success(response.data.message);
                           menudata();

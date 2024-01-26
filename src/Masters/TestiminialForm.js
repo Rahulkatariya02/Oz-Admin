@@ -10,7 +10,7 @@ const TestiminialForm = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? {} : location?.state?.data
   );
-  const [isActive, setIsActive] = useState(false);
+  const [isActive, setIsActive] = useState(location.state.data.isActive || false);
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked } = e.target;
@@ -103,7 +103,7 @@ const TestiminialForm = () => {
                     type="checkbox"
                     value=""
                     name="isActive"
-                    checked={isActive || data.isActive}
+                    defaultChecked={isActive || data.isActive}
                     id="flexCheckDefault"
                     onChange={(e) => setIsActive(e.target.checked)}
                   />

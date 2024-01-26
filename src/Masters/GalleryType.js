@@ -137,8 +137,7 @@ const GalleryType = () => {
       ),
     },
   ];
-
-  console.log("sdsf", AllGalleryType);
+  console.log('ACTIVEDATA', ACTIVEDATA, AllGalleryType.length);
   let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>
@@ -201,26 +200,32 @@ const GalleryType = () => {
                           <label>
                             Sort Order <span className="text-danger">*</span>
                           </label>
-                          <input
+                          {/* <input
                             type="number"
                             name="sortOrder"
                             className="form-control"
-                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? ACTIVEDATA && ACTIVEDATA.sortOrder : AllGalleryType?.length + 1}
-                            // defaultValue={  ACTIVEDATA.sortOrder
-                            //   ? ACTIVEDATA.sortOrder
-                            //   : data12?.length 
-                            //     ? data12[0].sortOrder + 1
-                            //     : 0}
                             defaultValue={
                               ACTIVEDATA.sortOrder
                                 ? ACTIVEDATA.sortOrder
-                                : data12?.length > 0
-                                  ? data12[0].sortOrder + 1
-                                  : 0
+
+                                : AllGalleryType.length + 1
+
                             }
                             onChange={(e) => handalchange(e)}
+                          /> */}
+                          <input
+                            type="number"
+                            defaultValue={
+                              ACTIVEDATA
+                                ? ACTIVEDATA.sortOrder
+                                : AllGalleryType.length +1
+                            }
+                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}  
+                            className="form-control"
+                            name="sortOrder"
+                            onChange={(e) => handalchange(e)}
+                          // onChange={(e) => setsortOrder(e.target.value)}
                           />
-                          {console.log('ACTIVEDATA', ACTIVEDATA)}
                         </div>
                       </div>
                       <div className="col-md-6 col-sm-12">
@@ -248,13 +253,10 @@ const GalleryType = () => {
                               className="custom-control-input my-5"
                               id="customCheck3"
                               name="isActive"
-                              defaultChecked={ACTIVEDATA.isActive ? ACTIVEDATA.isActive : isActive}
-                              onChange={(e) => {
-                                const { checked } = e.target;
-                                setIsActive(checked);
-                              }}
+                              defaultChecked={isActive || ACTIVEDATA.isActive === true}                            
+                              onChange={(e) => setIsActive(e.target.checked)}
                             />
-
+                           
                             <label
                               className="custom-control-label"
                               htmlFor="customCheck3"
