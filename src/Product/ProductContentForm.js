@@ -5,6 +5,10 @@ import { useNavigate } from "react-router-dom";
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the styles
 import { toast } from "react-toastify";
+import ImageResize from "quill-image-resize-module-react";
+import "react-quill/dist/quill.snow.css";
+
+Quill.register("modules/imageResize", ImageResize);
 
 const ProductContentForm = ({
   data123,
@@ -31,10 +35,10 @@ const ProductContentForm = ({
     clipboard: {
       matchVisual: false,
     },
-    // imageResize: {
-    //   parchment: Quill.import("parchment"),
-    //   modules: ["Resize", "DisplaySize"],
-    // },
+    imageResize: {
+      parchment: Quill.import("parchment"),
+      modules: ["Resize", "DisplaySize"],
+    },
   };
 
   const formats = [
@@ -56,11 +60,11 @@ const ProductContentForm = ({
 
   const [isActive, setIsActive] = useState(false)
   const [data, setdata] = useState(activedata ? activedata : {});
-  const [productImg, setProductImg] = useState(activedata ? activedata.product_img : null);
+  const [productImg, setProductImg] = useState(activedata ? activedata.product_img : '');
 
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-    if (name !== "product_img") {
+    if (name !== "productImg") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
       } else {
@@ -100,7 +104,7 @@ const ProductContentForm = ({
                     className="form-control"
                     type="file"
                     // value={data?.product_img}
-                    name="product_img"
+                    name="productImg"
                     disabled={type === "View"}
                     onChange={(e) => handalchange(e)}
                   />
@@ -145,7 +149,7 @@ const ProductContentForm = ({
                   <ReactQuill
                     theme="snow"
                     modules={modules}
-                    name="description"
+                    name="contentText"
                     value={data.contentText} // Use 'value' instead of 'content'
                     onChange={(content, delta, source, editor) => {
                       // Check if the change is from the user (not programmatic)
@@ -207,8 +211,8 @@ const ProductContentForm = ({
                       formdata.append("sortOrder", data.sortOrder);
                       formdata.append("contentText", data.contentText);
                       formdata.append("isActive", isActive);
-                      formdata.append("product_id", data123._id);
-                      formdata.append("product_img", data.product_img);
+                      formdata.append("product_id",data123._id);
+                      formdata.append("product_img", productImg);
                      
                       let formdata1 = new FormData();
                       formdata1.append("sortOrder", data.sortOrder);

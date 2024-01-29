@@ -17,7 +17,7 @@ const AddNewBanner = ({ data12 }) => {
   const [editerdata, setediterdata] = useState(EditorState.createEmpty());
   const [data, setdata] = useState(
     !location.state
-      ? { BannerType: '', sortOrder: location.state.sortOrder }
+      ? { BannerType: '', sortOrder: '' }
       : {
         id: location.state._id,
         sortOrder: location.state.sortOrder,
@@ -30,7 +30,7 @@ const AddNewBanner = ({ data12 }) => {
         BannerImage: location.state.banner_image,
       }
   );
-  console.log('menhdh', location.state, data.menuName, data.MenuName);
+
   const [formErrors, setFormErrors] = useState({});
   const [isActive, setIsActive] = useState(location.state.isActive || false)
   const handleContentChange = (newContent) => {

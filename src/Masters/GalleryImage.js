@@ -8,7 +8,7 @@ const GalleryImage = () => {
   const [data, setdata] = useState({ Title: "" });
   const [AllGalleryType, setAllGalleryType] = useState([]);
   const [AllGalleryimges, setAllGalleryimges] = useState([]);
-console.log('AllGalleryimges', AllGalleryimges.length, data);
+  
   useEffect(() => {
     GalleryType();
     Galleryimges();

@@ -30,7 +30,6 @@ const ProductForm = ({ data123, type }) => {
     setSelectedCategories(updatedCategories);
   };
 
-console.log('data', data);
   // Function to handle subcategory checkbox change
   const handleSubcategoryChange = (subcategoryIndex) => {
     const updatedSubcategories = [...selectedSubcategories];

@@ -78,7 +78,7 @@ const AddnewCategory = () => {
                         className="form-control"
                         type="text"
                         placeholder="Root Category"
-                        readOnly
+                        // readOnly
                       />
                     </div>
 

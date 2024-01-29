@@ -23,6 +23,8 @@ const Menu = () => {
   const [menuType, setMenuType] = useState("");
   const [cms_id, setcms_id] = useState("");
   const [parentId, setparentId] = useState(null);
+  const [categoryName, setcategoryName] = useState(null);
+  const [cmsDataa, setCmsData] = useState(null);
   const [sortOrder, setsortOrder] = useState("");
   const [MenuName, setMenuName] = useState("");
   const [Description, setDescription] = useState(ACTIVEDATA.Description);
@@ -45,7 +47,7 @@ const Menu = () => {
         //   ? "CMS"
         //   : ACTIVEDATA.menuType == 2
         //     ? "Product"
-        //     : "Other"
+        //     : ACTIVEDATA.menuType == 3 "Other"
       );
       setMenuName(ACTIVEDATA.name);
       setshowInHeader(ACTIVEDATA.showInHeader);
@@ -55,20 +57,55 @@ const Menu = () => {
       setslug(ACTIVEDATA.slug);
       if (ACTIVEDATA.Description !== "") {
       }
-      setDescription(ACTIVEDATA.Description);
+      // setDescription(ACTIVEDATA.Description);
     }
   }, [ACTIVEDATA]);
-  console.log('parentId', parentId);
-  console.log('menuType', menuType);
+
+  const [category, setcategory] = useState([]);
+  console.log('category', category);
+  useEffect(() => {
+    getcatagarydata();
+  }, []);
+  const getcatagarydata = async () => {
+    let reqOptions = {
+      url: `${process.env.REACT_APP_API_BASE_URL}api/getcategory`,
+      method: "POST",
+    };
+
+    let response = await axios.request(reqOptions);
+    setcategory(response.data.data);
+  };
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  const handleSelectChange = (event) => {
+    setSelectedCategoryId(event.target.value);
+  };
+
   const Description1 = ACTIVEDATA.Description;
+  // const handleMenuTypeChange = (e) => {
+  //   const selectedMenuType = e.target.value;
+  //   setMenuType(selectedMenuType);
+
+  //   if (selectedMenuType === "CMS") {
+  //     setShowCategoryList(false);
+  //     setShowCmsList(true);
+  //   } else if (selectedMenuType === "Product") {
+  //     setShowCategoryList(true);
+  //     setShowCmsList(false);
+  //   } else {
+  //     setShowCategoryList(false);
+  //     setShowCmsList(false);
+  //   }
+  // };
+
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
     setMenuType(selectedMenuType);
 
-    if (selectedMenuType === "CMS") {
+    if (selectedMenuType === 'CMS') {
       setShowCategoryList(false);
       setShowCmsList(true);
-    } else if (selectedMenuType === "Product") {
+    } else if (selectedMenuType === 'Product') {
       setShowCategoryList(true);
       setShowCmsList(false);
     } else {
@@ -76,6 +113,7 @@ const Menu = () => {
       setShowCmsList(false);
     }
   };
+
 
   const cmsdata = async () => {
     try {
@@ -304,10 +342,10 @@ const Menu = () => {
       errors.slug = "Menu Slug is required.";
     }
 
-    if (Description === "") {
-      valid = false;
-      errors.Description = "Description is required.";
-    }
+    // if (Description === "") {
+    //   valid = false;
+    //   errors.Description = "Description is required.";
+    // }
 
     setFormErrors(errors);
     return valid;
@@ -421,33 +459,39 @@ const Menu = () => {
                             disabled={type === "View"}
                             onChange={handleMenuTypeChange}
                           >
-                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Other" : '--- Select menu type ---') : '--- Select menu type ---'}</option>
+                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Others" :"" ) : '--- Select menu type ---'}</option>
                             <option value="1">CMS</option>
                             <option value="2">Product</option>
-                            <option value="3">Other</option>
+                            <option value="3">Others</option>
                           </select>
-                          {formErrors.menuType && (
+                          {/* {formErrors.menuType && (
                             <div className="invalid-feedback d-block">
                               {formErrors.menuType}
                             </div>
-                          )}
+                          )} */}
                         </div>
                       </div>
-                      {showCategoryList && (
+                      {/* {  showCategoryList &&( */}
+                      {(
                         <div className="col-md-12 col-sm-12">
                           <div className="form-group">
                             <label>Category List</label>
+                            {console.log('categoryName', categoryName)}
                             <select
                               className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
                                 }`}
                               disabled={type === "View"}
+                              onChange={(e) => {
+                                setcategoryName(e.target.value);
+                              }}
                             >
                               <option value="">-- Select Category --</option>
-                              {data.document &&
-                                data.document?.map((el, i) => {
+                              {category &&
+                                category?.map((el, i) => {
+                                  console.log("menu", el.category, el.category._id);
                                   return (
-                                    <option key={i} value={el._id}>
-                                      {el.name}
+                                    <option key={i} value={el.category._id}>
+                                      {el.category.category}
                                     </option>
                                   );
                                 })}
@@ -460,7 +504,8 @@ const Menu = () => {
                           </div>
                         </div>
                       )}
-                      {showCmsList && (
+                      {/* {showCmsList && ( */}
+                      { (
                         <div className="col-md-12 col-sm-12">
                           <div className="form-group">
                             <label>CMS List</label>
@@ -468,8 +513,9 @@ const Menu = () => {
                               className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
                                 }`}
                               disabled={type === "View"}
-                              onChange={(E) => {
-                                setcms_id(E.target.value);
+                              // onChange={handleMenuTypeChange}
+                              onChange={(e) => {
+                                setCmsData(e.target.value);
                               }}
                             >
                               <option value="">-- Select CMS --</option>
@@ -488,7 +534,7 @@ const Menu = () => {
                             )}
                           </div>
                         </div>
-                      )}
+                      ) }
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>
@@ -752,6 +798,7 @@ const Menu = () => {
                             // cms: cms_id,
                             menuName: MenuName,
                             menuType: menuType,
+                            category: categoryName,
                             // menuType === "CMS"
                             //   ? 1
                             //   : menuType === "Product"
@@ -764,7 +811,7 @@ const Menu = () => {
                             Description: Description,
                           };
 
-                          if(parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
+                          if (parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
                           // let bodyContent1 = {
                           //   menuName: MenuName,
                           //   sortOrder: sortOrder
@@ -786,6 +833,7 @@ const Menu = () => {
                           //   Description: Description,
                           //   id: ACTIVEDATA._id,
                           // };
+                          // console.log('category', categoryName);
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu`,
                             method: "POST",
@@ -793,7 +841,6 @@ const Menu = () => {
                             // data: type === "CMS" ? bodyContent : bodyContent1,
                             data: bodyContent,
                           };
-                          console.log('bodyContent', bodyContent,);
                           let response = await axios.request(reqOptions);
                           toast.success(response.data.message);
                           menudata();

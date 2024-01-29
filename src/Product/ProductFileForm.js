@@ -19,9 +19,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
       setdata({ ...data, [name]: files[0] });
     }
   };
-
-  console.log('data', data, data123, showForm, activedata, setShowForm, type,);
-  console.log('data123', data123);
+console.log('activedata', activedata, data, data123, showForm, activedata, setShowForm, type,);
   return (
     <>
       <div className="row">
@@ -131,7 +129,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
                         let formdata = new FormData();
                         formdata.append("contentText", data.contentText);
                         formdata.append("isActive", isActive);
-                        formdata.append("product_id", data123[0].product_id);
+                        formdata.append("product_id",  data123.product_id );
                         // formdata.append("uploadType", data.uploadType);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
@@ -160,6 +158,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
                     }}
                   >
                     Save
+                    {console.log("file",data123, data)}
                   </button>
                 </div>
               </form>
