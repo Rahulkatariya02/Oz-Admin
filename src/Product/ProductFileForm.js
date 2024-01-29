@@ -3,7 +3,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) => {
+const ProductFileForm = ({ data123,
+  showForm,
+  activedata,
+  setShowForm,
+  type, }) => {
   const [data, setdata] = useState(activedata ? activedata : {});
   const [isActive, setIsActive] = useState(false)
   const navigate = useNavigate();
@@ -19,7 +23,7 @@ const ProductFileForm = ({ data123, showForm, activedata, setShowForm, type, }) 
       setdata({ ...data, [name]: files[0] });
     }
   };
-console.log('activedata', activedata, data, data123, showForm, activedata, setShowForm, type,);
+  console.log('activedata', data, data123, showForm, activedata, setShowForm, type,data[0]?.product_id);
   return (
     <>
       <div className="row">
@@ -103,7 +107,7 @@ console.log('activedata', activedata, data, data123, showForm, activedata, setSh
                   <label className="" htmlFor="customCheck3">
                     Is Active
                   </label>
-               
+
                 </div>
                 <div className="modal-footer">
                   <Link to="/categorymasterlist">
@@ -129,7 +133,7 @@ console.log('activedata', activedata, data, data123, showForm, activedata, setSh
                         let formdata = new FormData();
                         formdata.append("contentText", data.contentText);
                         formdata.append("isActive", isActive);
-                        formdata.append("product_id",  data123.product_id );
+                        formdata.append("product_id", data123[0].product_id);
                         // formdata.append("uploadType", data.uploadType);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
@@ -158,7 +162,7 @@ console.log('activedata', activedata, data, data123, showForm, activedata, setSh
                     }}
                   >
                     Save
-                    {console.log("file",data123, data)}
+                    {console.log("file", data123, data, data123[0]?.product_id)}
                   </button>
                 </div>
               </form>
