@@ -109,9 +109,9 @@ const AddNewBanner = ({ data12 }) => {
       errors.sortOrder = "Sort Order must be a positive integer.";
     }
 
-    if (!data.MenuName && !menuNameId) {
-      errors.MenuName = "Menu Name is required.";
-    }
+    // if (!data.MenuName && !menuNameId) {
+    //   // errors.MenuName = "Menu Name is required.";
+    // }
 
     if (!data.BannerType && !selectedBannerType) {
       errors.BannerType = "Banner Type is required.";
@@ -202,7 +202,7 @@ const AddNewBanner = ({ data12 }) => {
                               name="MenuName"
                               className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
                                 }`}
-                              defaultValue={data.MenuName}
+                              defaultValue={data.menuName}
                               onChange={(e) => handalchange(e)}
                             >
                               <option disabled value="">
@@ -217,11 +217,11 @@ const AddNewBanner = ({ data12 }) => {
                                   );
                                 })}
                             </select>
-                            {formErrors.MenuName && (
+                            {/* {formErrors.MenuName && (
                               <div className="invalid-feedback">
                                 {formErrors.MenuName}
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
 
@@ -376,7 +376,7 @@ const AddNewBanner = ({ data12 }) => {
                             className="custom-control-input my-5"
                             id="customCheck3"
                             name="isActive"
-                            defaultChecked={isActive || location.state.isActive}
+                            defaultChecked={isActive || location.state?.isActive}
                             onChange={(e) => setIsActive(e.target.checked)}
                           />
                           <label
