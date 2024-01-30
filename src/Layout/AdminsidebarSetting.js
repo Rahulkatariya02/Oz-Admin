@@ -1,8 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { handleTokenErrors } from '../component/handleTokenErrors';
 
 const AdminsidebarSetting = () => {
-   
+
     const logout = async () => {
         try {
             const accessToken = localStorage.getItem("accessToken");
@@ -18,12 +19,13 @@ const AdminsidebarSetting = () => {
             });
 
             if (!response.ok) {
-                throw new Error('Logout failed');            }
-
+                throw new Error('Logout failed');
+            }
             const data = await response.json();
         } catch (error) {
-            console.log('error', error);          
-           
+            handleTokenErrors(error);
+            console.log('error', error);
+
         }
     };
 

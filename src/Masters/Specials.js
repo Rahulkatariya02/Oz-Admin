@@ -4,6 +4,7 @@ import { useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Spin, Switch, Table } from "antd";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Specials = () => {
   const [data, setdata] = useState({
@@ -148,6 +149,7 @@ const Specials = () => {
                 toast.success(response.data.message);
                 specialall();
               } catch (error) {
+                handleTokenErrors(error);
                 toast.error(error.response.data.originalError);
               }
             }}
@@ -347,6 +349,7 @@ const Specials = () => {
                           }
                         }
                       } catch (error) {
+                        handleTokenErrors(error);
                         toast.error(error?.response?.data?.error);
                       }
                     }}

@@ -7,6 +7,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Switch } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Package = () => {
   const [allPackage, setAllPackage] = useState([]);
@@ -150,6 +151,7 @@ const Package = () => {
                                     toast.success(response.data.message);
                                     AllPackage();
                                   } catch (error) {
+                                    handleTokenErrors(error);
                                     toast.error(
                                       error.response.data.originalError
                                     );

@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { Switch } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductContent = ({ data123, type }) => {
 const navigate =useNavigate()
@@ -130,6 +131,7 @@ const navigate =useNavigate()
                                 toast.success(response.data.message);
                                 getproductcontent();
                               } catch (error) {
+                                handleTokenErrors(error);
                                 toast.error(error.response.data.originalError);
                               }
                             }}

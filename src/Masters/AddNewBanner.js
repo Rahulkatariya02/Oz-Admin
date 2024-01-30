@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const AddNewBanner = ({ data12 }) => {
   const location = useLocation();
@@ -154,6 +155,7 @@ const AddNewBanner = ({ data12 }) => {
       });
       setmenuNameId(data1222?._id);
     } catch (error) {
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -457,6 +459,7 @@ const AddNewBanner = ({ data12 }) => {
                                   toast.error(
                                     error?.response?.data?.originalError
                                   );
+                                  handleTokenErrors(error);
                                 }
                               }
                             }}

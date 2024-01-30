@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const EmailTemplate = () => {
   const modules = {
@@ -55,6 +56,7 @@ const EmailTemplate = () => {
       setData(response.data.document);
       setLoading(false);
     } catch (error) {
+      handleTokenErrors(error);
       setLoading(false);
     }
   };
@@ -86,6 +88,7 @@ const EmailTemplate = () => {
       }
       toast.success(response.data?.message || "Changes saved successfully");
     } catch (error) {
+      handleTokenErrors(error);
       toast.error(error.response?.data?.originalError || "An error occurred");
     }
   };
@@ -124,6 +127,7 @@ const EmailTemplate = () => {
       toast.success(response.data?.message);
       window.location.reload();
     } catch (error) {
+      handleTokenErrors(error);
       toast.error(error.response?.data?.message || "An error occurred");
     }
   };

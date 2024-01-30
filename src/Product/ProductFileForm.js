@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductFileForm = ({ data123,
   showForm,
@@ -23,7 +24,7 @@ const ProductFileForm = ({ data123,
       setdata({ ...data, [name]: files[0] });
     }
   };
-  console.log('activedata', data, data123, showForm, activedata, setShowForm, type,data[0]?.product_id);
+
   return (
     <>
       <div className="row">
@@ -157,12 +158,12 @@ const ProductFileForm = ({ data123,
                           navigate("/categorymasterlist");
                         }
                       } catch (error) {
+                        handleTokenErrors(error);
                         toast.error(error?.response?.data?.error);
                       }
                     }}
                   >
-                    Save
-                    {console.log("file", data123, data, data123[0]?.product_id)}
+                    Save                 
                   </button>
                 </div>
               </form>

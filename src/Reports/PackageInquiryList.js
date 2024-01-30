@@ -3,6 +3,7 @@ import DataTable from "datatables.net-dt";
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const PackageInquiryList = () => {
   const [PackageInquiryListdata1, setPackageInquiryListdata] = useState([]);
@@ -79,6 +80,7 @@ const PackageInquiryList = () => {
                                       PackageInquiryListdata();
                                     }
                                   } catch (error) {
+                                    handleTokenErrors(error);
                                     toast.success(error);
                                   }
                                 }}

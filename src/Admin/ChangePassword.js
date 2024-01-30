@@ -6,6 +6,7 @@ import Sidebar from "../Layout/Sidebar";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ChangePassword = () => {
   const navigate = useNavigate(); 
@@ -50,12 +51,14 @@ const ChangePassword = () => {
         }
       } catch (error) {
         toast.error(error.response.data.error);
+        handleTokenErrors(error);
       }
       //   await dispatch(changePassword(dataobject));
 
       setIsSaving(false); // Set the loading state back to false after dispatch
     } catch (error) {
       setIsSaving(false); // Set the loading state to false in case of an error
+      handleTokenErrors(error);
       console.error("An error occurred:", error);
     }
   };

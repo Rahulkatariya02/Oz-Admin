@@ -4,6 +4,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { Button, Spin, Switch, Table } from "antd";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Cms = () => {
   const [data, setdata] = useState([]);
@@ -24,6 +25,7 @@ const Cms = () => {
       setdata(response.data);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -131,6 +133,7 @@ const Cms = () => {
                     toast.success(response.data.message);
                     cmsdata();
                   } catch (error) {
+                    handleTokenErrors(error);
                     toast.error(error.response.data.originalError);
                   }
                 }}
