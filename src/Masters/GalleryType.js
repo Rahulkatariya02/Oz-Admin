@@ -139,7 +139,7 @@ const GalleryType = () => {
       ),
     },
   ];
-  console.log('ACTIVEDATA', ACTIVEDATA, AllGalleryType.length);
+
   let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>

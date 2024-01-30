@@ -78,7 +78,6 @@ const ProductContentForm = ({
     }
   };
 
-  console.log("data", data , data123);
   return (
     <div className="row">
       <div className="col-md-8 col-sm-12 mb-30">
