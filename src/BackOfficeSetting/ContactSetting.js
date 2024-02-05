@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ContactSetting = () => {
   const {
@@ -42,7 +43,8 @@ const ContactSetting = () => {
           toast.error(data.message);
         }
       } catch (error) {
-        toast.error(error.response.data.originalError);
+                toast.error(error.response.data.originalError);
+                handleTokenErrors(error);
       }
       //   await dispatch(changePassword(dataobject));
     } catch (error) {
@@ -65,9 +67,12 @@ const ContactSetting = () => {
         headers: headersList,
       });
       setContactData(response.data.document);
+    
       setLoading(false);
     } catch (error) {
+      handleTokenErrors(error);
       setLoading(false);
+
     }
   };
 

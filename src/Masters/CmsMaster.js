@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the styles
 import { ImageResize } from "quill-image-resize-module-react";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 
 // Quill.register("modules/imageResize", ImageResize);
@@ -27,6 +28,7 @@ const CmsMaster = () => {
       setCmsData(response.data.document);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -394,6 +396,7 @@ const CmsMaster = () => {
                               navigate("/cmsmasterlist");
                             }
                           } catch (error) {
+                            handleTokenErrors(error);
                             toast.error(error.response.data.originalError);
                           }
                         }

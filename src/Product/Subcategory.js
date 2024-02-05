@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Subcategory = () => {
   const navigate = useNavigate();
@@ -29,6 +30,7 @@ const Subcategory = () => {
       let response = await axios.request(reqOptions);       
       setcategory(response.data.data);
     } catch (error) {
+      handleTokenErrors(error);
       console.error(error);
     }
   }; 
@@ -154,6 +156,7 @@ const Subcategory = () => {
                                   getcatagarydata();
                                 }
                               } catch (error) {
+                                   handleTokenErrors(error);
                                 toast.error(error?.response?.data?.error);
                               }
                             }}

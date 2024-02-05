@@ -3,9 +3,9 @@ import React, { useEffect, useState } from "react";
 import { Button, Switch, Table } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import TinyMCE from "react-tinymce/lib/components/TinyMCE";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Menu = () => {
 
@@ -62,7 +62,6 @@ const Menu = () => {
   }, [ACTIVEDATA]);
 
   const [category, setcategory] = useState([]);
-  console.log('category', category);
   useEffect(() => {
     getcatagarydata();
   }, []);
@@ -102,10 +101,10 @@ const Menu = () => {
     const selectedMenuType = e.target.value;
     setMenuType(selectedMenuType);
 
-    if (selectedMenuType === 'CMS') {
+    if (selectedMenuType === '1') {
       setShowCategoryList(false);
       setShowCmsList(true);
-    } else if (selectedMenuType === 'Product') {
+    } else if (selectedMenuType === '2') {
       setShowCategoryList(true);
       setShowCmsList(false);
     } else {
@@ -126,6 +125,7 @@ const Menu = () => {
       setcmsdata(response?.data?.document);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -140,6 +140,7 @@ const Menu = () => {
       // Handle the successful response here
       setdata(response.data);
     } catch (error) {
+      handleTokenErrors(error);
       // Handle any errors here
       console.error(error);
     }
@@ -283,6 +284,7 @@ const Menu = () => {
                     toast.success(response.data.message);
                     menudata();
                   } catch (error) {
+                    handleTokenErrors(error);
                     toast.error(error.response.data.originalError);
                   }
                 }}
@@ -459,7 +461,7 @@ const Menu = () => {
                             disabled={type === "View"}
                             onChange={handleMenuTypeChange}
                           >
-                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Others" :"" ) : '--- Select menu type ---'}</option>
+                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Others" : "") : '--- Select menu type ---'}</option>
                             <option value="1">CMS</option>
                             <option value="2">Product</option>
                             <option value="3">Others</option>
@@ -471,12 +473,11 @@ const Menu = () => {
                           )} */}
                         </div>
                       </div>
-                      {/* {  showCategoryList &&( */}
-                      {(
+                      {showCategoryList && (
+
                         <div className="col-md-12 col-sm-12">
                           <div className="form-group">
                             <label>Category List</label>
-                            {console.log('categoryName', categoryName)}
                             <select
                               className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
                                 }`}
@@ -488,7 +489,6 @@ const Menu = () => {
                               <option value="">-- Select Category --</option>
                               {category &&
                                 category?.map((el, i) => {
-                                  console.log("menu", el.category, el.category._id);
                                   return (
                                     <option key={i} value={el.category._id}>
                                       {el.category.category}
@@ -504,8 +504,8 @@ const Menu = () => {
                           </div>
                         </div>
                       )}
-                      {/* {showCmsList && ( */}
-                      { (
+                      {showCmsList && (
+                        // { (
                         <div className="col-md-12 col-sm-12">
                           <div className="form-group">
                             <label>CMS List</label>
@@ -534,7 +534,7 @@ const Menu = () => {
                             )}
                           </div>
                         </div>
-                      ) }
+                      )}
                       <div className="col-md-6 col-sm-12">
                         <div className="form-group">
                           <label>
@@ -629,48 +629,7 @@ const Menu = () => {
                           )}
                         </div>
                       </div>
-                      {/* <div className="col-md-12">
-                        <div className="form-group">
-                          <label>
-                            Description <span className="text-danger">*</span>
-                          </label>
-                          <div>
-                            {!Description && (
-                              <TinyMCE
-                                content={Description}
-                                onChange={(e) => {
-                                  setDescription(e.level.content);
-                                }}
-                                config={{
-                                  advcode_inline: true,
-                                  plugins:
-                                    "searchreplace autolink directionality visualblocks visualchars image link   codesample table charmap pagebreak nonbreaking anchor  insertdatetime advlist lists  wordcount   help   charmap linkchecker emoticons   autosave  fullscreen",
-                                  toolbar:
-                                    "undo redo print spellcheckdialog   | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
-                                }}
-                              />
-                            )}
-                            {Description && (
-                              <TinyMCE
-                                content={Description}
-                                onChange={(e) => {
-                                  setDescription(e.level.content);
-                                }}
-                                config={{
-                                  advcode_inline: true,
-                                  plugins:
-                                    "  searchreplace autolink directionality visualblocks visualchars image link   codesample table charmap pagebreak nonbreaking anchor  insertdatetime advlist lists  wordcount   help   charmap linkchecker emoticons   autosave  fullscreen",
-                                  toolbar:
-                                    "undo redo print spellcheckdialog  | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
-                                }}
-                              />
-                            )}
-                            <div className="invalid-feedback d-block">
-                              {formErrors.Description}
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
+
                       <div className="col-md-12">
                         <div className="form-group">
                           <label>
@@ -812,28 +771,6 @@ const Menu = () => {
                           };
 
                           if (parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
-                          // let bodyContent1 = {
-                          //   menuName: MenuName,
-                          //   sortOrder: sortOrder
-                          //     ? sortOrder
-                          //     : data12?.length > 0
-                          //       ? data12[0].sortOrder + 1
-                          //       : 0,
-                          //   menu_URL_unique_key: menu_URL_unique_key,
-                          //   menuType: menuType,
-                          //   // menuType:
-                          //   //   menuType === "CMS"
-                          //   //     ? 1
-                          //   //     : menuType === "Product"
-                          //   //       ? 2
-                          //   //       : 3,
-                          //   showInHeader: showInHeader,
-                          //   showInFooter: showInFooter,
-                          //   isActive: Active,
-                          //   Description: Description,
-                          //   id: ACTIVEDATA._id,
-                          // };
-                          // console.log('category', categoryName);
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu`,
                             method: "POST",
@@ -845,6 +782,7 @@ const Menu = () => {
                           toast.success(response.data.message);
                           menudata();
                         } catch (error) {
+                          handleTokenErrors(error);
                           toast.error(error.response.data.originalError);
                         }
                       }

@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Sitemap = () => {
   const url = process.env.REACT_APP_API_BASE_URL;
@@ -27,6 +28,7 @@ const Sitemap = () => {
       setData(response.data);
       toast.success(response.data.message);
     } catch (error) {
+      handleTokenErrors(error);
       // Handle any errors here
       console.error(error);
     }

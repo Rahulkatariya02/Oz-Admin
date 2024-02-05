@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Category = () => {
   const navigate = useNavigate();
@@ -148,6 +149,7 @@ const Category = () => {
                                 //   toast.warning("Please delete all products");
                                 // }
                               } catch (error) {
+                                handleTokenErrors(error);
                                 toast.error(error?.response?.data?.error);
                               }
                             }}

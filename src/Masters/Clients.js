@@ -5,6 +5,7 @@ import { useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Spin, Switch, Table } from "antd";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Clients = () => {
   useEffect(() => {
@@ -106,6 +107,7 @@ const Clients = () => {
                   toast.success(response.data.message);
                 }
               } catch (error) {
+                handleTokenErrors(error);
                 toast.error(error?.response?.data?.originalError);
               }
             }}
@@ -140,7 +142,7 @@ const Clients = () => {
                   allclints();
                 }
               } catch (error) {
-                console.log(error.message);
+                handleTokenErrors(error);
                 // toast.error(
                 //   error.response.data.originalError || error.response.data.error
                 // );
@@ -300,6 +302,7 @@ const Clients = () => {
                         let response = await axios.request(reqOptions);
                         toast.success(response.data.message);
                       } catch (error) {
+                        handleTokenErrors(error);
                         toast.error(
                           error?.response?.data?.originalError ||
                           error?.response?.data?.error

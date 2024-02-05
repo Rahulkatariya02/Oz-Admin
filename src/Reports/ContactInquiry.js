@@ -3,6 +3,7 @@ import DataTable from "datatables.net-dt";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ContactInquiry = () => {
   const navigate= useNavigate();
@@ -90,6 +91,7 @@ const ContactInquiry = () => {
                                       contactinquirydata();
                                     }
                                   } catch (error) {
+                                    handleTokenErrors(error);
                                     toast.success(error);
                                   }
                                 }}

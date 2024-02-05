@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductList = () => {
   const location = useLocation();
@@ -180,6 +181,7 @@ const ProductList = () => {
                                         }
                                       }
                                     } catch (error) {
+                                      handleTokenErrors(error);
                                       toast.error(error?.response?.data?.error);
                                     }
                                   }}

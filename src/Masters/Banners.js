@@ -4,6 +4,7 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Spin, Switch, Table } from "antd";
 import { toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Banners = () => {
   const [banner, setbanner] = useState([]);
@@ -30,6 +31,7 @@ const Banners = () => {
       setbanner(response.data);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -145,6 +147,7 @@ const Banners = () => {
                 cmsdata();
               } catch (error) {
                 toast.error(error.response.data.originalError);
+                handleTokenErrors(error);
               }
             }}
           >

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const AddnewsubCategory = () => {
   const navigate = useNavigate();
@@ -284,6 +285,7 @@ const AddnewsubCategory = () => {
                               navigate("/categorymasterlist");
                             }
                           } catch (error) {
+                            handleTokenErrors(error);
                             toast.error(error?.response?.data?.error);
                           }
                         }
