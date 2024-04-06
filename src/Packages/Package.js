@@ -11,6 +11,7 @@ import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Package = () => {
   const [allPackage, setAllPackage] = useState([]);
+
   const navigate = useNavigate();
   useEffect(() => {
     // new DataTable("#myTable");
@@ -54,7 +55,8 @@ const Package = () => {
               >
                 <thead className="bg-light">
                   <tr>
-                    <th>Title</th>
+                    <th style={{ width: '25%' }}>Title</th>
+                    <th>Type</th>
                     <th>Is Active</th>
                     <th className="datatable-nosort">Action</th>
                   </tr>
@@ -63,7 +65,8 @@ const Package = () => {
                   {allPackage.map((e, i) => {
                     return (
                       <tr key={i}>
-                        <td>{e.title}</td>                      
+                        <td>{e.title}</td>
+                        <td>{e.package}</td>
                         <td>
                           <Switch
                             checkedChildren={<CheckOutlined />}
@@ -79,7 +82,7 @@ const Package = () => {
                                 isActive: !e.isActive,
                                 id: e._id
                               };
-                              
+
                               let reqOptions = {
                                 url: `${process.env.REACT_APP_API_BASE_URL}api/admin/packagestatus`,
                                 method: "POST",
