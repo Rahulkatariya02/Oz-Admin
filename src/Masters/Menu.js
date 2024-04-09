@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 const Menu = () => {
 
@@ -635,7 +636,12 @@ const Menu = () => {
                           <label>
                             Description <span className="text-danger">*</span>
                           </label>
-                          <ReactQuill
+                          <CommonEditor value={Description}
+                            onChange={(value) => {
+                              setdata({ ...data, Description: value });
+                            }}
+                          />
+                          {/* <ReactQuill
                             value={Description}
                             onChange={(value) => setDescription(value)}
                             modules={{
@@ -657,7 +663,7 @@ const Menu = () => {
                               },
                             }}
                             theme="snow"
-                          />
+                          /> */}
                           <div className="invalid-feedback d-block">
                             {formErrors.Description}
                           </div>

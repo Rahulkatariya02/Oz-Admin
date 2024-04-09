@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -62,7 +63,7 @@ const ProductContentForm = ({
   ];
 
   const [data, setdata] = useState(activedata ? activedata : {});
-  const [isActive, setIsActive] = useState(data?.isActive ||false)
+  const [isActive, setIsActive] = useState(data?.isActive || false)
   const [productImg, setProductImg] = useState(activedata ? activedata.product_img : '');
 
   const handalchange = (e) => {
@@ -119,7 +120,19 @@ const ProductContentForm = ({
                   Content Text (Add HTML)
                 </label>
                 <div className="col-md-12 mb-4">
-                  <ReactQuill
+                  <CommonEditor value={data.contentText}
+                    onChange={(value) => {
+                      setdata({ ...data, contentText: value });
+                    }}
+                    // onChange={(content, delta, source, editor) => {
+                    //   // Check if the change is from the user (not programmatic)
+                     
+                    //     // Update your component state without causing an infinite loop
+                    //     setdata((prevData) => ({ ...prevData, contentText: content }));
+                     
+                    // }}
+                  />
+                  {/* <ReactQuill
                     theme="snow"
                     modules={modules}
                     name="contentText"
@@ -132,7 +145,7 @@ const ProductContentForm = ({
                       }
                     }}
 
-                  />
+                  /> */}
                 </div>
               </div>
 

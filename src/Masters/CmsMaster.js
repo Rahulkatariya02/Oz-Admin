@@ -7,12 +7,13 @@ import ReactQuill, { Quill } from 'react-quill';
 import 'react-quill/dist/quill.snow.css'; // Import the styles
 import { ImageResize } from "quill-image-resize-module-react";
 import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 
 // Quill.register("modules/imageResize", ImageResize);
 
 const CmsMaster = () => {
-  const [cmsData, setCmsData]= useState();
+  const [cmsData, setCmsData] = useState();
   useEffect(() => {
     cmsdata();
   }, []);
@@ -178,7 +179,7 @@ const CmsMaster = () => {
                       type="number"
                       name="sortOrder"
                       // value={data?.sortOrder}
-                      value={data && data.sortOrder ? data && data.sortOrder : cmsData?.length + 1}  
+                      value={data && data.sortOrder ? data && data.sortOrder : cmsData?.length + 1}
                       className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
                         }`}
                       id="validationCustom01"
@@ -228,7 +229,12 @@ const CmsMaster = () => {
                     </label>
                   </div>
                   <div className="col-sm-8">
-                    <ReactQuill
+                    <CommonEditor value={data?.description}  
+                      onChange={(value) => {
+                        setdata({ ...data, description: value });
+                      }}
+                    />
+                    {/* <ReactQuill
                       theme="snow"
                       modules={modules}
                       className={`${formErrors.description ? "is-invalid" : ""}`}
@@ -238,7 +244,7 @@ const CmsMaster = () => {
                         setdata({ ...data, description: value });
                         setFormErrors({ ...formErrors, description: "" }); // Clear the description error when the user starts typing
                       }}
-                    />
+                    /> */}
                     {formErrors.description && (
                       <div className="invalid-feedback">
                         {formErrors.description}

@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, {  useState } from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 const PackageForm = () => {
   const navigate = useNavigate();
@@ -230,8 +231,11 @@ const PackageForm = () => {
                         Description (Add HTML){" "}
                         <span className="text-danger">*</span>
                       </label>
-                                       
-                      <ReactQuill
+                      <CommonEditor value={data?.description}
+                        onChange={(value) => {
+                          setdata({ ...data, description: value });
+                        }} />
+                      {/* <ReactQuill
                         theme="snow"
                         modules={modules}
                         // className={`${formErrors.description ? "is-invalid" : ""}`}
@@ -240,7 +244,7 @@ const PackageForm = () => {
                         onChange={(value) => {
                           setdata({ ...data, description: value });
                         }}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="col-md-4 mx-3">

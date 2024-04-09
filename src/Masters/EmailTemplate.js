@@ -227,12 +227,7 @@ const EmailTemplate = () => {
                       defaultValue={selectedItem?.description}
                       onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}
                     />
-                    {/* <ReactQuill
-                      theme="snow"
-                      modules={modules}
-                      value={selectedItem?.description || ''}
-                      onChange={(e) => setSelectedItem({ ...selectedItem, description: e })}
-                    /> */}
+                   
                     {errors.description && (
                       <small className="text-danger">
                         Please Enter a Email Template Content

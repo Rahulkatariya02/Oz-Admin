@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
-import ReactQuill from 'react-quill';
+import CommonEditor from "../component/CommonEditor";
 
 const ContactSetting = () => {
   const {
@@ -176,13 +176,14 @@ const ContactSetting = () => {
                 <label>
                   Office Address<span className="text-danger">*</span>
                 </label>
-                <ReactQuill
+                <CommonEditor value={watch('office_address')} />
+                {/* <ReactQuill
                   name="office_address"
                   value={watch('office_address')} // Ensure it's controlled by react-hook-form
                   onChange={(value) => {
                     setValue('office_address', value); // Update the form value
                   }}
-                />
+                /> */}
                 {errors.office_address && (
                   <small className="text-danger">
                     Please enter an office address
