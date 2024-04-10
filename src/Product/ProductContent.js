@@ -10,22 +10,23 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductContent = ({ data123, type }) => {
-const navigate =useNavigate()
-  const [productcontent, setproductcontent] = useState([]);
-  const [activedata, setactivedata] = useState([]);
-   const [data, setdata] = useState(!data123 ? {} : data123);
+  const navigate = useNavigate(); // Assuming you're using react-router
+
+  const [productcontent, setProductContent] = useState([]);
+  const [activedata, setActiveData] = useState([]);
+  const [data, setData] = useState(!data123 ? {} : data123); // Initializing data state
 
   useEffect(() => {
     getproductcontent();
   }, []);
 
   const getproductcontent = async () => {
-    let reqOptions = {
-      url: `${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`,
-      method: "GET",
-    };
-    let response = await axios.request(reqOptions);
-    setproductcontent(response.data.data);
+    try {
+      let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`);
+      setProductContent(response.data.data);
+    } catch (error) {
+      console.error("Error fetching product content:", error);
+    }
   };
 
   const [showForm, setShowForm] = useState(false);
@@ -77,36 +78,32 @@ const navigate =useNavigate()
                             unCheckedChildren={<CloseOutlined />}
                             checked={e.isActive}
                             onChange={async () => {
-                              let headersList = {
-                                Accept: "*/*",
-                                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                                "Content-Type": "application/json",
-                              };
-                              let bodyContent = {
-                                isActive: !e.isActive,
-                                id:e._id
-                              };                            
-                              let reqOptions = {
-                                url: `${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`,
-                                method: "POST",
-                                headers: headersList,
-                                data: bodyContent,
-                              };
-
-                              let response = await axios.request(reqOptions);
-                              toast.success(response.data.message);
-                              getproductcontent();
+                              try {
+                                let headersList = {
+                                  Accept: "*/*",
+                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  "Content-Type": "application/json",
+                                };
+                                let bodyContent = {
+                                  isActive: !e.isActive,
+                                  id: e._id
+                                };                            
+                                let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`, bodyContent, { headers: headersList });
+                                toast.success(response.data.message);
+                                getproductcontent();
+                              } catch (error) {
+                                handleTokenErrors(error);
+                                toast.error(error.response.data.originalError);
+                              }
                             }}
                           />                         
                         </td>
                         <td>
                           <img
-                            src={
-                              process.env.REACT_APP_API_BASE_URL +
-                              e.product_img
-                            }
+                            src={process.env.REACT_APP_API_BASE_URL + e.product_img}
                             className="img-fluid"
                             width={100}
+                            alt="Product Image"
                           />
                         </td>
                         <td className="d-flex">
@@ -117,17 +114,9 @@ const navigate =useNavigate()
                               try {
                                 let headersList = {
                                   Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem(
-                                    "accessToken"
-                                  )}`,
+                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                                 };
-                                let reqOptions = {
-                                  url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/removeProduct/${e._id}`,
-                                  method: "DELETE",
-                                  headers: headersList,
-                                };
-
-                                let response = await axios.request(reqOptions);
+                                let response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/removeProduct/${e._id}`, { headers: headersList });
                                 toast.success(response.data.message);
                                 getproductcontent();
                               } catch (error) {
@@ -143,16 +132,16 @@ const navigate =useNavigate()
                             type="button"
                             onClick={() => {
                               toggleForm();                           
-                              setactivedata(e);
+                              setActiveData(e);
                             }}                         
-                           
                           >
                             <i className="dw dw-edit2 mx-2" />
-                           
                           </span>
                         </td>
                       </tr>
                     );
+                  } else {
+                    return null; // If condition is not met, return null
                   }
                 })}
               </tbody>

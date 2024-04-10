@@ -124,13 +124,7 @@ const ProductContentForm = ({
                     onChange={(value) => {
                       setdata({ ...data, contentText: value });
                     }}
-                    // onChange={(content, delta, source, editor) => {
-                    //   // Check if the change is from the user (not programmatic)
-                     
-                    //     // Update your component state without causing an infinite loop
-                    //     setdata((prevData) => ({ ...prevData, contentText: content }));
-                     
-                    // }}
+                   
                   />
                   {/* <ReactQuill
                     theme="snow"
