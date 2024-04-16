@@ -13,7 +13,7 @@ const ProductContent = ({ data123, type }) => {
   const navigate = useNavigate(); // Assuming you're using react-router
 
   const [productcontent, setProductContent] = useState([]);
-  const [activedata, setActiveData] = useState([]);
+  const [activedata, setActiveData] = useState(null);
   const [data, setData] = useState(!data123 ? {} : data123); // Initializing data state
 
   useEffect(() => {
@@ -22,8 +22,10 @@ const ProductContent = ({ data123, type }) => {
 
   const getproductcontent = async () => {
     try {
+
       let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`);
       setProductContent(response.data.data);
+      console.log(response.data.data,"productcontent")
     } catch (error) {
       console.error("Error fetching product content:", error);
     }
@@ -133,6 +135,7 @@ const ProductContent = ({ data123, type }) => {
                             onClick={() => {
                               toggleForm();                           
                               setActiveData(e);
+                              console.log("data",e)
                             }}                         
                           >
                             <i className="dw dw-edit2 mx-2" />
