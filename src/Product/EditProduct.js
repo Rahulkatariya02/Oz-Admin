@@ -5,7 +5,7 @@ import ProductContent from "./ProductContent";
 import ProductContentForm from "./ProductContentForm";
 import ProductFile from "./ProductFile";
 import ProductImage from "./ProductImage";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import {useLocation} from "react-router-dom";
 
 const EditProduct = () => {
   const location = useLocation();

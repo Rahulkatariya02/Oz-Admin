@@ -9,7 +9,6 @@ import { handleTokenErrors } from "../component/handleTokenErrors";
 import CommonEditor from "../component/CommonEditor";
 
 const Menu = () => {
-
   useEffect(() => {
     cmsdata();
     menudata();
@@ -43,7 +42,8 @@ const Menu = () => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
       setFormErrors({});
-      setMenuType(ACTIVEDATA.menuType
+      setMenuType(
+        ACTIVEDATA.menuType
         // ACTIVEDATA.menuType == 1
         //   ? "CMS"
         //   : ACTIVEDATA.menuType == 2
@@ -56,9 +56,9 @@ const Menu = () => {
       setActive(ACTIVEDATA.isActive);
       setmenu_URL_unique_key(ACTIVEDATA.menu_URL_unique_key);
       setslug(ACTIVEDATA.slug);
-      if (ACTIVEDATA.Description !== "") {
-      }
-      // setDescription(ACTIVEDATA.Description);
+      setDescription(ACTIVEDATA.Description);
+      // if (ACTIVEDATA.Description !== "") {
+      // }
     }
   }, [ACTIVEDATA]);
 
@@ -102,10 +102,10 @@ const Menu = () => {
     const selectedMenuType = e.target.value;
     setMenuType(selectedMenuType);
 
-    if (selectedMenuType === '1') {
+    if (selectedMenuType === "1") {
       setShowCategoryList(false);
       setShowCmsList(true);
-    } else if (selectedMenuType === '2') {
+    } else if (selectedMenuType === "2") {
       setShowCategoryList(true);
       setShowCmsList(false);
     } else {
@@ -113,7 +113,6 @@ const Menu = () => {
       setShowCmsList(false);
     }
   };
-
 
   const cmsdata = async () => {
     try {
@@ -237,8 +236,7 @@ const Menu = () => {
               className="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
               to="#"
               role="button"
-              data-toggle="dropdown"
-            >
+              data-toggle="dropdown">
               <i className="dw dw-more" />
             </div>
             <div className="dropdown-menu dropdown-menu-right dropdown-menu-icon-list">
@@ -250,8 +248,7 @@ const Menu = () => {
                 onClick={() => {
                   settype("View");
                   setACTIVEDATA(object);
-                }}
-              >
+                }}>
                 <i className="dw dw-eye" /> View
               </div>
               <div
@@ -262,8 +259,7 @@ const Menu = () => {
                 onClick={() => {
                   settype("Edit");
                   setACTIVEDATA(object);
-                }}
-              >
+                }}>
                 <i className="dw dw-edit2" /> Edit
               </div>
               <div
@@ -273,7 +269,9 @@ const Menu = () => {
                   try {
                     let headersList = {
                       Accept: "*/*",
-                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                      Authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                      )}`,
                     };
                     let reqOptions = {
                       url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu/${object._id}`,
@@ -288,8 +286,7 @@ const Menu = () => {
                     handleTokenErrors(error);
                     toast.error(error.response.data.originalError);
                   }
-                }}
-              >
+                }}>
                 <i className="dw dw-delete-3" /> Delete
               </div>
             </div>
@@ -371,7 +368,7 @@ const Menu = () => {
                   data-target="#bd-example-modal-lg"
                   onClick={() => {
                     settype("ADD");
-                    setsortOrder('')
+                    setsortOrder("");
                     setMenuType("");
                     setcms_id("");
                     setsortOrder("");
@@ -383,8 +380,7 @@ const Menu = () => {
                     setshowInFooter(false);
                     setActive(false);
                   }}
-                  style={{ 'float': 'inline-end' }}
-                >
+                  style={{ float: "inline-end" }}>
                   <i className="icon-copy bi bi-plus-circle mr-3" />
                   Add New Menu
                 </Button>
@@ -403,8 +399,7 @@ const Menu = () => {
             tabIndex={-1}
             role="dialog"
             aria-labelledby="myLargeModalLabel"
-            aria-hidden="true"
-          >
+            aria-hidden="true">
             <div className="modal-dialog modal-lg modal-dialog-centered">
               <div className="modal-content">
                 <div className="modal-header">
@@ -415,8 +410,7 @@ const Menu = () => {
                     type="button"
                     className="close"
                     data-dismiss="modal"
-                    aria-hidden="true"
-                  >
+                    aria-hidden="true">
                     ×
                   </button>
                 </div>
@@ -427,14 +421,14 @@ const Menu = () => {
                         <div className="form-group">
                           <label>Base Menu</label>
                           <select
-                            className={`form-control ${formErrors.parentId ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.parentId ? "is-invalid" : ""
+                            }`}
                             disabled={type === "View"}
                             // defaultValue={data?.parentId}
                             onChange={(E) => {
                               setparentId(E.target.value);
-                            }}
-                          >
+                            }}>
                             <option selected>--Base Menu--</option>
                             {data.document &&
                               data.document?.map((el, i) => {
@@ -456,13 +450,23 @@ const Menu = () => {
                         <div className="form-group">
                           <label>Menu Type</label>
                           <select
-                            className={`form-control ${formErrors.menuType ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.menuType ? "is-invalid" : ""
+                            }`}
                             defaultValue={menuType}
                             disabled={type === "View"}
-                            onChange={handleMenuTypeChange}
-                          >
-                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Others" : "") : '--- Select menu type ---'}</option>
+                            onChange={handleMenuTypeChange}>
+                            <option value="">
+                              {ACTIVEDATA.menuType
+                                ? menuType === 1
+                                  ? "CMS"
+                                  : menuType === 2
+                                  ? "Product"
+                                  : menuType === 3
+                                  ? "Others"
+                                  : ""
+                                : "--- Select menu type ---"}
+                            </option>
                             <option value="1">CMS</option>
                             <option value="2">Product</option>
                             <option value="3">Others</option>
@@ -475,18 +479,17 @@ const Menu = () => {
                         </div>
                       </div>
                       {showCategoryList && (
-
                         <div className="col-md-12 col-sm-12">
                           <div className="form-group">
                             <label>Category List</label>
                             <select
-                              className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.cms_id ? "is-invalid" : ""
+                              }`}
                               disabled={type === "View"}
                               onChange={(e) => {
                                 setcategoryName(e.target.value);
-                              }}
-                            >
+                              }}>
                               <option value="">-- Select Category --</option>
                               {category &&
                                 category?.map((el, i) => {
@@ -511,14 +514,14 @@ const Menu = () => {
                           <div className="form-group">
                             <label>CMS List</label>
                             <select
-                              className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.cms_id ? "is-invalid" : ""
+                              }`}
                               disabled={type === "View"}
                               // onChange={handleMenuTypeChange}
                               onChange={(e) => {
                                 setCmsData(e.target.value);
-                              }}
-                            >
+                              }}>
                               <option value="">-- Select CMS --</option>
                               {cmsData?.map((el, i) => {
                                 return (
@@ -547,11 +550,12 @@ const Menu = () => {
                               sortOrder
                                 ? sortOrder
                                 : data12?.length > 0
-                                  ? data12[0].sortOrder + 1
-                                  : 0
+                                ? data12[0].sortOrder + 1
+                                : 0
                             }
-                            className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.sortOrder ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setsortOrder(e.target.value);
                             }}
@@ -572,8 +576,9 @@ const Menu = () => {
                             type="text"
                             disabled={type === "View"}
                             value={MenuName}
-                            className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.MenuName ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setMenuName(e.target.value);
                             }}
@@ -595,8 +600,9 @@ const Menu = () => {
                             type="text"
                             value={menu_URL_unique_key}
                             disabled={type === "View"}
-                            className={`form-control ${formErrors.menu_URL_unique_key ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.menu_URL_unique_key ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setmenu_URL_unique_key(e.target.value);
                             }}
@@ -617,8 +623,9 @@ const Menu = () => {
                             type="text"
                             value={slug}
                             disabled={type === "View"}
-                            className={`form-control ${formErrors.slug ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.slug ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setslug(e.target.value);
                             }}
@@ -636,9 +643,15 @@ const Menu = () => {
                           <label>
                             Description <span className="text-danger">*</span>
                           </label>
-                          <CommonEditor value={Description}
+                          {/* <CommonEditor value={Description}
                             onChange={(value) => {
                               setdata({ ...data, Description: value });
+                            }}
+                          /> */}
+                          <CommonEditor
+                            value={Description}
+                            onChange={(value) => {
+                              setDescription(value);
                             }}
                           />
                           {/* <ReactQuill
@@ -669,7 +682,6 @@ const Menu = () => {
                           </div>
                         </div>
                       </div>
-
                     </div>
                     <div className="form-group">
                       <div className="row">
@@ -687,8 +699,7 @@ const Menu = () => {
                             />
                             <label
                               className="custom-control-label "
-                              htmlFor="customCheck1"
-                            >
+                              htmlFor="customCheck1">
                               Show In Header
                             </label>
                           </div>
@@ -705,8 +716,7 @@ const Menu = () => {
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor="customCheck2"
-                            >
+                              htmlFor="customCheck2">
                               Show In Footer
                             </label>
                           </div>
@@ -723,8 +733,7 @@ const Menu = () => {
                             />
                             <label
                               className="custom-control-label"
-                              htmlFor="customCheck3"
-                            >
+                              htmlFor="customCheck3">
                               Is Active
                             </label>
                           </div>
@@ -737,8 +746,7 @@ const Menu = () => {
                   <button
                     type="button"
                     className="btn btn-secondary"
-                    data-dismiss="modal"
-                  >
+                    data-dismiss="modal">
                     Close
                   </button>
                   <button
@@ -758,8 +766,8 @@ const Menu = () => {
                             sortOrder: sortOrder
                               ? sortOrder
                               : data12?.length > 0
-                                ? data12[0].sortOrder + 1
-                                : 0,
+                              ? data12[0].sortOrder + 1
+                              : 0,
                             // cms: cms_id,
                             menuName: MenuName,
                             menuType: menuType,
@@ -776,7 +784,8 @@ const Menu = () => {
                             Description: Description,
                           };
 
-                          if (parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
+                          if (parentId !== null && parentId !== "--Base Menu--")
+                            bodyContent.parentId = parentId;
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu`,
                             method: "POST",
@@ -792,8 +801,7 @@ const Menu = () => {
                           toast.error(error.response.data.originalError);
                         }
                       }
-                    }}
-                  >
+                    }}>
                     Save changes
                   </button>
                 </div>

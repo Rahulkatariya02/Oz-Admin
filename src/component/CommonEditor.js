@@ -1,52 +1,39 @@
-import React, { useEffect, useState } from 'react';
-import Quill from 'quill';
-import 'quill/dist/quill.snow.css';
-import htmlEditButton from 'quill-html-edit-button';
+import React, { useState, useEffect,useMemo } from "react";
+import JoditEditor from "jodit-react";
 
-const CommonEditor = ({ value, onChange }) => {
-  const [editorValue, setEditorValue] = useState(value);
+const CommonEditor = ({ placeholder, value, onChange }) => {
+  const [content, setContent] = useState(value || '');
+  const config = useMemo(
+    () => ({
+      readonly: false,
+      placeholder: placeholder || "Start typing...",
+      uploader: {
+        insertImageAsBase64URI: true,
+      },
+      // buttons:
+      // "source,bold,italic,underline,strikethrough,|,ul,ol,|,font,fontsize,|,image,table,link,|,align,undo,redo,|,eraser,brush,paragraph,indent,|,selectall,cut,copy,paste,|,hr,symbol,|,left,center,right,|,superscript,subscript,|,removeformat,formatBlock,|,about,fullscreen", // Added fullscreen button
+    }),
+    [placeholder]
+  );
+  const handleEditorChange = (newContent) => {
+    setContent(newContent);
+    onChange(newContent);
+    console.log("editor change",newContent)
+  };
 
   useEffect(() => {
-    // Register the HTML Edit Button with Quill
-    Quill.register('modules/htmlEditButton', htmlEditButton);
+    setContent(value || '');
+  }, [value]);
 
-    const editor = new Quill('#editor-container', {
-      theme: 'snow',
-      modules: {
-        toolbar: {
-          container: [
-            [{ header: [1, 2, 3, 4, 5, 6, false] }],
-            ['bold', 'italic', 'underline', 'strike'],
-            [{ list: 'ordered' }, { list: 'bullet' }],
-            ['link', 'image', 'html-edit'],
-            ['clean']
-          ]
-        },
-        htmlEditButton: {}
-      }
-    });
-
-    // Set initial content if provided
-    if (value) {
-      editor.root.innerHTML = value;
-    }
-
-    // Listen for changes and update parent component
-    editor.on('text-change', () => {
-      const html = editor.root.innerHTML;
-      setEditorValue(html); // Update the internal state
-      if (onChange) {
-        onChange(html); // Notify parent component about the change
-      }
-    });
-
-    // Clean up
-    return () => {
-      editor.off('text-change');
-    };
-  }, [ ]);
-
-  return <div id="editor-container" />;
+  return (
+    <JoditEditor
+      value={content}
+      config={config}
+      tabIndex={1}
+      onBlur={(newContent) => setContent(newContent)}
+      onChange={handleEditorChange}
+    />
+  );
 };
 
 export default CommonEditor;
