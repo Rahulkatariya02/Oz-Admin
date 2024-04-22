@@ -16,7 +16,8 @@ const ProductFile = ({ data123, type }) => {
   const [ProductFiledata1, setProductFiledata] = useState([]);
   const [showForm, setShowForm] = useState(false);
   const [activedata, setactivedata] = useState([]);
- 
+  const [editId, setEditId] = useState(null);
+
   const ProductFiledata = async () => {
     let headersList = {
       Accept: "*/*",
@@ -34,6 +35,7 @@ const ProductFile = ({ data123, type }) => {
   };
   const toggleForm = () => {
     setShowForm(!showForm);
+    setEditId(null); 
   };
  
   return (
@@ -110,10 +112,11 @@ const ProductFile = ({ data123, type }) => {
                           type="button"
                           onClick={async () => {
                             let reqOptions = {
+                              
                               url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/productfileremove/${e._id}`,
                               method: "GET",
                             };
-
+                            console.log("res",reqOptions,e._id)
                             let response = await axios.request(reqOptions);
                             toast.success(response.data.message);
                             ProductFiledata();
@@ -127,6 +130,10 @@ const ProductFile = ({ data123, type }) => {
                           onClick={() => {
                             toggleForm();
                             setactivedata(e);
+                            setEditId(e._id);
+                            console.log("_id",e._id)
+                            console.log("data",e)
+
                           }}>
                           <i className="dw dw-edit2 mx-2" />
                         </span>

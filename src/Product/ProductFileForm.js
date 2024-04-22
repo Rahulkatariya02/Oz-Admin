@@ -11,9 +11,32 @@ const ProductFileForm = ({ data123,
   type, }) => {
   const [data, setdata] = useState(activedata ? activedata : {});
   const [isActive, setIsActive] = useState(false)
+  const [selectedFile, setSelectedFile] = useState(null); // Added state for tracking selected file
+
   const navigate = useNavigate();
+  // const handalchange = (e) => {
+  //   console.log("e",e)
+  //   const { name, value, checked, files } = e.target;
+  //   console.log("File selected:", files[0]);
+  //   if (name !== "file") {
+  //     if (name === "isActive") {
+  //       setdata({ ...data, [name]: checked });
+  //     } else {
+  //       setdata({ ...data, [name]: value });
+  //     }
+  //   } else {
+  //     setSelectedFile(files[0]);
+  //     setdata({ ...data, [name]: files[0].name });
+  //     console.log(files[0].name)
+  //   }
+  // };
   const handalchange = (e) => {
+    console.log("Event object:", e); // Log the entire event object
+
     const { name, value, checked, files } = e.target;
+  
+    console.log("Selected files:", files); // Log selected files
+  
     if (name !== "file") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -21,10 +44,14 @@ const ProductFileForm = ({ data123,
         setdata({ ...data, [name]: value });
       }
     } else {
-      setdata({ ...data, [name]: files[0] });
+      if (files.length > 0) {
+        setSelectedFile(files[0]); // Set selected file
+        setdata({ ...data, [name]: files[0].name }); // Set file name in the data state
+      }
     }
   };
-
+  
+  
   return (
     <>
       <div className="row">
@@ -71,7 +98,6 @@ const ProductFileForm = ({ data123,
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
-
                   <label className="col-sm-12 col-md-4 mb-4 col-form-label">
                     Content Text
                   </label>
@@ -130,21 +156,27 @@ const ProductFileForm = ({ data123,
                           Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                           "Content-Type": "multipart/form-data", // Updated Content-Type
                         };
-
                         let formdata = new FormData();
                         formdata.append("contentText", data.contentText);
                         formdata.append("isActive", isActive);
                         formdata.append("product_id", data123[0].product_id);
+                        formdata.append("id",data123[0]._id);
+                        console.log("_idformdata",data123[0]._id);
+                        console.log("data123",data123);
                         // formdata.append("uploadType", data.uploadType);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
                         // formdata.append("file", data.file);
-                        if (data.file instanceof File) {
-                          formdata.append("file", data.file);
+                        // if (data.file instanceof File) {
+                        //   formdata.append("file", data.file);
+                          if (selectedFile instanceof File) {
+                            console.log("Selected file:", selectedFile); 
+                            formdata.append("file", selectedFile);
                         } else if (activedata.file) {
                           const blob = await fetch(activedata.file).then((res) => res.blob());
                           formdata.append("file", blob, `${activedata.file}`);
                         }
+                        console.log("Form data:", formdata);
                         let bodyContent = formdata;
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/productfile`,
@@ -152,6 +184,7 @@ const ProductFileForm = ({ data123,
                           headers: headersList,
                           data: bodyContent,
                         };
+                        console.log("Request options:", reqOptions);
                         let response = await axios.request(reqOptions);
                         if (response.data.status === 1) {
                           toast.success(response.data.message);
