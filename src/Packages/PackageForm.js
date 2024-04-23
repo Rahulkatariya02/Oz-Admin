@@ -1,10 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import TinyMCE from "react-tinymce/lib/components/TinyMCE";
 import ReactQuill from "react-quill";
+import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 const PackageForm = () => {
   const navigate = useNavigate();
@@ -70,6 +71,7 @@ const PackageForm = () => {
         toast.success(response.data.message);
       }
     } catch (error) {
+      handleTokenErrors(error);
       toast.error(error?.response?.data?.error);
     }
   };
@@ -228,51 +230,11 @@ const PackageForm = () => {
                         Description (Add HTML){" "}
                         <span className="text-danger">*</span>
                       </label>
-                      {/* <textarea
-                        type="text"
-                        className="form-control"
-                        name="description"
-                        value={data?.description}
-                        disabled={location?.state?.type === "View"}
-                        onChange={(e) => handalchange(e)}
-                      /> */}
-                      {/* {!data?.description && (
-                        <TinyMCE
-                          content={data?.description}
-                          onChange={(e) => {
-                            setdata({
-                              ...data,
-                              ["description"]: e.level.content,
-                            });
-                          }}
-                          config={{
-                            advcode_inline: true,
-                            plugins:
-                              "powerpaste casechange searchreplace autolink directionality visualblocks visualchars image link media mediaembed codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker editimage help formatpainter permanentpen charmap linkchecker emoticons advtable export autosave advcode fullscreen",
-                            toolbar:
-                              "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
-                          }}
-                        />
-                      )}
-                      {data?.description && (
-                        <TinyMCE
-                          content={data?.description}
-                          onChange={(e) => {
-                            setdata({
-                              ...data,
-                              ["description"]: e.level.content,
-                            });
-                          }}
-                          config={{
-                            advcode_inline: true,
-                            plugins:
-                              "powerpaste casechange searchreplace autolink directionality visualblocks visualchars image link media mediaembed codesample table charmap pagebreak nonbreaking anchor tableofcontents insertdatetime advlist lists checklist wordcount tinymcespellchecker editimage help formatpainter permanentpen charmap linkchecker emoticons advtable export autosave advcode fullscreen",
-                            toolbar:
-                              "undo redo print spellcheckdialog formatpainter | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
-                          }}
-                        />
-                      )} */}
-                      <ReactQuill
+                      <CommonEditor value={data?.description}
+                        onChange={(value) => {
+                          setdata({ ...data, description: value });
+                        }} />
+                      {/* <ReactQuill
                         theme="snow"
                         modules={modules}
                         // className={`${formErrors.description ? "is-invalid" : ""}`}
@@ -280,10 +242,8 @@ const PackageForm = () => {
                         value={data?.description}
                         onChange={(value) => {
                           setdata({ ...data, description: value });
-
-                          // setFormErrors({ ...formErrors, description: "" }); // Clear the description error when the user starts typing
                         }}
-                      />
+                      /> */}
                     </div>
                   </div>
                   <div className="col-md-4 mx-3">

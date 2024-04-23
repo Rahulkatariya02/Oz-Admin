@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import { Button, Spin, Switch, Table } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const GalleryImage = () => {
   const [data, setdata] = useState({ Title: "" });
@@ -131,6 +132,7 @@ const GalleryImage = () => {
                 toast.success(response.data.message);
                 Galleryimges();
               } catch (error) {
+                handleTokenErrors(error);
                 toast.error(error.response.data.originalError);
               }
             }}

@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const AddnewCategory = () => {
   const navigate = useNavigate();
@@ -78,7 +79,7 @@ const AddnewCategory = () => {
                         className="form-control"
                         type="text"
                         placeholder="Root Category"
-                        readOnly
+                        // readOnly
                       />
                     </div>
 
@@ -280,6 +281,7 @@ const AddnewCategory = () => {
                               navigate("/categorymasterlist");
                             }
                           } catch (error) {
+                            handleTokenErrors(error);
                             toast.error(error?.response?.data?.error);
                           }
                         }

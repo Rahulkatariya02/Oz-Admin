@@ -5,6 +5,8 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
+import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 const Menu = () => {
   useEffect(() => {
@@ -21,6 +23,8 @@ const Menu = () => {
   const [menuType, setMenuType] = useState("");
   const [cms_id, setcms_id] = useState("");
   const [parentId, setparentId] = useState(null);
+  const [categoryName, setcategoryName] = useState(null);
+  const [cmsDataa, setCmsData] = useState(null);
   const [sortOrder, setsortOrder] = useState("");
   const [MenuName, setMenuName] = useState("");
   const [Description, setDescription] = useState(ACTIVEDATA.Description);
@@ -38,26 +42,35 @@ const Menu = () => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
       setFormErrors({});
-      setMenuType(ACTIVEDATA.menuType);
+      setMenuType(
+        ACTIVEDATA.menuType
+        // ACTIVEDATA.menuType == 1
+        //   ? "CMS"
+        //   : ACTIVEDATA.menuType == 2
+        //     ? "Product"
+        //     : "Other"
+      );
       setMenuName(ACTIVEDATA.name);
       setshowInHeader(ACTIVEDATA.showInHeader);
       setshowInFooter(ACTIVEDATA.showInFooter);
       setActive(ACTIVEDATA.isActive);
       setmenu_URL_unique_key(ACTIVEDATA.menu_URL_unique_key);
       setslug(ACTIVEDATA.slug);
-      if (ACTIVEDATA.Description !== "") {
-      }
       setDescription(ACTIVEDATA.Description);
+      // if (ACTIVEDATA.Description !== "") {
+      // }
     }
   }, [ACTIVEDATA]);
+
+  const Description1 = ACTIVEDATA.Description;
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
     setMenuType(selectedMenuType);
 
-    if (selectedMenuType === "CMS") {
+    if (selectedMenuType === "1") {
       setShowCategoryList(false);
       setShowCmsList(true);
-    } else if (selectedMenuType === "Product") {
+    } else if (selectedMenuType === "2") {
       setShowCategoryList(true);
       setShowCmsList(false);
     } else {
@@ -77,6 +90,7 @@ const Menu = () => {
       setcmsdata(response?.data?.document);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -91,6 +105,7 @@ const Menu = () => {
       // Handle the successful response here
       setdata(response.data);
     } catch (error) {
+      handleTokenErrors(error);
       // Handle any errors here
       console.error(error);
     }
@@ -201,6 +216,7 @@ const Menu = () => {
                     toast.success(response.data.message);
                     menudata();
                   } catch (error) {
+                    handleTokenErrors(error);
                     toast.error(error.response.data.originalError);
                   }
                 }}
@@ -260,10 +276,10 @@ const Menu = () => {
       errors.slug = "Menu Slug is required.";
     }
 
-    if (Description === "") {
-      valid = false;
-      errors.Description = "Description is required.";
-    }
+    // if (Description === "") {
+    //   valid = false;
+    //   errors.Description = "Description is required.";
+    // }
 
     setFormErrors(errors);
     return valid;
@@ -392,13 +408,13 @@ const Menu = () => {
                             </option>
                             <option value="1">CMS</option>
                             <option value="2">Product</option>
-                            <option value="3">Other</option>
+                            <option value="3">Others</option>
                           </select>
-                          {formErrors.menuType && (
+                          {/* {formErrors.menuType && (
                             <div className="invalid-feedback d-block">
                               {formErrors.menuType}
                             </div>
-                          )}
+                          )} */}
                         </div>
                       </div>
                       {showCategoryList && (
@@ -410,13 +426,16 @@ const Menu = () => {
                                 formErrors.cms_id ? "is-invalid" : ""
                               }`}
                               disabled={type === "View"}
+                              onChange={(e) => {
+                                setcategoryName(e.target.value);
+                              }}
                             >
                               <option value="">-- Select Category --</option>
-                              {data.document &&
-                                data.document?.map((el, i) => {
+                              {category &&
+                                category?.map((el, i) => {
                                   return (
-                                    <option key={i} value={el._id}>
-                                      {el.name}
+                                    <option key={i} value={el.category._id}>
+                                      {el.category.category}
                                     </option>
                                   );
                                 })}
@@ -430,6 +449,7 @@ const Menu = () => {
                         </div>
                       )}
                       {showCmsList && (
+                        // { (
                         <div className="col-md-12 col-sm-12">
                           <div className="form-group">
                             <label>CMS List</label>
@@ -438,8 +458,9 @@ const Menu = () => {
                                 formErrors.cms_id ? "is-invalid" : ""
                               }`}
                               disabled={type === "View"}
-                              onChange={(E) => {
-                                setcms_id(E.target.value);
+                              // onChange={handleMenuTypeChange}
+                              onChange={(e) => {
+                                setCmsData(e.target.value);
                               }}
                             >
                               <option value="">-- Select CMS --</option>
@@ -557,54 +578,24 @@ const Menu = () => {
                           )}
                         </div>
                       </div>
-                      {/* <div className="col-md-12">
-                        <div className="form-group">
-                          <label>
-                            Description <span className="text-danger">*</span>
-                          </label>
-                          <div>
-                            {!Description && (
-                              <TinyMCE
-                                content={Description}
-                                onChange={(e) => {
-                                  setDescription(e.level.content);
-                                }}
-                                config={{
-                                  advcode_inline: true,
-                                  plugins:
-                                    "searchreplace autolink directionality visualblocks visualchars image link   codesample table charmap pagebreak nonbreaking anchor  insertdatetime advlist lists  wordcount   help   charmap linkchecker emoticons   autosave  fullscreen",
-                                  toolbar:
-                                    "undo redo print spellcheckdialog   | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
-                                }}
-                              />
-                            )}
-                            {Description && (
-                              <TinyMCE
-                                content={Description}
-                                onChange={(e) => {
-                                  setDescription(e.level.content);
-                                }}
-                                config={{
-                                  advcode_inline: true,
-                                  plugins:
-                                    "  searchreplace autolink directionality visualblocks visualchars image link   codesample table charmap pagebreak nonbreaking anchor  insertdatetime advlist lists  wordcount   help   charmap linkchecker emoticons   autosave  fullscreen",
-                                  toolbar:
-                                    "undo redo print spellcheckdialog  | blocks fontfamily fontsize | bold italic underline forecolor backcolor | link image | alignleft aligncenter alignright alignjustify | code",
-                                }}
-                              />
-                            )}
-                            <div className="invalid-feedback d-block">
-                              {formErrors.Description}
-                            </div>
-                          </div>
-                        </div>
-                      </div> */}
+
                       <div className="col-md-12">
                         <div className="form-group">
                           <label>
                             Description <span className="text-danger">*</span>
                           </label>
-                          <ReactQuill
+                          {/* <CommonEditor value={Description}
+                            onChange={(value) => {
+                              setdata({ ...data, Description: value });
+                            }}
+                          /> */}
+                          <CommonEditor
+                            value={Description}
+                            onChange={(value) => {
+                              setDescription(value);
+                            }}
+                          />
+                          {/* <ReactQuill
                             value={Description}
                             onChange={(value) => setDescription(value)}
                             modules={{
@@ -636,7 +627,7 @@ const Menu = () => {
                               },
                             }}
                             theme="snow"
-                          />
+                          /> */}
                           <div className="invalid-feedback d-block">
                             {formErrors.Description}
                           </div>
@@ -735,6 +726,7 @@ const Menu = () => {
                             // cms: cms_id,
                             menuName: MenuName,
                             menuType: menuType,
+                            category: categoryName,
                             // menuType === "CMS"
                             //   ? 1
                             //   : menuType === "Product"
@@ -781,6 +773,7 @@ const Menu = () => {
                           toast.success(response.data.message);
                           menudata();
                         } catch (error) {
+                          handleTokenErrors(error);
                           toast.error(error.response.data.originalError);
                         }
                       }

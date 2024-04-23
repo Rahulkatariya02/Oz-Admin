@@ -7,9 +7,11 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { Switch } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Package = () => {
   const [allPackage, setAllPackage] = useState([]);
+
   const navigate = useNavigate();
   useEffect(() => {
     // new DataTable("#myTable");
@@ -53,7 +55,8 @@ const Package = () => {
               >
                 <thead className="bg-light">
                   <tr>
-                    <th>Title</th>
+                    <th style={{ width: "25%" }}>Title</th>
+                    <th>Type</th>
                     <th>Is Active</th>
                     <th className="datatable-nosort">Action</th>
                   </tr>
@@ -153,6 +156,7 @@ const Package = () => {
                                     toast.success(response.data.message);
                                     AllPackage();
                                   } catch (error) {
+                                    handleTokenErrors(error);
                                     toast.error(
                                       error.response.data.originalError
                                     );

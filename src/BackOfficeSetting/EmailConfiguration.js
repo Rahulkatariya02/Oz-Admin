@@ -3,6 +3,7 @@ import React from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const EmailConfiguration = () => {
   const {
@@ -46,6 +47,7 @@ const EmailConfiguration = () => {
         toast.error(data.message);
       }
     } catch (error) {
+      handleTokenErrors(error);
       toast.error(error.response.data.originalError);
     }
   };

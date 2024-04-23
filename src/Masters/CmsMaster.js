@@ -26,6 +26,7 @@ const CmsMaster = () => {
       setCmsData(response.data.document);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -230,7 +231,13 @@ const CmsMaster = () => {
                     </label>
                   </div>
                   <div className="col-sm-8">
-                    <ReactQuill
+                    <CommonEditor
+                      value={data?.description}
+                      onChange={(value) => {
+                        setdata({ ...data, description: value });
+                      }}
+                    />
+                    {/* <ReactQuill
                       theme="snow"
                       modules={modules}
                       className={`${
@@ -242,7 +249,7 @@ const CmsMaster = () => {
                         setdata({ ...data, description: value });
                         setFormErrors({ ...formErrors, description: "" }); // Clear the description error when the user starts typing
                       }}
-                    />
+                    /> */}
                     {formErrors.description && (
                       <div className="invalid-feedback">
                         {formErrors.description}
@@ -403,6 +410,7 @@ const CmsMaster = () => {
                               navigate("/cms-master-list");
                             }
                           } catch (error) {
+                            handleTokenErrors(error);
                             toast.error(error.response.data.originalError);
                           }
                         }

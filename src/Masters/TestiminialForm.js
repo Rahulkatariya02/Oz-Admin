@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const TestiminialForm = () => {
   const location = useLocation();
@@ -156,6 +157,7 @@ const TestiminialForm = () => {
                             navigate("/testimonial-master-list");
                           }
                         } catch (error) {
+                          handleTokenErrors(error);
                           toast.error(error?.response?.data?.originalError);
                         }
                       }

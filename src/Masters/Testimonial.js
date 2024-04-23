@@ -4,6 +4,7 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Spin, Switch, Table } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Testimonial = () => {
   const [data, setdata] = useState([]);
@@ -22,6 +23,7 @@ const Testimonial = () => {
       setdata(response.data.document);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -94,6 +96,7 @@ const Testimonial = () => {
                 toast.success(response.data.message);
                 Testimonialdata();
               } catch (error) {
+                handleTokenErrors(error);
                 toast.error(error.response.data.originalError);
               }
             }}

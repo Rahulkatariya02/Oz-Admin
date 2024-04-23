@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const SecoSetting = () => {
   const url = process.env.REACT_APP_API_BASE_URL;
@@ -38,6 +39,7 @@ const SecoSetting = () => {
       let response = await axios.request(reqOptions);
       toast.success(response.data.message);
     } catch (error) {
+      handleTokenErrors(error);
       // Handle any errors here
       console.error(error);
     }

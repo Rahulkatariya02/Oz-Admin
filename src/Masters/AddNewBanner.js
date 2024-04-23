@@ -6,6 +6,7 @@ import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const AddNewBanner = ({ data12 }) => {
   const location = useLocation();
@@ -108,9 +109,9 @@ const AddNewBanner = ({ data12 }) => {
       errors.sortOrder = "Sort Order must be a positive integer.";
     }
 
-    if (!data.MenuName && !menuNameId) {
-      errors.MenuName = "Menu Name is required.";
-    }
+    // if (!data.MenuName && !menuNameId) {
+    //   // errors.MenuName = "Menu Name is required.";
+    // }
 
     if (!data.BannerType && !selectedBannerType) {
       errors.BannerType = "Banner Type is required.";
@@ -153,6 +154,7 @@ const AddNewBanner = ({ data12 }) => {
       });
       setmenuNameId(data1222?._id);
     } catch (error) {
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -218,11 +220,11 @@ const AddNewBanner = ({ data12 }) => {
                                   );
                                 })}
                             </select>
-                            {formErrors.MenuName && (
+                            {/* {formErrors.MenuName && (
                               <div className="invalid-feedback">
                                 {formErrors.MenuName}
                               </div>
-                            )}
+                            )} */}
                           </div>
                         </div>
 
@@ -385,7 +387,9 @@ const AddNewBanner = ({ data12 }) => {
                             className="custom-control-input my-5"
                             id="customCheck3"
                             name="isActive"
-                            defaultChecked={isActive || location.state.isActive}
+                            defaultChecked={
+                              isActive || location.state?.isActive
+                            }
                             onChange={(e) => setIsActive(e.target.checked)}
                           />
                           <label
@@ -492,6 +496,7 @@ const AddNewBanner = ({ data12 }) => {
                                   toast.error(
                                     error?.response?.data?.originalError
                                   );
+                                  handleTokenErrors(error);
                                 }
                               }
                             }}

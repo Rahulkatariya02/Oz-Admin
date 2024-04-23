@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
+import { handleTokenErrors } from '../component/handleTokenErrors';
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const EmailSettings = (props) => {
@@ -40,6 +41,7 @@ const EmailSettings = (props) => {
                 // Handle the response data as needed
                 setMailReceiverData(data.document);
             } catch (error) {
+                handleTokenErrors(error);
                 console.error("Error fetching mail receiver data:", error);
             }
         }
@@ -138,6 +140,7 @@ const EmailSettings = (props) => {
             data.message.code ? toast.error(data.message.code) : toast.success(data.message);
 
         } catch (error) {
+            handleTokenErrors(error);
             console.error('Error:', error);
         }
     };

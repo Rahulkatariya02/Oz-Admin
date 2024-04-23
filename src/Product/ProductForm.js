@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductForm = ({ data123, type }) => {
 
@@ -384,6 +385,7 @@ const ProductForm = ({ data123, type }) => {
                           }
                         }
                       } catch (error) {
+                        handleTokenErrors(error);
                         toast.error(error?.response?.data?.error);
                       }
                     }}

@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { Button, Spin, Switch, Table } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const GalleryType = () => {
   const [data, setdata] = useState({});
@@ -129,6 +130,7 @@ const GalleryType = () => {
                 toast.success(response.data.message);
                 GalleryType();
               } catch (error) {
+                handleTokenErrors(error);
                 toast.error(error.response.data.originalError);
               }
             }}
@@ -314,6 +316,7 @@ const GalleryType = () => {
                           GalleryType();
                         }
                       } catch (error) {
+                        handleTokenErrors(error);
                         toast.error(error?.response?.data?.originalError);
                       }
                       //   }

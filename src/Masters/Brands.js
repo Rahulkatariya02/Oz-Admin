@@ -4,6 +4,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Brands = () => {
   const navigate = useNavigate();
@@ -50,6 +51,7 @@ const Brands = () => {
       setBrandsdata1(response.data);
     } catch (error) {
       // Handle any errors here
+      handleTokenErrors(error);
       console.error(error);
     }
   };
@@ -183,6 +185,7 @@ const Brands = () => {
                 Brandsdata();
               } catch (error) {
                 toast.error(error.response.data.originalError);
+                handleTokenErrors(error);
               }
             }}
           >
@@ -408,6 +411,7 @@ const Brands = () => {
                           error?.response?.data?.originalError ||
                             error?.response?.data?.error
                         );
+                        handleTokenErrors(error);
                       }
                     }}
                   >

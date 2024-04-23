@@ -11,6 +11,7 @@ import SocialMediaSetting from "./SocialMediaSetting";
 import EmailConfiguration from "./EmailConfiguration";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 function ContextAwareToggle({ children, eventKey, callback }) {
   const { activeEventKey } = useContext(AccordionContext);
@@ -59,8 +60,9 @@ const BackOffice = () => {
         headers: headersList,
       });
       setLogoImage(response.data.document);
-      setLoading(false);
+            setLoading(false);
     } catch (error) {
+      handleTokenErrors(error);
       setLoading(false);
     }
   };
@@ -152,6 +154,7 @@ const BackOffice = () => {
                                             ? error.response.data.originalError
                                             : error.response.data.error
                                         );
+                                        handleTokenErrors(error);
                                       }
                                     }}
                                   >

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const SocialMediaSetting = () => {
   const {
@@ -54,6 +55,7 @@ const SocialMediaSetting = () => {
       setSocialMediaData(response.data.document);
       setLoading(false);
     } catch (error) {
+      handleTokenErrors(error);
       setLoading(false);
     }
   };

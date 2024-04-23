@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 const ContactSetting = () => {
   const {
@@ -10,6 +12,7 @@ const ContactSetting = () => {
     handleSubmit,
     reset,
     watch,
+    setValue,
     formState: { errors },
   } = useForm({});
   // let accessToken = localStorage.getItem("accessToken");
@@ -43,6 +46,7 @@ const ContactSetting = () => {
         }
       } catch (error) {
         toast.error(error.response.data.originalError);
+        handleTokenErrors(error);
       }
       //   await dispatch(changePassword(dataobject));
     } catch (error) {
@@ -65,9 +69,12 @@ const ContactSetting = () => {
         headers: headersList,
       });
       setContactData(response.data.document);
+
       setLoading(false);
     } catch (error) {
+      handleTokenErrors(error);
       setLoading(false);
+
     }
   };
 
@@ -169,22 +176,22 @@ const ContactSetting = () => {
                 <label>
                   Office Address<span className="text-danger">*</span>
                 </label>
-                <textarea
-                  type="text"
+                <CommonEditor value={watch('office_address')} />
+                {/* <ReactQuill
                   name="office_address"
-                  className={`form-control ${errors.office_address ? "is-invalid" : ""
-                    }`}
-                  {...register("office_address", {
-                    required: true,
-                  })}
-                />
+                  value={watch('office_address')} // Ensure it's controlled by react-hook-form
+                  onChange={(value) => {
+                    setValue('office_address', value); // Update the form value
+                  }}
+                /> */}
                 {errors.office_address && (
                   <small className="text-danger">
-                    Please enter a office address
+                    Please enter an office address
                   </small>
                 )}
               </div>
             </div>
+
           </div>
           <div className="modal-footer col-md-12 mt-4">
             <Button className=" btn-outline-secondary btn-light mx-2">
