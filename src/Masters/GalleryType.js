@@ -45,13 +45,13 @@ const GalleryType = () => {
   const columns = [
     {
       align: "center",
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
       align: "center",
-      title: "title",
+      title: "Title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
@@ -115,7 +115,9 @@ const GalleryType = () => {
               try {
                 let headersList = {
                   Accept: "*/*",
-                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "accessToken"
+                  )}`,
                 };
                 let reqOptions = {
                   url: `${process.env.REACT_APP_API_BASE_URL}api/admin/gallery/${object._id}`,
@@ -137,7 +139,7 @@ const GalleryType = () => {
       ),
     },
   ];
-  console.log('ACTIVEDATA', ACTIVEDATA, AllGalleryType.length);
+  console.log("ACTIVEDATA", ACTIVEDATA, AllGalleryType.length);
   let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>
@@ -153,10 +155,10 @@ const GalleryType = () => {
                 data-toggle="modal"
                 data-target="#bd-example-modal-lg"
                 type="primary"
-                style={{ 'float': 'inline-end' }}
+                style={{ float: "inline-end" }}
                 size="large"
                 onClick={() => {
-                  setACTIVEDATA('')
+                  setACTIVEDATA("");
                 }}
               >
                 <i className="icon-copy fi-plus mx-2" />
@@ -218,13 +220,13 @@ const GalleryType = () => {
                             defaultValue={
                               ACTIVEDATA
                                 ? ACTIVEDATA.sortOrder
-                                : AllGalleryType.length +1
+                                : AllGalleryType.length + 1
                             }
-                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}  
+                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}
                             className="form-control"
                             name="sortOrder"
                             onChange={(e) => handalchange(e)}
-                          // onChange={(e) => setsortOrder(e.target.value)}
+                            // onChange={(e) => setsortOrder(e.target.value)}
                           />
                         </div>
                       </div>
@@ -253,10 +255,12 @@ const GalleryType = () => {
                               className="custom-control-input my-5"
                               id="customCheck3"
                               name="isActive"
-                              defaultChecked={isActive || ACTIVEDATA.isActive === true}                            
+                              defaultChecked={
+                                isActive || ACTIVEDATA.isActive === true
+                              }
                               onChange={(e) => setIsActive(e.target.checked)}
                             />
-                           
+
                             <label
                               className="custom-control-label"
                               htmlFor="customCheck3"
@@ -286,7 +290,9 @@ const GalleryType = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "accessToken"
+                          )}`,
                         };
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/gallery`,
@@ -296,7 +302,9 @@ const GalleryType = () => {
                             id: ACTIVEDATA._id,
                             isActive: isActive,
                             sortOrder: data.sortOrder,
-                            title: ACTIVEDATA.title ? ACTIVEDATA.title : data.Title,
+                            title: ACTIVEDATA.title
+                              ? ACTIVEDATA.title
+                              : data.Title,
                           },
                         };
 

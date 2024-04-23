@@ -35,7 +35,7 @@ const Specials = () => {
   };
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-   
+
     if (name !== "SpecialImage") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -69,12 +69,12 @@ const Specials = () => {
   };
   const columns = [
     {
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
-      title: "title",
+      title: "Title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
@@ -158,14 +158,14 @@ const Specials = () => {
       ),
     },
   ];
- 
+
   let data12 = Allspecia?.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0"> Special Master</h2>
+            <h2 className="h3 mb-0"> Specials</h2>
           </div>
 
           <div className="pb-4">
@@ -176,10 +176,9 @@ const Specials = () => {
                   data-target="#bd-example-modal-lg"
                   type="primary"
                   size="large"
-                  style={{'float': 'inline-end'}}
+                  style={{ float: "inline-end" }}
                 >
-                  Special Master
-                  <i className="icon-copy bi bi-plus-circle mx-2" />
+                  <i className="icon-copy bi bi-plus-circle mx-2" /> Add Special
                 </Button>
               </div>
             </div>
@@ -324,7 +323,9 @@ const Specials = () => {
                         if (data12 === true) {
                           let headersList = {
                             Accept: "*/*",
-                            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                            Authorization: `Bearer ${localStorage.getItem(
+                              "accessToken"
+                            )}`,
                           };
                           let formdata = new FormData();
                           // formdata.append("id", data?.id);

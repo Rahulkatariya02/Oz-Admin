@@ -89,13 +89,13 @@ const Header = () => {
                 <i className="dw dw-user1" /> Profile
               </Link>
               <Link className="dropdown-item" to="profile.html">
-                <i className="dw dw-settings2" /> Setting
+                <i className="dw dw-settings2" /> Settings
               </Link>
               <Link className="dropdown-item" to="faq.html">
                 <i className="dw dw-help" /> Help
               </Link>
               <Link className="dropdown-item" to="login.html">
-                <i className="dw dw-logout" /> Log Out
+                <i className="dw dw-logout" /> Logout
               </Link>
             </div>
           </div>

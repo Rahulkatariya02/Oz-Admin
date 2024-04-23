@@ -6,21 +6,24 @@ const Sidebar = () => {
   const location = useLocation().pathname;
   return (
     <>
-      <header className={
-        (location === "/login" ||
-          location === "/forgotpassword"
-          ? "d-none"
-          : "")
-      }>
-        <div className="header" >
+      <header
+        className={
+          location === "/login" || location === "/forgot-password"
+            ? "d-none"
+            : ""
+        }
+      >
+        <div className="header">
           <AdminsidebarSetting />
         </div>
         <div className="left-side-bar">
           <div className="brand-logo">
-            <Link to="https://ozsolarneeds.com.au/">
-              <img src="vendors/images/favicon.png" alt="" className="dark-logo" width={50} />
-            </Link>
-
+            <img
+              src="assets/images/logo.png"
+              alt="Logo"
+              width={120}
+              height={100}
+            />
             <div className="close-sidebar" data-toggle="left-sidebar-close">
               <i className="ion-close-round" />
             </div>
@@ -41,44 +44,46 @@ const Sidebar = () => {
                   </Link>
                   <ul className="submenu">
                     <li>
-                      <Link to="/cmsmasterlist">CMS</Link>
+                      <Link to="/cms-master-list">CMS</Link>
                     </li>
                     <li>
-                      <Link to="/menumasterlist">Menu</Link>
+                      <Link to="/menu-master-list">Menu</Link>
                     </li>
                     <li>
-                      <Link to="/bannermasterlist">Banners</Link>
+                      <Link to="/banner-master-list">Banners</Link>
                     </li>
                     <li>
-                      <Link to="/specialmasterlist">Specials</Link>
+                      <Link to="/special-master-list">Specials</Link>
                     </li>
                     <li>
-                      <Link to="/brandmasterlist">Brands</Link>
+                      <Link to="/brand-master-list">Brands</Link>
                     </li>
                     <li>
-                      <Link to="/testimonialmasterlist">Testimonial Master</Link>
+                      <Link to="/testimonial-master-list">Testimonials</Link>
                     </li>
                   </ul>
                 </li>
 
                 <li className="dropdown">
                   <Link to="#" className="dropdown-toggle">
-                    {/* <span className="micon bi bi-command" /> */}
-                    <span className="micon fa fa-image" />                 
+                    <span className="micon fa fa-image" />
                     <span className="mtext">Gallery</span>
                   </Link>
                   <ul className="submenu">
                     <li>
-                      <Link to="/gallerytypelist">Gallery Type</Link>
+                      <Link to="/gallery-type-list">Gallery Type</Link>
                     </li>
                     <li>
-                      <Link to="/gallerymasterlist">Gallery Image</Link>
+                      <Link to="/gallery-master-list">Gallery Image</Link>
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <Link to="/emailtemplate" className="dropdown-toggle no-arrow">
+                  <Link
+                    to="/email-template"
+                    className="dropdown-toggle no-arrow"
+                  >
                     <span className="micon dw dw-email" />
                     <span className="mtext">Email Template</span>
                   </Link>
@@ -87,7 +92,7 @@ const Sidebar = () => {
                 <li className="dropdown">
                   <Link to="#" className="dropdown-toggle">
                     <span className="micon bi bi-x-diamond-fill" />
-                    <span className="mtext">Product</span>
+                    <span className="mtext">Products</span>
                   </Link>
                   <ul className="submenu">
                     <li>
@@ -97,9 +102,12 @@ const Sidebar = () => {
                 </li>
 
                 <li>
-                  <Link to="/packagemastermanage" className="dropdown-toggle no-arrow">
+                  <Link
+                    to="/package-master-manage"
+                    className="dropdown-toggle no-arrow"
+                  >
                     <span className="micon ti-package" />
-                    <span className="mtext">Package</span>
+                    <span className="mtext">Packages</span>
                   </Link>
                 </li>
 
@@ -110,17 +118,19 @@ const Sidebar = () => {
                   </Link>
                   <ul className="submenu">
                     <li>
-                      <Link to="/SecoSetting">SEO Setting</Link>
+                      <Link to="/seo-settings">SEO Settings</Link>
                     </li>
                     <li>
-                      <Link to="/backofficeconfig">Back Office Setting</Link>
+                      <Link to="/back-office-config">Back Office Settings</Link>
                     </li>
                   </ul>
                 </li>
 
-
                 <li>
-                  <Link to="/email-settings" className="dropdown-toggle no-arrow">
+                  <Link
+                    to="/email-settings"
+                    className="dropdown-toggle no-arrow"
+                  >
                     <span className="micon ion-ios-cog" />
                     {/* <i class="icon-copy ion-ios-cog"></i> */}
                     <span className="mtext">Email Settings</span>
@@ -140,30 +150,26 @@ const Sidebar = () => {
                   </Link>
                   <ul className="submenu">
                     <li>
-                      <Link to="/inquirymasterlist">Contact Inquiry List</Link>
+                      <Link to="/inquiry-master-list">
+                        Contact Inquiry List
+                      </Link>
                     </li>
                     <li>
-                      <Link to="/packageinquierylist">Package Inquiry List</Link>
+                      <Link to="/package-inquiery-list">
+                        Package Inquiry List
+                      </Link>
                     </li>
                   </ul>
                 </li>
 
                 <li>
-                  <div className="dropdown-divider" />
-                </li>
-                <li>
-                  <div className="sidebar-small-cap">Extra</div>
-                </li>
-                <li>
-                  <Link to="#" className="dropdown-toggle">
-                    <span className="micon bi bi-person-circle" />
-                    <span className="mtext">admin</span>
+                  <Link
+                    to="/change-password"
+                    className="dropdown-toggle no-arrow"
+                  >
+                    <span className="micon dw dw-user" />
+                    <span className="mtext">Change Password</span>
                   </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/changepassword">Change Password</Link>
-                    </li>
-                  </ul>
                 </li>
               </ul>
             </div>

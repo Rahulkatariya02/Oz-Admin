@@ -8,7 +8,7 @@ const Dashboard = () => {
           <div className="card-box py-5">
             <div className="row">
               <div className="col-md-12 text-center" style={{ fontSize: 25 }}>
-                Welcome <span style={{ fontWeight: "bold" }}>admin</span> !
+                Welcome to Oz Solar Needs Admin
               </div>
             </div>
           </div>

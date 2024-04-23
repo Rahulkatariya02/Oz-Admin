@@ -104,7 +104,7 @@ const Testimonial = () => {
             className=""
             type="button"
             onClick={async () => {
-              navigate("/testimonialmastermanage", {
+              navigate("/testimonial-master-manage", {
                 state: {
                   data: { ...object, id: object._id },
                   type: "Edit",
@@ -123,13 +123,17 @@ const Testimonial = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Testimonial List</h2>
+            <h2 className="h3 mb-0">Testimonials</h2>
           </div>
           <div className="pb-4">
             <div className="row">
               <div className="col-md-12 col-sm-12">
-                <Link to="/testimonialmastermanage">
-                  <Button type="primary" size="large"   style={{'float': 'inline-end'}}>
+                <Link to="/testimonial-master-manage">
+                  <Button
+                    type="primary"
+                    size="large"
+                    style={{ float: "inline-end" }}
+                  >
                     Add New Testimonial
                     <i className="icon-copy bi bi-plus-circle mx-2" />
                   </Button>

@@ -16,7 +16,7 @@ const Clients = () => {
   const [previewImage, setPreviewImage] = useState("");
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-   
+
     if (name !== "BannerImage") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -59,7 +59,7 @@ const Clients = () => {
   };
   const columns = [
     {
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
@@ -87,7 +87,9 @@ const Clients = () => {
               try {
                 let headersList = {
                   Accept: "*/*",
-                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                  Authorization: `Bearer ${localStorage.getItem(
+                    "accessToken"
+                  )}`,
                   "Content-Type": "application/json",
                 };
                 let bodyContent = JSON.stringify({
@@ -279,7 +281,9 @@ const Clients = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "accessToken"
+                          )}`,
                         };
                         let formdata = new FormData();
                         formdata.append(
@@ -302,7 +306,7 @@ const Clients = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                          error?.response?.data?.error
+                            error?.response?.data?.error
                         );
                       }
                     }}

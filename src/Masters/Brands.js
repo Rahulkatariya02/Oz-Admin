@@ -11,9 +11,9 @@ const Brands = () => {
   const [Brandsdata1, setBrandsdata1] = useState([]);
   const [ACTIVEDATA, setACTIVEDATA] = useState({});
   const [type, settype] = useState("ADD");
-  const [title, setTitle] = useState('');
-  const [brand_image, setBrand_image] = useState('');
-  const [sortOrder, setsortOrder] = useState('');
+  const [title, setTitle] = useState("");
+  const [brand_image, setBrand_image] = useState("");
+  const [sortOrder, setsortOrder] = useState("");
   const [isActive, setIsActive] = useState(false);
 
   const handleCheckboxChange = (e) => {
@@ -29,8 +29,6 @@ const Brands = () => {
       setBrand_image(ACTIVEDATA.brand_image);
     }
   }, [ACTIVEDATA, type]);
-
-
 
   useEffect(() => {
     Brandsdata();
@@ -85,13 +83,13 @@ const Brands = () => {
   const columns = [
     {
       align: "center",
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
       align: "center",
-      title: "title",
+      title: "Title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
@@ -102,7 +100,11 @@ const Brands = () => {
       sorter: (a, b) => a.brand_image.localeCompare(b.brand_image),
       render: (text, object, index) => (
         <>
-          <img src={process.env.REACT_APP_API_BASE_URL + object.brand_image} alt="slider-img" width={150} />
+          <img
+            src={process.env.REACT_APP_API_BASE_URL + object.brand_image}
+            alt="slider-img"
+            width={150}
+          />
         </>
       ),
     },
@@ -186,19 +188,18 @@ const Brands = () => {
           >
             <i className="dw dw-delete-3 fa-lg text-danger" />
           </span>
-
         </>
       ),
     },
   ];
   let data12 = Brandsdata1.document?.sort((a, b) => b.sortOrder - a.sortOrder);
-  
+
   return (
     <>
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0"> Brand Master</h2>
+            <h2 className="h3 mb-0"> Brands</h2>
           </div>
           <div className="pb-4">
             <div className="row">
@@ -206,20 +207,24 @@ const Brands = () => {
                 <Button
                   data-toggle="modal"
                   size="large"
-                  style={{ 'float': 'inline-end' }}
+                  style={{ float: "inline-end" }}
                   data-target="#bd-example-modal-lg"
                   type="primary"
                   onClick={() => {
-                    setACTIVEDATA('')
+                    setACTIVEDATA("");
                   }}
                 >
-                  Add New Brand
                   <i className="icon-copy bi bi-plus-circle mx-2" />
+                  Add Brand
                 </Button>
               </div>
             </div>
           </div>
-          <Table columns={columns} dataSource={Brandsdata1.document} className="text-center" />
+          <Table
+            columns={columns}
+            dataSource={Brandsdata1.document}
+            className="text-center"
+          />
         </div>
       </div>
       {/* modal */}
@@ -257,15 +262,15 @@ const Brands = () => {
                             Sort Order <span className="text-danger">*</span>
                           </label>
                           <input
-                            type="number"                            
+                            type="number"
                             value={
                               ACTIVEDATA.sortOrder
                                 ? ACTIVEDATA.sortOrder
                                 : data12?.length > 0
-                                  ? data12[0].sortOrder + 1
-                                  : 0
+                                ? data12[0].sortOrder + 1
+                                : 0
                             }
-                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}  
+                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}
                             className="form-control"
                             name="SortOrder"
                             // onChange={(e) => handalchange(e)}
@@ -303,7 +308,18 @@ const Brands = () => {
                             onChange={(e) => setBrand_image(e.target.files[0])}
                           />
                         </div>
-                        {ACTIVEDATA ? <img src={process.env.REACT_APP_API_BASE_URL + ACTIVEDATA.brand_image} alt="slider-img" width={150} /> : ''}
+                        {ACTIVEDATA ? (
+                          <img
+                            src={
+                              process.env.REACT_APP_API_BASE_URL +
+                              ACTIVEDATA.brand_image
+                            }
+                            alt="slider-img"
+                            width={150}
+                          />
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
 
@@ -318,8 +334,9 @@ const Brands = () => {
                               name="isActive"
                               onChange={handleCheckboxChange}
                               // checked={isActive}
-                              defaultChecked={ACTIVEDATA.isActive === true || isActive}
-
+                              defaultChecked={
+                                ACTIVEDATA.isActive === true || isActive
+                              }
                             />
                             <label
                               className="custom-control-label"
@@ -349,18 +366,29 @@ const Brands = () => {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "accessToken"
+                          )}`,
                         };
                         let formdata = new FormData();
                         formdata.append("sortOrder", sortOrder);
-                        formdata.append('id', ACTIVEDATA._id ? ACTIVEDATA._id : '')
+                        formdata.append(
+                          "id",
+                          ACTIVEDATA._id ? ACTIVEDATA._id : ""
+                        );
                         formdata.append("title", title);
                         formdata.append("isActive", isActive);
                         if (brand_image instanceof File) {
                           formdata.append("brand_image", brand_image);
                         } else if (ACTIVEDATA.brand_image) {
-                          const blob = await fetch(ACTIVEDATA.brand_image).then((res) => res.blob());
-                          formdata.append("brand_image", blob, "ACTIVEDATA.brand_image.jpg");
+                          const blob = await fetch(ACTIVEDATA.brand_image).then(
+                            (res) => res.blob()
+                          );
+                          formdata.append(
+                            "brand_image",
+                            blob,
+                            "ACTIVEDATA.brand_image.jpg"
+                          );
                         }
                         let bodyContent = formdata;
                         let reqOptions = {
@@ -378,7 +406,7 @@ const Brands = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                          error?.response?.data?.error
+                            error?.response?.data?.error
                         );
                       }
                     }}

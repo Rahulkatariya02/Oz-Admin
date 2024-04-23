@@ -1,5 +1,11 @@
 import "./App.css";
-import { BrowserRouter, Navigate, Route, Router, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Router,
+  Routes,
+} from "react-router-dom";
 import Dashboard from "./component/Dashboard";
 import Cms from "./Masters/Cms";
 import Sidebar from "./Layout/Sidebar";
@@ -53,51 +59,267 @@ function App() {
     <div>
       <BrowserRouter>
         <ToastContainer />
-        {/* <Header /> */}
         <Sidebar />
-        {/* <NewSidebar /> */}
-        {/* {window.location.pathname !== "/" && <Header /></RequireAuth>}
-        {window.location.pathname !== "/" && <Sidebar /></RequireAuth>} */}
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/" element={<RequireAuth><Dashboard /></RequireAuth>} />
-          <Route path="/SecoSetting" element={<RequireAuth><SecoSetting /></RequireAuth>} />
-          <Route path="/email-settings" element={<RequireAuth><Emailsender /></RequireAuth>} />
-          <Route path="/sitemap" element={<RequireAuth><Sitemap /></RequireAuth>} />
-          <Route path="/cmsmasterlist" element={<RequireAuth><Cms /></RequireAuth>} />
-          <Route path="/emailtemplate" element={<RequireAuth><EmailTemplate /></RequireAuth>} />
-          <Route path="/cmsmastermanage" element={<RequireAuth><CmsMaster /></RequireAuth>} />
-          <Route path="/menumasterlist" element={<RequireAuth><Menu /></RequireAuth>} />
-          <Route path="/bannermasterlist" element={<RequireAuth><Banners /></RequireAuth>} />
-          <Route path="/bannermastermanage" element={<RequireAuth><AddNewBanner /></RequireAuth>} />
-          <Route path="/clientmasterlist" element={<RequireAuth><Clients /></RequireAuth>} />
-          <Route path="/specialmasterlist" element={<RequireAuth><Specials /></RequireAuth>} />
-          <Route path="/brandmasterlist" element={<RequireAuth><Brands /></RequireAuth>} />
-          <Route path="/testimonialmasterlist" element={<RequireAuth><Testimonial /></RequireAuth>} />
           <Route
-            path="/testimonialmastermanage"
-            element={<RequireAuth><TestiminialForm /></RequireAuth>}
+            path="/"
+            element={
+              <RequireAuth>
+                <Dashboard />
+              </RequireAuth>
+            }
           />
-          <Route path="/gallerytypelist" element={<RequireAuth><GalleryType /></RequireAuth>} />
-          <Route path="/gallerymasterlist" element={<RequireAuth><GalleryImage /></RequireAuth>} />
-          <Route path="/categorymasterlist" element={<RequireAuth><Category /></RequireAuth>} />
-          <Route path="/subcategory/:id" element={<RequireAuth><Subcategory /></RequireAuth>} />
-          <Route path="/categorymastermanage" element={<RequireAuth><AddnewCategory /></RequireAuth>} />
-          <Route path="/subcategorymastermanage/:id" element={<RequireAuth><AddnewsubCategory /></RequireAuth>} />
-          <Route path="/productmasterlist" element={<RequireAuth><ProductList /></RequireAuth>} />
-          <Route path="/subproductmasterlist" element={<RequireAuth><SubProductList /></RequireAuth>} />
-          <Route path="/productmanage" element={<RequireAuth><ProductManage /></RequireAuth>} />
-          <Route path="/editproduct" element={<RequireAuth><EditProduct /></RequireAuth>} />
-          <Route path="/productform" element={<RequireAuth><ProductForm /></RequireAuth>} />
-          <Route path="/packagemastermanage" element={<RequireAuth><Package /></RequireAuth>} />
-          <Route path="/packageform" element={<RequireAuth><PackageForm /></RequireAuth>} />
-          <Route path="/backofficeconfig" element={<RequireAuth><BackOffice /></RequireAuth>} />
-          <Route path="/inquirymasterlist" element={<RequireAuth><ContactInquiry /></RequireAuth>} />
-          <Route path="/packageinquierylist" element={<RequireAuth><PackageInquiryList /></RequireAuth>} />
-          <Route path="/changepassword" element={<RequireAuth><ChangePassword /></RequireAuth>} />
-          <Route path="/forgotpassword" element={<Forgotpassword />} />
-          <Route path="/contactdetails" element={<ContactDetails />} />
-
+          <Route
+            path="/seo-settings"
+            element={
+              <RequireAuth>
+                <SecoSetting />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/email-settings"
+            element={
+              <RequireAuth>
+                <Emailsender />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/sitemap"
+            element={
+              <RequireAuth>
+                <Sitemap />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/cms-master-list"
+            element={
+              <RequireAuth>
+                <Cms />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/email-template"
+            element={
+              <RequireAuth>
+                <EmailTemplate />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/cms-master-manage"
+            element={
+              <RequireAuth>
+                <CmsMaster />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/menu-master-list"
+            element={
+              <RequireAuth>
+                <Menu />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/banner-master-list"
+            element={
+              <RequireAuth>
+                <Banners />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/bannermastermanage"
+            element={
+              <RequireAuth>
+                <AddNewBanner />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/clientmasterlist"
+            element={
+              <RequireAuth>
+                <Clients />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/special-master-list"
+            element={
+              <RequireAuth>
+                <Specials />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/brand-master-list"
+            element={
+              <RequireAuth>
+                <Brands />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/testimonial-master-list"
+            element={
+              <RequireAuth>
+                <Testimonial />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/testimonial-master-manage"
+            element={
+              <RequireAuth>
+                <TestiminialForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/gallery-type-list"
+            element={
+              <RequireAuth>
+                <GalleryType />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/gallery-master-list"
+            element={
+              <RequireAuth>
+                <GalleryImage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/categorymasterlist"
+            element={
+              <RequireAuth>
+                <Category />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/subcategory/:id"
+            element={
+              <RequireAuth>
+                <Subcategory />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/categorymastermanage"
+            element={
+              <RequireAuth>
+                <AddnewCategory />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/subcategorymastermanage/:id"
+            element={
+              <RequireAuth>
+                <AddnewsubCategory />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/productmasterlist"
+            element={
+              <RequireAuth>
+                <ProductList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/subproductmasterlist"
+            element={
+              <RequireAuth>
+                <SubProductList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/productmanage"
+            element={
+              <RequireAuth>
+                <ProductManage />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/editproduct"
+            element={
+              <RequireAuth>
+                <EditProduct />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/productform"
+            element={
+              <RequireAuth>
+                <ProductForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/package-master-manage"
+            element={
+              <RequireAuth>
+                <Package />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/package-form"
+            element={
+              <RequireAuth>
+                <PackageForm />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/back-office-config"
+            element={
+              <RequireAuth>
+                <BackOffice />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/inquiry-master-list"
+            element={
+              <RequireAuth>
+                <ContactInquiry />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/package-inquiery-list"
+            element={
+              <RequireAuth>
+                <PackageInquiryList />
+              </RequireAuth>
+            }
+          />
+          <Route
+            path="/change-password"
+            element={
+              <RequireAuth>
+                <ChangePassword />
+              </RequireAuth>
+            }
+          />
+          <Route path="/forgot-password" element={<Forgotpassword />} />
+          <Route path="/contact-details" element={<ContactDetails />} />
         </Routes>
       </BrowserRouter>
     </div>

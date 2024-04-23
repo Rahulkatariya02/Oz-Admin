@@ -45,10 +45,10 @@ const Login = () => {
           <div className="row d-block h-100">
             <div className="col-md-8 col-sm-12 xs-pd-20">
               <div className="pd-20 card-box height-100-p">
-                  <div className="login-title mb-3">
-                    <div className="text-center text-primary">
+                <div className="login-title mb-3">
+                  <div className="text-center text-primary">
                     <img src="assets/images/logo.png" alt="" />
-                    <h4 className="mt-3">Login to OZ-Solar</h4>{" "}
+                    <h4 className="mt-3">Login to Admin</h4>{" "}
                   </div>
                 </div>
 
@@ -117,23 +117,18 @@ const Login = () => {
                     </div>
                     <div className="col-6">
                       <div className="forgot-password">
-                        <Link to="/forgotpassword">Forgot Password</Link>
+                        <Link to="/forgot-password">Forgot Password</Link>
                       </div>
                     </div>
                   </div>
                   <div className="row">
                     <div className="col-sm-12">
                       <div className="input-group mb-0">
-                        {/*
-                           use code for form submit
-                           <input className="btn btn-primary btn-lg btn-block" type="submit" value="Sign In">
-                          */}
                         <button
                           className="btn btn-primary btn-lg btn-block"
                           type="submit"
                         >
-                          {/* Sign In */}
-                          {"Sign In"}
+                          Login
                         </button>
                       </div>
                     </div>

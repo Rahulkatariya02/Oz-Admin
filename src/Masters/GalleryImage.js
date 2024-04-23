@@ -8,7 +8,7 @@ const GalleryImage = () => {
   const [data, setdata] = useState({ Title: "" });
   const [AllGalleryType, setAllGalleryType] = useState([]);
   const [AllGalleryimges, setAllGalleryimges] = useState([]);
-  
+
   useEffect(() => {
     GalleryType();
     Galleryimges();
@@ -49,13 +49,13 @@ const GalleryImage = () => {
   const columns = [
     {
       align: "center",
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
       align: "center",
-      title: "title",
+      title: "Title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
@@ -169,7 +169,7 @@ const GalleryImage = () => {
                 data-target="#bd-example-modal-lg"
                 type="primary"
                 size="large"
-                style={{ 'float': 'inline-end' }}
+                style={{ float: "inline-end" }}
               >
                 <i className="icon-copy fi-plus mx-2" />
                 Add new Gallery Type
@@ -216,9 +216,15 @@ const GalleryImage = () => {
                           <input
                             type="text"
                             className="form-control"
-                            name="sortOrder"                           
-                            // defaultValue={data.sortOrder ? data.sortOrder : AllGalleryimges?.length > 0 ? AllGalleryimges.length +1 : 0} 
-                            value={data.sortOrder ? data.sortOrder : AllGalleryimges?.length > 0 ? AllGalleryimges.length + 1 : 0}
+                            name="sortOrder"
+                            // defaultValue={data.sortOrder ? data.sortOrder : AllGalleryimges?.length > 0 ? AllGalleryimges.length +1 : 0}
+                            value={
+                              data.sortOrder
+                                ? data.sortOrder
+                                : AllGalleryimges?.length > 0
+                                ? AllGalleryimges.length + 1
+                                : 0
+                            }
                             onChange={(e) => handalchange(e)}
                           />
                         </div>
@@ -355,7 +361,7 @@ const GalleryImage = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                          error?.response?.data?.error
+                            error?.response?.data?.error
                         );
                       }
                     }}

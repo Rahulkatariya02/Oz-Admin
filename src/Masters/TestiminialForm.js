@@ -10,7 +10,9 @@ const TestiminialForm = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? {} : location?.state?.data
   );
-  const [isActive, setIsActive] = useState(location.state.data.isActive || false);
+  const [isActive, setIsActive] = useState(
+    location.state.data.isActive || false
+  );
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked } = e.target;
@@ -56,8 +58,9 @@ const TestiminialForm = () => {
                 <div className="col-sm-4">
                   <input
                     type="text"
-                    className={`form-control ${formErrors.name ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${
+                      formErrors.name ? "is-invalid" : ""
+                    }`}
                     id="validationCustom01"
                     value={data?.name}
                     disabled={location?.state?.type === "View"}
@@ -79,8 +82,9 @@ const TestiminialForm = () => {
                 <div className="col-sm-4">
                   <textarea
                     type="text"
-                    className={`form-control ${formErrors.text ? "is-invalid" : ""
-                      }`}
+                    className={`form-control ${
+                      formErrors.text ? "is-invalid" : ""
+                    }`}
                     name="text"
                     value={data?.text}
                     disabled={location?.state?.type === "View"}
@@ -117,7 +121,7 @@ const TestiminialForm = () => {
                 </div>
               </div>
               <div className="modal-footer">
-                <Link to="/testimonialmasterlist">
+                <Link to="/testimonial-master-list">
                   <Button className=" btn-outline-secondary btn-light mx-2">
                     Go To List
                   </Button>
@@ -130,7 +134,9 @@ const TestiminialForm = () => {
                         try {
                           let headersList = {
                             Accept: "*/*",
-                            Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                            Authorization: `Bearer ${localStorage.getItem(
+                              "accessToken"
+                            )}`,
                           };
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/testimonial`,
@@ -147,7 +153,7 @@ const TestiminialForm = () => {
                           let response = await axios.request(reqOptions);
                           if (response.data.status === 1) {
                             toast.success(response.data.message);
-                            navigate("/testimonialmasterlist");
+                            navigate("/testimonial-master-list");
                           }
                         } catch (error) {
                           toast.error(error?.response?.data?.originalError);

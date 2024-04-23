@@ -3,12 +3,10 @@ import React, { useEffect, useState } from "react";
 import { Button, Switch, Table } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
-import TinyMCE from "react-tinymce/lib/components/TinyMCE";
 import { toast } from "react-toastify";
 import ReactQuill from "react-quill";
 
 const Menu = () => {
-
   useEffect(() => {
     cmsdata();
     menudata();
@@ -40,13 +38,7 @@ const Menu = () => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
       setFormErrors({});
-      setMenuType(ACTIVEDATA.menuType
-        // ACTIVEDATA.menuType == 1
-        //   ? "CMS"
-        //   : ACTIVEDATA.menuType == 2
-        //     ? "Product"
-        //     : "Other"
-      );
+      setMenuType(ACTIVEDATA.menuType);
       setMenuName(ACTIVEDATA.name);
       setshowInHeader(ACTIVEDATA.showInHeader);
       setshowInFooter(ACTIVEDATA.showInFooter);
@@ -58,8 +50,6 @@ const Menu = () => {
       setDescription(ACTIVEDATA.Description);
     }
   }, [ACTIVEDATA]);
-
-  const Description1 = ACTIVEDATA.Description;
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
     setMenuType(selectedMenuType);
@@ -109,7 +99,7 @@ const Menu = () => {
 
   const columns = [
     {
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
@@ -149,41 +139,6 @@ const Menu = () => {
             }}
           />
         </>
-        // <>
-        //   <div className="custom-control custom-switch" key={index}>
-        //     <input
-        //       type="checkbox"
-        //       className="custom-control-input"
-        //       id={`customSwitch${index + 1}`}
-        //       defaultChecked={object.isActive}
-        //       onChange={async () => {
-        //         let headersList = {
-        //           Accept: "*/*",
-        //           Authorization: `Bearer ${localStorage.getItem(
-        //             "accessToken"
-        //           )}`,
-        //           "Content-Type": "application/json",
-        //         };
-        //         let bodyContent = JSON.stringify({
-        //           isActive: !object.isActive,
-        //           id: object._id,
-        //         });
-        //         let reqOptions = {
-        //           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menustatus`,
-        //           method: "POST",
-        //           headers: headersList,
-        //           data: bodyContent,
-        //         };
-        //         let response = await axios.request(reqOptions);
-        //         toast.success(response.data.message);
-        //       }}
-        //     />
-        //     <label
-        //       className="custom-control-label"
-        //       htmlFor={`customSwitch${index + 1}`}
-        //     ></label>
-        //   </div>
-        // </>
       ),
     },
     {
@@ -232,7 +187,9 @@ const Menu = () => {
                   try {
                     let headersList = {
                       Accept: "*/*",
-                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                      Authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                      )}`,
                     };
                     let reqOptions = {
                       url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu/${object._id}`,
@@ -317,7 +274,7 @@ const Menu = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Menu Master</h2>
+            <h2 className="h3 mb-0">Menu</h2>
           </div>
           <div className="pb-4">
             <div className="row ">
@@ -329,7 +286,7 @@ const Menu = () => {
                   data-target="#bd-example-modal-lg"
                   onClick={() => {
                     settype("ADD");
-                    setsortOrder('')
+                    setsortOrder("");
                     setMenuType("");
                     setcms_id("");
                     setsortOrder("");
@@ -341,10 +298,10 @@ const Menu = () => {
                     setshowInFooter(false);
                     setActive(false);
                   }}
-                  style={{ 'float': 'inline-end' }}
+                  style={{ float: "inline-end" }}
                 >
                   <i className="icon-copy bi bi-plus-circle mr-3" />
-                  Add New Menu
+                  Add Menu
                 </Button>
               </div>
             </div>
@@ -385,8 +342,9 @@ const Menu = () => {
                         <div className="form-group">
                           <label>Base Menu</label>
                           <select
-                            className={`form-control ${formErrors.parentId ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.parentId ? "is-invalid" : ""
+                            }`}
                             disabled={type === "View"}
                             // defaultValue={data?.parentId}
                             onChange={(E) => {
@@ -414,13 +372,24 @@ const Menu = () => {
                         <div className="form-group">
                           <label>Menu Type</label>
                           <select
-                            className={`form-control ${formErrors.menuType ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.menuType ? "is-invalid" : ""
+                            }`}
                             defaultValue={menuType}
                             disabled={type === "View"}
                             onChange={handleMenuTypeChange}
                           >
-                            <option value="">{ACTIVEDATA.menuType ? (menuType === 1 ? "CMS" : menuType === 2 ? "Product" : menuType === 3 ? "Other" : '--- Select menu type ---') : '--- Select menu type ---'}</option>
+                            <option value="">
+                              {ACTIVEDATA.menuType
+                                ? menuType === 1
+                                  ? "CMS"
+                                  : menuType === 2
+                                  ? "Product"
+                                  : menuType === 3
+                                  ? "Other"
+                                  : "--- Select menu type ---"
+                                : "--- Select menu type ---"}
+                            </option>
                             <option value="1">CMS</option>
                             <option value="2">Product</option>
                             <option value="3">Other</option>
@@ -437,8 +406,9 @@ const Menu = () => {
                           <div className="form-group">
                             <label>Category List</label>
                             <select
-                              className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.cms_id ? "is-invalid" : ""
+                              }`}
                               disabled={type === "View"}
                             >
                               <option value="">-- Select Category --</option>
@@ -464,8 +434,9 @@ const Menu = () => {
                           <div className="form-group">
                             <label>CMS List</label>
                             <select
-                              className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.cms_id ? "is-invalid" : ""
+                              }`}
                               disabled={type === "View"}
                               onChange={(E) => {
                                 setcms_id(E.target.value);
@@ -499,11 +470,12 @@ const Menu = () => {
                               sortOrder
                                 ? sortOrder
                                 : data12?.length > 0
-                                  ? data12[0].sortOrder + 1
-                                  : 0
+                                ? data12[0].sortOrder + 1
+                                : 0
                             }
-                            className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.sortOrder ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setsortOrder(e.target.value);
                             }}
@@ -524,8 +496,9 @@ const Menu = () => {
                             type="text"
                             disabled={type === "View"}
                             value={MenuName}
-                            className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.MenuName ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setMenuName(e.target.value);
                             }}
@@ -547,8 +520,9 @@ const Menu = () => {
                             type="text"
                             value={menu_URL_unique_key}
                             disabled={type === "View"}
-                            className={`form-control ${formErrors.menu_URL_unique_key ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.menu_URL_unique_key ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setmenu_URL_unique_key(e.target.value);
                             }}
@@ -569,8 +543,9 @@ const Menu = () => {
                             type="text"
                             value={slug}
                             disabled={type === "View"}
-                            className={`form-control ${formErrors.slug ? "is-invalid" : ""
-                              }`}
+                            className={`form-control ${
+                              formErrors.slug ? "is-invalid" : ""
+                            }`}
                             onChange={(e) => {
                               setslug(e.target.value);
                             }}
@@ -634,9 +609,19 @@ const Menu = () => {
                             onChange={(value) => setDescription(value)}
                             modules={{
                               toolbar: [
-                                [{ header: "1" }, { header: "2" }, { font: [] }],
+                                [
+                                  { header: "1" },
+                                  { header: "2" },
+                                  { font: [] },
+                                ],
                                 [{ size: [] }],
-                                ["bold", "italic", "underline", "strike", "blockquote"],
+                                [
+                                  "bold",
+                                  "italic",
+                                  "underline",
+                                  "strike",
+                                  "blockquote",
+                                ],
                                 [
                                   { list: "ordered" },
                                   { list: "bullet" },
@@ -657,7 +642,6 @@ const Menu = () => {
                           </div>
                         </div>
                       </div>
-
                     </div>
                     <div className="form-group">
                       <div className="row">
@@ -746,8 +730,8 @@ const Menu = () => {
                             sortOrder: sortOrder
                               ? sortOrder
                               : data12?.length > 0
-                                ? data12[0].sortOrder + 1
-                                : 0,
+                              ? data12[0].sortOrder + 1
+                              : 0,
                             // cms: cms_id,
                             menuName: MenuName,
                             menuType: menuType,
@@ -763,7 +747,8 @@ const Menu = () => {
                             Description: Description,
                           };
 
-                          if(parentId !== null && parentId !== "--Base Menu--") bodyContent.parentId = parentId;
+                          if (parentId !== null && parentId !== "--Base Menu--")
+                            bodyContent.parentId = parentId;
                           // let bodyContent1 = {
                           //   menuName: MenuName,
                           //   sortOrder: sortOrder

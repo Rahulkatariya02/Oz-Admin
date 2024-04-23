@@ -26,7 +26,9 @@ const Category = () => {
   };
 
   const handleSubcat = (item) => {
-    navigate(`/subcategory/${item.category?._id}`, { state: { item, _id: item._id } });
+    navigate(`/subcategory/${item.category?._id}`, {
+      state: { item, _id: item._id },
+    });
   };
 
   const handleOpen = (item) => {
@@ -38,7 +40,7 @@ const Category = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Category List : Root Category</h2>
+            <h2 className="h3 mb-0">Category</h2>
           </div>
           <div className="card-box mb-30">
             <div className="pd-20 text-right">
@@ -71,9 +73,7 @@ const Category = () => {
                         <td>{e.category.sortOrder}</td>
                         <td>{e.category.category}</td>
                         <td>
-                          <span
-                            onClick={() => handleSubcat(e)}
-                          >
+                          <span onClick={() => handleSubcat(e)}>
                             <span className="badge badge-pill badge-primary w-25">
                               {e.subcategoryCount}
                             </span>
@@ -81,10 +81,7 @@ const Category = () => {
                         </td>
 
                         <td>
-                          <div
-
-                            onClick={() => handleOpen(e.category._id)}
-                          >
+                          <div onClick={() => handleOpen(e.category._id)}>
                             <span className="badge badge-pill badge-primary w-25">
                               {e.productCount}
                             </span>
@@ -98,7 +95,9 @@ const Category = () => {
                             onChange={async () => {
                               let headersList = {
                                 Accept: "*/*",
-                                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                Authorization: `Bearer ${localStorage.getItem(
+                                  "accessToken"
+                                )}`,
                                 "Content-Type": "application/json",
                               };
                               let bodyContent = {
@@ -138,7 +137,9 @@ const Category = () => {
                                     headers: headersList,
                                   };
 
-                                  let response = await axios.request(reqOptions);
+                                  let response = await axios.request(
+                                    reqOptions
+                                  );
                                   if (response.data.status === 1) {
                                     toast.success(response.data.message);
                                     getcatagarydata();

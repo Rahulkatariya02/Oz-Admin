@@ -29,12 +29,12 @@ const Cms = () => {
   };
   const columns = [
     {
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
     },
     {
-      title: "title",
+      title: "Title",
       dataIndex: "title",
       sorter: (a, b) => a.title.localeCompare(b.title),
     },
@@ -91,7 +91,7 @@ const Cms = () => {
                 type="button"
                 className="dropdown-item"
                 onClick={async () => {
-                  navigate("/cmsmastermanage", {
+                  navigate("/cms-master-manage", {
                     state: { data: object, type: "View" },
                   });
                 }}
@@ -102,7 +102,7 @@ const Cms = () => {
                 className="dropdown-item"
                 type="button"
                 onClick={async () => {
-                  navigate("/cmsmastermanage", {
+                  navigate("/cms-master-manage", {
                     state: {
                       data: { ...object, id: object._id },
                       type: "Edit",
@@ -119,7 +119,9 @@ const Cms = () => {
                   try {
                     let headersList = {
                       Accept: "*/*",
-                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                      Authorization: `Bearer ${localStorage.getItem(
+                        "accessToken"
+                      )}`,
                     };
                     let reqOptions = {
                       url: `${process.env.REACT_APP_API_BASE_URL}api/admin/cms/${object._id}`,
@@ -154,17 +156,21 @@ const Cms = () => {
           <div className="pb-4">
             <div
               onClick={() => {
-                navigate("/cmsmastermanage", {
+                navigate("/cms-master-manage", {
                   state: {
                     type: "ADD",
                   },
                 });
               }}
             >
-
-              <Button className="mb-3" type="primary" size="large" style={{ 'float': 'inline-end' }}>
-                <i className="icon-copy fi-plus mr-3" />
-                Add New CMS
+              <Button
+                className="mb-3"
+                type="primary"
+                size="large"
+                style={{ float: "inline-end" }}
+              >
+                <i className="icon-copy bi bi-plus-circle mx-2" />
+                Add CMS
               </Button>
             </div>
           </div>

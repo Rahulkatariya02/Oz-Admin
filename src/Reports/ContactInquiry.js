@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ContactInquiry = () => {
-  const navigate= useNavigate();
+  const navigate = useNavigate();
   const [Contactinquirydata1, setContactinquirydata] = useState([]);
 
   useEffect(() => {
@@ -57,11 +57,16 @@ const ContactInquiry = () => {
                         return (
                           <tr key={i}>
                             {/* <td>{e.createdAt}</td> */}
-                            <td>{new Date(e.createdAt).toLocaleDateString('en-US', {
-                              year: 'numeric',
-                              month: '2-digit', 
-                              day: '2-digit',   
-                            })}</td>
+                            <td>
+                              {new Date(e.createdAt).toLocaleDateString(
+                                "en-US",
+                                {
+                                  year: "numeric",
+                                  month: "2-digit",
+                                  day: "2-digit",
+                                }
+                              )}
+                            </td>
                             <td>{e.name}</td>
                             <td>{e.email}</td>
                             <td>{e.mobile_no}</td>
@@ -73,7 +78,9 @@ const ContactInquiry = () => {
                                   try {
                                     let headersList = {
                                       Accept: "*/*",
-                                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                      Authorization: `Bearer ${localStorage.getItem(
+                                        "accessToken"
+                                      )}`,
                                       "Content-Type": "application/json",
                                     };
                                     let reqOptions = {
@@ -96,15 +103,19 @@ const ContactInquiry = () => {
                               >
                                 <i className="dw dw-delete-3 text-danger" />
                               </span>
-                              <span className="fa-lg"  
-                               onClick={() => {
-                                navigate("/contactdetails", {
-                                  state: {
-                                    data: { ...e, id: e._id },
-                                    type: "Edit",
-                                  },
-                                });
-                              }}><i className="dw dw-edit2" /></span>
+                              <span
+                                className="fa-lg"
+                                onClick={() => {
+                                  navigate("/contact-details", {
+                                    state: {
+                                      data: { ...e, id: e._id },
+                                      type: "Edit",
+                                    },
+                                  });
+                                }}
+                              >
+                                <i className="dw dw-edit2" />
+                              </span>
                             </td>
                           </tr>
                         );

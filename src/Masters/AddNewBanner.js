@@ -17,22 +17,22 @@ const AddNewBanner = ({ data12 }) => {
   const [editerdata, setediterdata] = useState(EditorState.createEmpty());
   const [data, setdata] = useState(
     !location.state
-      ? { BannerType: '', sortOrder: '' }
+      ? { BannerType: "", sortOrder: "" }
       : {
-        id: location.state._id,
-        sortOrder: location.state.sortOrder,
-        BannerType: location.state.bannerType,
-        menuName: "",
-        BannerTitle: location.state.title,
-        BannerDescription: location.state.description,
-        ClickUrl: location.state.click_url,
-        MobileBannerImage: location.state.banner_mobile_image,
-        BannerImage: location.state.banner_image,
-      }
+          id: location.state._id,
+          sortOrder: location.state.sortOrder,
+          BannerType: location.state.bannerType,
+          menuName: "",
+          BannerTitle: location.state.title,
+          BannerDescription: location.state.description,
+          ClickUrl: location.state.click_url,
+          MobileBannerImage: location.state.banner_mobile_image,
+          BannerImage: location.state.banner_image,
+        }
   );
 
   const [formErrors, setFormErrors] = useState({});
-  const [isActive, setIsActive] = useState(location.state.isActive || false)
+  const [isActive, setIsActive] = useState(location.state.isActive || false);
   const handleContentChange = (newContent) => {
     setContent(newContent);
   };
@@ -61,7 +61,6 @@ const AddNewBanner = ({ data12 }) => {
     if (file) {
       reader.readAsDataURL(file);
     }
-
   };
 
   const handalchange = (e) => {
@@ -163,7 +162,7 @@ const AddNewBanner = ({ data12 }) => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Banner Master Manage</h2>
+            <h2 className="h3 mb-0">Banner Manage</h2>
           </div>
           <div className="card-box mb-30">
             <div className="pd-20 ">
@@ -178,8 +177,9 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.sortOrder ? "is-invalid" : ""
+                              }`}
                               name="sortOrder"
                               value={data.sortOrder}
                               type="number"
@@ -200,13 +200,14 @@ const AddNewBanner = ({ data12 }) => {
                           <div className="col-sm-12 col-md-9">
                             <select
                               name="MenuName"
-                              className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.MenuName ? "is-invalid" : ""
+                              }`}
                               defaultValue={data.MenuName}
                               onChange={(e) => handalchange(e)}
                             >
                               <option disabled value="">
-                              --- Menu Name ---
+                                --- Menu Name ---
                               </option>
                               {menudata1.document &&
                                 menudata1.document?.map((el, i) => {
@@ -231,10 +232,13 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <select
-                              className={`form-control ${formErrors.BannerType ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.BannerType ? "is-invalid" : ""
+                              }`}
                               defaultValue={data.BannerType}
-                              onChange={(e) => setSelectedBannerType(e.target.value)}
+                              onChange={(e) =>
+                                setSelectedBannerType(e.target.value)
+                              }
                             >
                               <option value=""> --- Select type ---</option>
                               <option value="1">Home Slider</option>
@@ -254,8 +258,9 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control ${formErrors.BannerTitle ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.BannerTitle ? "is-invalid" : ""
+                              }`}
                               value={data.BannerTitle}
                               name="BannerTitle"
                               type="text"
@@ -275,8 +280,9 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control ${formErrors.ClickUrl ? "is-invalid" : ""
-                                }`}
+                              className={`form-control ${
+                                formErrors.ClickUrl ? "is-invalid" : ""
+                              }`}
                               value={data.ClickUrl}
                               name="ClickUrl"
                               onChange={(e) => handalchange(e)}
@@ -299,10 +305,11 @@ const AddNewBanner = ({ data12 }) => {
                               <textarea
                                 name="BannerDescription"
                                 value={data.BannerDescription}
-                                className={`form-control ${formErrors.BannerDescription
-                                  ? "is-invalid"
-                                  : ""
-                                  }`}
+                                className={`form-control ${
+                                  formErrors.BannerDescription
+                                    ? "is-invalid"
+                                    : ""
+                                }`}
                                 onChange={(e) => handalchange(e)}
                               />
                               {formErrors.BannerDescription && (
@@ -320,8 +327,9 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control-file ${formErrors.BannerImage ? "is-invalid" : ""
-                                }`}
+                              className={`form-control-file ${
+                                formErrors.BannerImage ? "is-invalid" : ""
+                              }`}
                               type="file"
                               name="BannerImage"
                               onChange={(event) => {
@@ -348,8 +356,9 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control-file ${formErrors.MobileBannerImage ? "is-invalid" : ""
-                                }`}
+                              className={`form-control-file ${
+                                formErrors.MobileBannerImage ? "is-invalid" : ""
+                              }`}
                               type="file"
                               name="MobileBannerImage"
                               onChange={(event) => {
@@ -388,7 +397,7 @@ const AddNewBanner = ({ data12 }) => {
                         </div>
 
                         <div className="modal-footer">
-                          <Link to="/bannermasterlist">
+                          <Link to="/banner-master-list">
                             <button
                               type="button"
                               className="btn btn-secondary"
@@ -411,31 +420,57 @@ const AddNewBanner = ({ data12 }) => {
                                   };
                                   let formdata = new FormData();
                                   formdata.append("sortOrder", data.sortOrder);
-                                  formdata.append("id", location.state._id ? location.state._id : '');
+                                  formdata.append(
+                                    "id",
+                                    location.state._id ? location.state._id : ""
+                                  );
                                   formdata.append("menuName", data.menuName);
                                   formdata.append(
                                     "bannerType",
-                                    data.BannerType ? data.BannerType :  selectedBannerType
+                                    data.BannerType
+                                      ? data.BannerType
+                                      : selectedBannerType
                                   );
                                   formdata.append("title", data.BannerTitle);
                                   formdata.append("click_url", data.ClickUrl);
-                                  formdata.append("description", data.BannerDescription);
+                                  formdata.append(
+                                    "description",
+                                    data.BannerDescription
+                                  );
                                   formdata.append("isActive", isActive);
                                   // formdata.append("banner_image", data.BannerImage );
                                   // formdata.append( "banner_mobile_image", data.MobileBannerImage);
                                   if (data.BannerImage instanceof File) {
-                                    formdata.append("banner_image", data.BannerImage);
+                                    formdata.append(
+                                      "banner_image",
+                                      data.BannerImage
+                                    );
                                   } else if (previewImage) {
-                                    const blob = await fetch(previewImage).then((res) => res.blob());
-                                    formdata.append("banner_image", blob, "previewImage.jpg");
+                                    const blob = await fetch(previewImage).then(
+                                      (res) => res.blob()
+                                    );
+                                    formdata.append(
+                                      "banner_image",
+                                      blob,
+                                      "previewImage.jpg"
+                                    );
                                   }
 
                                   // formdata.append("banner_mobile_image", data.MobileBannerImage);
                                   if (data.BannerImage instanceof File) {
-                                    formdata.append("banner_mobile_image", data.BannerImage);
+                                    formdata.append(
+                                      "banner_mobile_image",
+                                      data.BannerImage
+                                    );
                                   } else if (previewImage1) {
-                                    const blob = await fetch(previewImage1).then((res) => res.blob());
-                                    formdata.append("banner_mobile_image", blob, "previewImage1.jpg");
+                                    const blob = await fetch(
+                                      previewImage1
+                                    ).then((res) => res.blob());
+                                    formdata.append(
+                                      "banner_mobile_image",
+                                      blob,
+                                      "previewImage1.jpg"
+                                    );
                                   }
 
                                   let bodyContent = formdata;
@@ -451,7 +486,7 @@ const AddNewBanner = ({ data12 }) => {
                                   );
                                   if (response.data.status === 1) {
                                     toast.success(response.data.message);
-                                    navigate("/bannermasterlist");
+                                    navigate("/banner-master-list");
                                   }
                                 } catch (error) {
                                   toast.error(
@@ -480,7 +515,7 @@ const AddNewBanner = ({ data12 }) => {
                           previewImage
                             ? previewImage
                             : process.env.REACT_APP_API_BASE_URL +
-                            data.BannerImage
+                              data.BannerImage
                         }
                         alt="Preview"
                         className="preview-image"
@@ -494,7 +529,7 @@ const AddNewBanner = ({ data12 }) => {
                           previewImage1
                             ? previewImage1
                             : process.env.REACT_APP_API_BASE_URL +
-                            data.MobileBannerImage
+                              data.MobileBannerImage
                         }
                         alt="Preview"
                         className="preview-image"

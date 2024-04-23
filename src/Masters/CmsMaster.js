@@ -3,15 +3,14 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import the styles
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import the styles
 import { ImageResize } from "quill-image-resize-module-react";
-
 
 // Quill.register("modules/imageResize", ImageResize);
 
 const CmsMaster = () => {
-  const [cmsData, setCmsData]= useState();
+  const [cmsData, setCmsData] = useState();
   useEffect(() => {
     cmsdata();
   }, []);
@@ -74,13 +73,13 @@ const CmsMaster = () => {
   const [data, setdata] = useState(
     !location?.state?.data
       ? {
-        sortOrder: "",
-        title: "",
-        description: "",
-        metaTitle: "",
-        metaKeyword: "",
-        metaDescription: "",
-      }
+          sortOrder: "",
+          title: "",
+          description: "",
+          metaTitle: "",
+          metaKeyword: "",
+          metaDescription: "",
+        }
       : location?.state?.data
   );
 
@@ -118,10 +117,10 @@ const CmsMaster = () => {
       errors.metaTitle = "Meta Title is required.";
     }
     if (!data.metaKeyword.trim()) {
-      errors.metaKeyword = "meta Keyword is required.";
+      errors.metaKeyword = "Meta Keyword is required.";
     }
     if (!data.metaDescription.trim()) {
-      errors.metaDescription = "meta Description is required.";
+      errors.metaDescription = "Meta Description is required.";
     }
 
     // You can add more custom validations for other fields here
@@ -129,7 +128,6 @@ const CmsMaster = () => {
     setFormErrors(errors);
     return Object.keys(errors).length === 0;
   };
-
 
   return (
     <>
@@ -152,8 +150,9 @@ const CmsMaster = () => {
                       type="text"
                       name="title"
                       value={data?.title}
-                      className={`form-control ${formErrors.title ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        formErrors.title ? "is-invalid" : ""
+                      }`}
                       id="validationCustom01"
                       required
                       disabled={location?.state?.type === "View"}
@@ -176,9 +175,14 @@ const CmsMaster = () => {
                       type="number"
                       name="sortOrder"
                       // value={data?.sortOrder}
-                      value={data && data.sortOrder ? data && data.sortOrder : cmsData?.length + 1}  
-                      className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
-                        }`}
+                      value={
+                        data && data.sortOrder
+                          ? data && data.sortOrder
+                          : cmsData?.length + 1
+                      }
+                      className={`form-control ${
+                        formErrors.sortOrder ? "is-invalid" : ""
+                      }`}
                       id="validationCustom01"
                       required
                       disabled={location?.state?.type === "View"}
@@ -229,7 +233,9 @@ const CmsMaster = () => {
                     <ReactQuill
                       theme="snow"
                       modules={modules}
-                      className={`${formErrors.description ? "is-invalid" : ""}`}
+                      className={`${
+                        formErrors.description ? "is-invalid" : ""
+                      }`}
                       name="description"
                       value={data?.description}
                       onChange={(value) => {
@@ -256,8 +262,9 @@ const CmsMaster = () => {
                       type="text"
                       name="metaTitle"
                       value={data?.metaTitle}
-                      className={`form-control ${formErrors.metaTitle ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        formErrors.metaTitle ? "is-invalid" : ""
+                      }`}
                       id="validationCustom01"
                       required
                       disabled={location?.state?.type === "View"}
@@ -282,8 +289,9 @@ const CmsMaster = () => {
                       type="text"
                       name="metaKeyword"
                       value={data?.metaKeyword}
-                      className={`form-control ${formErrors.metaKeyword ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        formErrors.metaKeyword ? "is-invalid" : ""
+                      }`}
                       id="validationCustom01"
                       disabled={location?.state?.type === "View"}
                       onChange={(e) => handalchange(e)}
@@ -307,8 +315,9 @@ const CmsMaster = () => {
                       type="text"
                       name="metaDescription"
                       value={data?.metaDescription}
-                      className={`form-control ${formErrors.metaDescription ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        formErrors.metaDescription ? "is-invalid" : ""
+                      }`}
                       id="validationCustom01"
                       disabled={location?.state?.type === "View"}
                       onChange={(e) => handalchange(e)}
@@ -348,7 +357,7 @@ const CmsMaster = () => {
                   <Button
                     className="btn-outline-secondary btn-light mx-2"
                     onClick={() => {
-                      navigate("/cmsmasterlist");
+                      navigate("/cms-master-list");
                     }}
                   >
                     Cancel
@@ -391,7 +400,7 @@ const CmsMaster = () => {
                             let response = await axios.request(reqOptions);
                             if (response.data.status === 1) {
                               toast.success(response.data.message);
-                              navigate("/cmsmasterlist");
+                              navigate("/cms-master-list");
                             }
                           } catch (error) {
                             toast.error(error.response.data.originalError);

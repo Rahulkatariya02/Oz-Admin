@@ -36,7 +36,7 @@ const Banners = () => {
 
   const columns = [
     {
-      title: "sortOrder",
+      title: "Sort Order",
       dataIndex: "sortOrder",
       sorter: (a, b) => a.sortOrder - b.sortOrder,
       align: "center",
@@ -62,8 +62,8 @@ const Banners = () => {
           {object.bannerType === 1
             ? "Home Slider"
             : object.bannerType === 2
-              ? "Box Image"
-              : "Default"}
+            ? "Box Image"
+            : "Default"}
         </>
       ),
       align: "center",
@@ -163,7 +163,6 @@ const Banners = () => {
       ),
       align: "center",
     },
-
   ];
   let data12 = banner?.document?.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
@@ -171,7 +170,7 @@ const Banners = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Banner Master</h2>
+            <h2 className="h3 mb-0">Banners</h2>
           </div>
           <div className="pb-4">
             <div className="row">
@@ -181,20 +180,29 @@ const Banners = () => {
                   onClick={() => {
                     navigate("/bannermastermanage", {
                       state: {
-                        sortOrder: data12?.length > 0 ? data12[0].sortOrder + 1 : 0,
+                        sortOrder:
+                          data12?.length > 0 ? data12[0].sortOrder + 1 : 0,
                       },
                     });
                   }}
                 >
-                  <Button type="primary" size="large" style={{ 'float': 'inline-end' }}>
+                  <Button
+                    type="primary"
+                    size="large"
+                    style={{ float: "inline-end" }}
+                  >
                     <i className="icon-copy bi bi-plus-circle mx-2" />
-                    Add New Banner
+                    Add Banner
                   </Button>
                 </div>
               </div>
             </div>
           </div>
-          <Table columns={columns} dataSource={banner.document} className="text-center" />
+          <Table
+            columns={columns}
+            dataSource={banner.document}
+            className="text-center"
+          />
         </div>
       </div>
     </>

@@ -49,9 +49,12 @@ const SecoSetting = () => {
         Accept: "*/*",
         Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
       };
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/seo`, {
-        headers: headersList,
-      });
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}api/seo`,
+        {
+          headers: headersList,
+        }
+      );
       setData(response.data.document);
     } catch (error) {
       console.log(error);
@@ -71,7 +74,7 @@ const SecoSetting = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">SEO Setting</h2>
+            <h2 className="h3 mb-0">SEO Settings</h2>
           </div>
           <div className="row pb-10">
             <div className=" col-md-12 mb-20">

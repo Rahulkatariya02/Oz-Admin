@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
@@ -32,25 +31,30 @@ const EmailTemplate = () => {
   };
 
   const [selectedItem, setSelectedItem] = useState(null);
-  const [data, setData] = useState("")
+  const [data, setData] = useState("");
   const navigate = useNavigate();
 
-  const { register, handleSubmit, reset, formState: { errors } } = useForm({});
-  const [loading, setLoading] = useState(false)
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      let accessToken = localStorage.getItem('accessToken');
+      let accessToken = localStorage.getItem("accessToken");
       let headersList = {
-        "Accept": "*/*",
-        "Authorization": `Bearer ${accessToken}`
-      }
+        Accept: "*/*",
+        Authorization: `Bearer ${accessToken}`,
+      };
       const response = await axios.get(
-        `${process.env.REACT_APP_API_BASE_URL}api/admin/emailtemplate`, {
-        headers: headersList,
-      }
+        `${process.env.REACT_APP_API_BASE_URL}api/admin/emailtemplate`,
+        {
+          headers: headersList,
+        }
       );
       setData(response.data.document);
       setLoading(false);
@@ -102,13 +106,13 @@ const EmailTemplate = () => {
 
   const handleCheckboxChange = async (_id, newIsActive) => {
     try {
-      let accessToken = localStorage.getItem('accessToken');
+      let accessToken = localStorage.getItem("accessToken");
 
       let headersList = {
-        "Accept": "application/json",
+        Accept: "application/json",
 
-        "Authorization": `Bearer ${accessToken}`
-      }
+        Authorization: `Bearer ${accessToken}`,
+      };
 
       let reqOptions = {
         url: `${process.env.REACT_APP_API_BASE_URL}/emailtemplatestatus`,
@@ -117,8 +121,8 @@ const EmailTemplate = () => {
         data: {
           id: _id,
           isActive: newIsActive,
-        }
-      }
+        },
+      };
 
       let response = await axios.request(reqOptions);
       toast.success(response.data?.message);
@@ -131,36 +135,35 @@ const EmailTemplate = () => {
   return (
     <>
       <div className="main-container">
-
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Email Template Manage</h2>
+            <h2 className="h3 mb-0">Email Template</h2>
           </div>
           <div className="card-box mb-30">
             <div className="pd-20 ">
               <form onSubmit={handleSubmit(onSubmit)}>
                 <div className="row mb-4">
                   <div className="col-md-6 mb-4">
-                    <label className="form-label">
-                      Email Template Name
-                    </label>
+                    <label className="form-label">Email Template Name</label>
                     <select
-                      className={`form-control ${errors.name ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        errors.name ? "is-invalid" : ""
+                      }`}
                       name="name"
                       {...register("name", {
                         required: true,
                       })}
                       onChange={handleSelectChange}
                     >
-                      <option value="">
-                        -- Select --
-                      </option>
-                      {data && data.map((item, id) => {
-                        return (
-                          <option key={id} value={item.name}>{item.name}</option>
-                        )
-                      })}
+                      <option value="">-- Select --</option>
+                      {data &&
+                        data.map((item, id) => {
+                          return (
+                            <option key={id} value={item.name}>
+                              {item.name}
+                            </option>
+                          );
+                        })}
                     </select>
                     {errors.name && (
                       <small className="text-danger">
@@ -175,10 +178,13 @@ const EmailTemplate = () => {
                     </label>
                     <input
                       type="text"
-                      className={`form-control ${errors.subject ? "is-invalid" : ""
-                        }`}
+                      className={`form-control ${
+                        errors.subject ? "is-invalid" : ""
+                      }`}
                       name="subject"
-                      {...register("subject", { required: !selectedItem?.subject })}
+                      {...register("subject", {
+                        required: !selectedItem?.subject,
+                      })}
                       value={selectedItem?.subject || ""}
                     />
 
@@ -198,12 +204,16 @@ const EmailTemplate = () => {
                       {...register("isActive")}
                       checked={selectedItem?.isActive}
                       onChange={() =>
-                        handleCheckboxChange(selectedItem._id, !selectedItem.isActive)
+                        handleCheckboxChange(
+                          selectedItem._id,
+                          !selectedItem.isActive
+                        )
                       }
                     />
                     <label
                       className="form-check-label mx-2"
-                      htmlFor="flexCheckDefault">
+                      htmlFor="flexCheckDefault"
+                    >
                       Is Active
                     </label>
                   </div>
@@ -214,14 +224,20 @@ const EmailTemplate = () => {
                     </label>
                     <textarea
                       type="text"
-                      className={`form-control templateimg ${errors.description ? "is-invalid" : ""
-                        }`}
+                      className={`form-control templateimg ${
+                        errors.description ? "is-invalid" : ""
+                      }`}
                       name="description"
                       {...register("description", {
                         required: !selectedItem?.description,
                       })}
                       defaultValue={selectedItem?.description}
-                      onChange={(e) => setSelectedItem({ ...selectedItem, description: e.target.value })}
+                      onChange={(e) =>
+                        setSelectedItem({
+                          ...selectedItem,
+                          description: e.target.value,
+                        })
+                      }
                     />
                     {/* <ReactQuill
                       theme="snow"
@@ -248,7 +264,9 @@ const EmailTemplate = () => {
         </div>
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="card-box mb-30">
-            <p className="mx-2" dangerouslySetInnerHTML={{ __html: selectedItem?.description }}
+            <p
+              className="mx-2"
+              dangerouslySetInnerHTML={{ __html: selectedItem?.description }}
             />
           </div>
         </div>

@@ -35,11 +35,11 @@ const Package = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Package Master</h2>
+            <h2 className="h3 mb-0">Packages</h2>
           </div>
           <div className="card-box mb-30">
             <div className="pd-20 text-right">
-              <Link to="/packageform">
+              <Link to="/package-form">
                 <Button className="text-white h4 btn btn-outline-primary">
                   <i className="icon-copy fi-plus mx-2" />
                   Add New Package
@@ -62,7 +62,7 @@ const Package = () => {
                   {allPackage.map((e, i) => {
                     return (
                       <tr key={i}>
-                        <td>{e.title}</td>                      
+                        <td>{e.title}</td>
                         <td>
                           <Switch
                             checkedChildren={<CheckOutlined />}
@@ -71,14 +71,16 @@ const Package = () => {
                             onChange={async () => {
                               let headersList = {
                                 Accept: "*/*",
-                                Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                Authorization: `Bearer ${localStorage.getItem(
+                                  "accessToken"
+                                )}`,
                                 "Content-Type": "application/json",
                               };
                               let bodyContent = {
                                 isActive: !e.isActive,
-                                id: e._id
+                                id: e._id,
                               };
-                              
+
                               let reqOptions = {
                                 url: `${process.env.REACT_APP_API_BASE_URL}api/admin/packagestatus`,
                                 method: "POST",
@@ -91,7 +93,6 @@ const Package = () => {
                               AllPackage();
                             }}
                           />
-
                         </td>
                         <td>
                           <div className="dropdown">
@@ -108,7 +109,7 @@ const Package = () => {
                                 className="dropdown-item"
                                 type="button"
                                 onClick={async () => {
-                                  navigate("/packageform", {
+                                  navigate("/package-form", {
                                     state: { data: e, type: "View" },
                                   });
                                 }}
@@ -119,7 +120,7 @@ const Package = () => {
                                 className="dropdown-item"
                                 type="button"
                                 onClick={async () => {
-                                  navigate("/packageform", {
+                                  navigate("/package-form", {
                                     state: {
                                       data: { ...e, id: e._id },
                                       type: "Edit",
@@ -136,7 +137,9 @@ const Package = () => {
                                   try {
                                     let headersList = {
                                       Accept: "*/*",
-                                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                      Authorization: `Bearer ${localStorage.getItem(
+                                        "accessToken"
+                                      )}`,
                                     };
                                     let reqOptions = {
                                       url: `${process.env.REACT_APP_API_BASE_URL}api/admin/package/${e._id}`,

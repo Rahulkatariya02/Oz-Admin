@@ -23,7 +23,7 @@ const PackageInquiryList = () => {
       <div className="main-container">
         <div className="xs-pd-20-10 pd-ltr-20">
           <div className="title pb-20">
-            <h2 className="h3 mb-0">Packages Inquiry List</h2>
+            <h2 className="h3 mb-0">Package Inquiry List</h2>
           </div>
           <div className="card-box mb-30 col-md-12">
             <div className="pd-20">
@@ -62,7 +62,9 @@ const PackageInquiryList = () => {
                                   try {
                                     let headersList = {
                                       Accept: "*/*",
-                                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                      Authorization: `Bearer ${localStorage.getItem(
+                                        "accessToken"
+                                      )}`,
                                       "Content-Type": "application/json",
                                     };
                                     let reqOptions = {
@@ -85,7 +87,6 @@ const PackageInquiryList = () => {
                               >
                                 <i className="dw dw-delete-3" />
                               </Link>
-
                             </td>
                           </tr>
                         );

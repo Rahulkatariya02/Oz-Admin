@@ -9,7 +9,7 @@ import ReactQuill from "react-quill";
 const PackageForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false);
   const [data, setdata] = useState(
     !location?.state?.data ? { isActive: true } : location?.state?.data
   );
@@ -35,7 +35,6 @@ const PackageForm = () => {
     //   modules: ["Resize", "DisplaySize"],
     // },
   };
-
 
   const addpackage = async () => {
     try {
@@ -108,7 +107,7 @@ const PackageForm = () => {
                         disabled={location?.state?.type === "View"}
                         onChange={(e) => handalchange(e)}
                       >
-                        <option value=''>--- Select type ---</option>
+                        <option value="">--- Select type ---</option>
                         <option selected={data.package === "Residential"}>
                           Residential
                         </option>
@@ -311,7 +310,7 @@ const PackageForm = () => {
                   <Button
                     className=" btn-outline-secondary btn-light mx-2"
                     onClick={() => {
-                      navigate("/packagemastermanage");
+                      navigate("/package-master-manage");
                     }}
                   >
                     Go To List
@@ -320,7 +319,7 @@ const PackageForm = () => {
                     className=""
                     onClick={() => {
                       addpackage();
-                      navigate("/packagemastermanage");
+                      navigate("/package-master-manage");
                     }}
                   >
                     Save
