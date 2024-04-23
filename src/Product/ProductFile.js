@@ -35,9 +35,9 @@ const ProductFile = ({ data123, type }) => {
   };
   const toggleForm = () => {
     setShowForm(!showForm);
-    setEditId(null); 
+    setEditId(null);
   };
- 
+
   return (
     <>
       {showForm ? (
@@ -46,7 +46,8 @@ const ProductFile = ({ data123, type }) => {
           showForm={showForm}
           activedata={activedata}
           type={type}
-          setShowForm={setShowForm} />
+          setShowForm={setShowForm}
+        />
       ) : (
         <div className="card-box mb-30">
           <div className="pd-20">
@@ -73,7 +74,7 @@ const ProductFile = ({ data123, type }) => {
               </thead>
               <tbody>
                 {ProductFiledata1?.map((e, i) => {
-                  // if (data123._id === e.products_id) {                
+                  // if (data123._id === e.products_id) {
                   return (
                     <tr key={i}>
                       <td>{e.sortOrder}</td>
@@ -86,12 +87,14 @@ const ProductFile = ({ data123, type }) => {
                           onChange={async () => {
                             let headersList = {
                               Accept: "*/*",
-                              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                              Authorization: `Bearer ${localStorage.getItem(
+                                "accessToken"
+                              )}`,
                               "Content-Type": "application/json",
                             };
                             let bodyContent = {
                               isActive: !e.isActive,
-                              id: e._id
+                              id: e._id,
                             };
                             let reqOptions = {
                               url: `${process.env.REACT_APP_API_BASE_URL}api/productfilestatus`,
@@ -112,11 +115,9 @@ const ProductFile = ({ data123, type }) => {
                           type="button"
                           onClick={async () => {
                             let reqOptions = {
-                              
                               url: `${process.env.REACT_APP_API_BASE_URL}api/ProductFile/productfileremove/${e._id}`,
                               method: "GET",
                             };
-                            console.log("res",reqOptions,e._id)
                             let response = await axios.request(reqOptions);
                             toast.success(response.data.message);
                             ProductFiledata();
@@ -131,10 +132,8 @@ const ProductFile = ({ data123, type }) => {
                             toggleForm();
                             setactivedata(e);
                             setEditId(e._id);
-                            console.log("_id",e._id)
-                            console.log("data",e)
-
-                          }}>
+                          }}
+                        >
                           <i className="dw dw-edit2 mx-2" />
                         </span>
                       </td>

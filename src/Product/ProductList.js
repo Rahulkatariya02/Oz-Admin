@@ -43,7 +43,7 @@ const ProductList = () => {
               <Button
                 className="text-white h4 btn btn-outline-primary"
                 onClick={() =>
-                  navigate("/productmanage", {
+                  navigate("/product-manage", {
                     state: {
                       data: { ...data, id: data?._id },
                       type: "View",
@@ -57,7 +57,7 @@ const ProductList = () => {
 
               <Button
                 className=" btn-outline-secondary btn-light h4 mx-2"
-                onClick={() => navigate("/categorymasterlist")}
+                onClick={() => navigate("/category-master-list")}
               >
                 <i
                   className="icon-copy fa fa-arrow-left mx-2"
@@ -96,14 +96,16 @@ const ProductList = () => {
                               onChange={async () => {
                                 let headersList = {
                                   Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  Authorization: `Bearer ${localStorage.getItem(
+                                    "accessToken"
+                                  )}`,
                                   "Content-Type": "application/json",
                                 };
                                 let bodyContent = {
                                   isActive: !e.isActive,
-                                  id: e._id
+                                  id: e._id,
                                 };
-                                                               
+
                                 let reqOptions = {
                                   url: `${process.env.REACT_APP_API_BASE_URL}api/productstatus`,
                                   method: "POST",
@@ -116,7 +118,6 @@ const ProductList = () => {
                                 getcatagarydata();
                               }}
                             />
-
                           </td>
 
                           <td>
@@ -134,7 +135,7 @@ const ProductList = () => {
                                   className="dropdown-item"
                                   type="button"
                                   onClick={() => {
-                                    navigate("/editproduct", {
+                                    navigate("/edit-product", {
                                       state: {
                                         data: { ...e, id: e._id },
                                         type: "View",
@@ -148,7 +149,7 @@ const ProductList = () => {
                                   className="dropdown-item"
                                   type="button"
                                   onClick={() => {
-                                    navigate("/editproduct", {
+                                    navigate("/edit-product", {
                                       state: {
                                         data: { ...e, id: e._id },
                                         type: "Edit",
@@ -158,7 +159,9 @@ const ProductList = () => {
                                 >
                                   <i className="dw dw-edit2" /> Edit
                                 </div>
-                                <div className="dropdown-item" type="button"
+                                <div
+                                  className="dropdown-item"
+                                  type="button"
                                   onClick={async () => {
                                     try {
                                       {
@@ -174,7 +177,9 @@ const ProductList = () => {
                                           headers: headersList,
                                         };
 
-                                        let response = await axios.request(reqOptions);
+                                        let response = await axios.request(
+                                          reqOptions
+                                        );
                                         if (response.data.status === 1) {
                                           toast.success(response.data.message);
                                           getcatagarydata();

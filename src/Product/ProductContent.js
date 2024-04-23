@@ -22,10 +22,10 @@ const ProductContent = ({ data123, type }) => {
 
   const getproductcontent = async () => {
     try {
-
-      let response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`);
+      let response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}api/getproductcontent/${data._id}`
+      );
       setProductContent(response.data.data);
-      console.log(response.data.data,"productcontent")
     } catch (error) {
       console.error("Error fetching product content:", error);
     }
@@ -83,14 +83,20 @@ const ProductContent = ({ data123, type }) => {
                               try {
                                 let headersList = {
                                   Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  Authorization: `Bearer ${localStorage.getItem(
+                                    "accessToken"
+                                  )}`,
                                   "Content-Type": "application/json",
                                 };
                                 let bodyContent = {
                                   isActive: !e.isActive,
-                                  id: e._id
-                                };                            
-                                let response = await axios.post(`${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`, bodyContent, { headers: headersList });
+                                  id: e._id,
+                                };
+                                let response = await axios.post(
+                                  `${process.env.REACT_APP_API_BASE_URL}api/productcontentstatus`,
+                                  bodyContent,
+                                  { headers: headersList }
+                                );
                                 toast.success(response.data.message);
                                 getproductcontent();
                               } catch (error) {
@@ -98,11 +104,13 @@ const ProductContent = ({ data123, type }) => {
                                 toast.error(error.response.data.originalError);
                               }
                             }}
-                          />                         
+                          />
                         </td>
                         <td>
                           <img
-                            src={process.env.REACT_APP_API_BASE_URL + e.product_img}
+                            src={
+                              process.env.REACT_APP_API_BASE_URL + e.product_img
+                            }
                             className="img-fluid"
                             width={100}
                             alt="Product Image"
@@ -111,14 +119,19 @@ const ProductContent = ({ data123, type }) => {
                         <td className="d-flex">
                           <span
                             className="mx-2"
-                            type="button"                           
+                            type="button"
                             onClick={async () => {
                               try {
                                 let headersList = {
                                   Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                  Authorization: `Bearer ${localStorage.getItem(
+                                    "accessToken"
+                                  )}`,
                                 };
-                                let response = await axios.delete(`${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/removeProduct/${e._id}`, { headers: headersList });
+                                let response = await axios.delete(
+                                  `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/removeProduct/${e._id}`,
+                                  { headers: headersList }
+                                );
                                 toast.success(response.data.message);
                                 getproductcontent();
                               } catch (error) {
@@ -127,16 +140,15 @@ const ProductContent = ({ data123, type }) => {
                               }
                             }}
                           >
-                            <i className="dw dw-delete-3" /> 
+                            <i className="dw dw-delete-3" />
                           </span>
                           <span
                             className=""
                             type="button"
                             onClick={() => {
-                              toggleForm();                           
+                              toggleForm();
                               setActiveData(e);
-                              console.log("data",e)
-                            }}                         
+                            }}
                           >
                             <i className="dw dw-edit2 mx-2" />
                           </span>

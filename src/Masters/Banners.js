@@ -157,7 +157,7 @@ const Banners = () => {
             className=""
             type="button"
             onClick={async () => {
-              navigate("/bannermastermanage", { state: object });
+              navigate("/banner-master-manage", { state: object });
             }}
           >
             <i className="dw dw-edit2 fa-lg" />
@@ -179,9 +179,9 @@ const Banners = () => {
             <div className="row">
               <div className="col-md-12 col-sm-12">
                 <div
-                  to="/bannermastermanage"
+                  to="/banner-master-manage"
                   onClick={() => {
-                    navigate("/bannermastermanage", {
+                    navigate("/banner-master-manage", {
                       state: {
                         sortOrder:
                           data12?.length > 0 ? data12[0].sortOrder + 1 : 0,

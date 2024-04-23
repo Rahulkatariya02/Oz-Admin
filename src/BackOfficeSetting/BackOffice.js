@@ -51,16 +51,19 @@ const BackOffice = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      let accessToken = localStorage.getItem('accessToken');
+      let accessToken = localStorage.getItem("accessToken");
       let headersList = {
-        "Accept": "*/*",
-        "Authorization": `Bearer ${accessToken}`
-      }
-      const response = await axios.get(`${process.env.REACT_APP_API_BASE_URL}api/admin/logo`, {
-        headers: headersList,
-      });
+        Accept: "*/*",
+        Authorization: `Bearer ${accessToken}`,
+      };
+      const response = await axios.get(
+        `${process.env.REACT_APP_API_BASE_URL}api/admin/logo`,
+        {
+          headers: headersList,
+        }
+      );
       setLogoImage(response.data.document);
-            setLoading(false);
+      setLoading(false);
     } catch (error) {
       handleTokenErrors(error);
       setLoading(false);
@@ -70,7 +73,7 @@ const BackOffice = () => {
   useEffect(() => {
     fetchData();
   }, []);
- 
+
   return (
     <>
       <div className="main-container">
@@ -111,7 +114,10 @@ const BackOffice = () => {
                                   </div>
 
                                   <div className="form-group">
-                                    <img src={LogoImage[0]?.logo_image} width={50}/>
+                                    <img
+                                      src={LogoImage[0]?.logo_image}
+                                      width={50}
+                                    />
                                   </div>
                                 </div>
                                 <div className="modal-footer col-md-12 mt-4">
@@ -150,9 +156,10 @@ const BackOffice = () => {
                                         toast.success(response.data.message);
                                       } catch (error) {
                                         toast.error(
-                                          error.response.data.originalError
-                                            ? error.response.data.originalError
-                                            : error.response.data.error
+                                          error?.response?.data?.originalError
+                                            ? error?.response?.data
+                                                ?.originalError
+                                            : error?.response?.data?.error
                                         );
                                         handleTokenErrors(error);
                                       }

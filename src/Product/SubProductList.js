@@ -23,7 +23,7 @@ const SubProductList = () => {
       url: `${process.env.REACT_APP_API_BASE_URL}api/subcategoryproduct/fetchAllProducts`,
       method: "GET",
     };
-    let response = await axios.request(reqOptions);  
+    let response = await axios.request(reqOptions);
     setcategory(response.data.data);
   };
   return (
@@ -38,7 +38,7 @@ const SubProductList = () => {
               <Button
                 className="text-white h4 btn btn-outline-primary"
                 onClick={() =>
-                  navigate("/productmanage", {
+                  navigate("/product-manage", {
                     state: {
                       data: { ...data, id: data?._id },
                       type: "View",
@@ -52,7 +52,7 @@ const SubProductList = () => {
 
               <Button
                 className=" btn-outline-secondary btn-light h4 mx-2"
-                onClick={() => navigate("/categorymasterlist")}
+                onClick={() => navigate("/category-master-list")}
               >
                 <i
                   className="icon-copy fa fa-arrow-left mx-2"
@@ -117,7 +117,7 @@ const SubProductList = () => {
                                   className="dropdown-item"
                                   type="button"
                                   onClick={() => {
-                                    navigate("/editproduct", {
+                                    navigate("/edit-product", {
                                       state: {
                                         data: { ...e, id: e._id },
                                         type: "View",
@@ -131,7 +131,7 @@ const SubProductList = () => {
                                   className="dropdown-item"
                                   type="button"
                                   onClick={() => {
-                                    navigate("/editproduct", {
+                                    navigate("/edit-product", {
                                       state: {
                                         data: { ...e, id: e._id },
                                         type: "Edit",

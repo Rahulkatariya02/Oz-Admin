@@ -145,9 +145,6 @@ const Clients = () => {
                 }
               } catch (error) {
                 handleTokenErrors(error);
-                // toast.error(
-                //   error.response.data.originalError || error.response.data.error
-                // );
               }
             }}
           >

@@ -29,7 +29,7 @@ const ForgotPassword = () => {
         setLoading1(false);
       }
     } catch (error) {
-      toast.error(error.response.data.error);
+      toast.error(error?.response?.data?.error);
     }
   };
   return (

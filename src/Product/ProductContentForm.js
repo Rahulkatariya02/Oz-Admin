@@ -2,8 +2,8 @@ import axios from "axios";
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import ReactQuill, { Quill } from 'react-quill';
-import 'react-quill/dist/quill.snow.css'; // Import the styles
+import ReactQuill, { Quill } from "react-quill";
+import "react-quill/dist/quill.snow.css"; // Import the styles
 import { toast } from "react-toastify";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
@@ -33,7 +33,7 @@ const ProductContentForm = ({
         { indent: "+1" },
       ],
       ["link", "image", "video"],
-      [{ table: [{ header: 'table' }] }],
+      [{ table: [{ header: "table" }] }],
       ["clean"],
     ],
     clipboard: {
@@ -63,8 +63,10 @@ const ProductContentForm = ({
   ];
 
   const [data, setdata] = useState(activedata ? activedata : {});
-  const [isActive, setIsActive] = useState(data?.isActive || false)
-  const [productImg, setProductImg] = useState(activedata ? activedata.product_img : '');
+  const [isActive, setIsActive] = useState(data?.isActive || false);
+  const [productImg, setProductImg] = useState(
+    activedata ? activedata.product_img : ""
+  );
 
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
@@ -112,15 +114,23 @@ const ProductContentForm = ({
                     disabled={type === "View"}
                     onChange={(e) => handalchange(e)}
                   />
-                  {data.product_img ? <img src={process.env.REACT_APP_API_BASE_URL + data.product_img} /> : ''}
-
+                  {data.product_img ? (
+                    <img
+                      src={
+                        process.env.REACT_APP_API_BASE_URL + data.product_img
+                      }
+                    />
+                  ) : (
+                    ""
+                  )}
                 </div>
 
                 <label className="col-sm-12 col-md-12 mb-4 col-form-label">
                   Content Text (Add HTML)
                 </label>
                 <div className="col-md-12 mb-4">
-                  <CommonEditor value={data.contentText}
+                  <CommonEditor
+                    value={data.contentText}
                     onChange={(value) => {
                       setdata({ ...data, contentText: value });
                     }}
@@ -177,7 +187,9 @@ const ProductContentForm = ({
                     try {
                       let headersList = {
                         Accept: "*/*",
-                        Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                        Authorization: `Bearer ${localStorage.getItem(
+                          "accessToken"
+                        )}`,
                         "Content-Type": "multipart/form-data", // Updated Content-Type
                       };
 
@@ -208,7 +220,7 @@ const ProductContentForm = ({
 
                       if (response.data.status === 1) {
                         toast.success(response.data.message);
-                        navigate("/categorymasterlist");
+                        navigate("/category-master-list");
                       }
                     } catch (error) {
                       handleTokenErrors(error);

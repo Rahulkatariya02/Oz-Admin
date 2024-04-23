@@ -38,7 +38,6 @@ const TestiminialForm = () => {
       errors.text = "Testimonial Text is required";
     }
     setFormErrors(errors);
-    console.log(errors);
     return valid;
   };
   return (

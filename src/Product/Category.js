@@ -33,7 +33,7 @@ const Category = () => {
   };
 
   const handleOpen = (item) => {
-    navigate(`/productmasterlist`, { state: { item, _id: item._id } });
+    navigate(`/product-master-list`, { state: { item, _id: item._id } });
   };
 
   return (
@@ -45,7 +45,7 @@ const Category = () => {
           </div>
           <div className="card-box mb-30">
             <div className="pd-20 text-right">
-              <Link to="/categorymastermanage">
+              <Link to="/category-master-manage">
                 <Button className="text-white h4 btn btn-outline-primary">
                   <i className="icon-copy fi-plus mx-2" />
                   Add New Category
@@ -161,7 +161,7 @@ const Category = () => {
                             className=""
                             type="button"
                             onClick={() => {
-                              navigate("/categorymastermanage", {
+                              navigate("/category-master-manage", {
                                 state: {
                                   data: { ...e, id: e._id },
                                   type: "Edit",

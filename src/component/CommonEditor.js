@@ -18,7 +18,6 @@ const CommonEditor = ({ placeholder, value, onChange }) => {
   const handleEditorChange = (newContent) => {
     setContent(newContent);
     onChange(newContent);
-    console.log("editor change", newContent);
   };
 
   useEffect(() => {

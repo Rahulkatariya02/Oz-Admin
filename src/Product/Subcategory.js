@@ -11,32 +11,31 @@ import { handleTokenErrors } from "../component/handleTokenErrors";
 const Subcategory = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const subcatData = location.state?.item?.category
-  const categoryId = subcatData?._id
-   const [category, setcategory] = useState([]);
-  
+  const subcatData = location.state?.item?.category;
+  const categoryId = subcatData?._id;
+  const [category, setcategory] = useState([]);
+
   useEffect(() => {
     getcatagarydata();
   }, []);
   const getcatagarydata = async () => {
     try {
-
       let reqOptions = {
         method: "POST",
         url: `${process.env.REACT_APP_API_BASE_URL}api/getcategory`,
         data: { categoryId }, // Use data to pass parameters in a POST request
       };
 
-      let response = await axios.request(reqOptions);       
+      let response = await axios.request(reqOptions);
       setcategory(response.data.data);
     } catch (error) {
       handleTokenErrors(error);
       console.error(error);
     }
-  }; 
+  };
 
   const addSubcat = () => {
-    navigate(`/subcategorymastermanage/${categoryId}`, { state: category });
+    navigate(`/sub-category-master-manage/${categoryId}`, { state: category });
   };
   return (
     <>
@@ -47,10 +46,7 @@ const Subcategory = () => {
           </div>
           <div className="card-box mb-30">
             <div className="pd-20 text-right">
-              <span
-                onClick={addSubcat}
-
-              >
+              <span onClick={addSubcat}>
                 <Button className="text-white h4 btn btn-outline-primary">
                   <i className="icon-copy fi-plus mx-2" />
                   Add New Category
@@ -73,15 +69,13 @@ const Subcategory = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {category.map((e, i) => {                   
+                  {category.map((e, i) => {
                     return (
                       <tr key={i}>
                         <td>{e.category?.sortOrder}</td>
                         <td>{e.category?.category}</td>
                         <td>
-                          <span
-                            className="text-danger"                        
-                          >
+                          <span className="text-danger">
                             <span className="badge badge-pill badge-primary w-25">
                               {e.subcategoryCount}
                             </span>
@@ -91,7 +85,7 @@ const Subcategory = () => {
                           <span
                             className="text-danger"
                             onClick={() => {
-                              navigate("/subproductmasterlist", {
+                              navigate("/sub-product-master-list", {
                                 state: {
                                   data: { ...e, id: e.categories?._id },
                                   type: "View",
@@ -105,33 +99,35 @@ const Subcategory = () => {
                           </span>
                         </td>
                         <td>
-                            <Switch
-                              checkedChildren={<CheckOutlined />}
-                              unCheckedChildren={<CloseOutlined />}
-                              checked={e.isActive}
-                              onChange={async () => {
-                                let headersList = {
-                                  Accept: "*/*",
-                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
-                                  "Content-Type": "application/json",
-                                };
-                                let bodyContent = {
-                                  isActive: !e.isActive,
-                                  id: e.category?._id,
-                                };
-                                let reqOptions = {
-                                  url: `${process.env.REACT_APP_API_BASE_URL}api/category/changeStatus`,
-                                  method: "PUT",
-                                  headers: headersList,
-                                  data: bodyContent,
-                                };
+                          <Switch
+                            checkedChildren={<CheckOutlined />}
+                            unCheckedChildren={<CloseOutlined />}
+                            checked={e.isActive}
+                            onChange={async () => {
+                              let headersList = {
+                                Accept: "*/*",
+                                Authorization: `Bearer ${localStorage.getItem(
+                                  "accessToken"
+                                )}`,
+                                "Content-Type": "application/json",
+                              };
+                              let bodyContent = {
+                                isActive: !e.isActive,
+                                id: e.category?._id,
+                              };
+                              let reqOptions = {
+                                url: `${process.env.REACT_APP_API_BASE_URL}api/category/changeStatus`,
+                                method: "PUT",
+                                headers: headersList,
+                                data: bodyContent,
+                              };
 
-                                let response = await axios.request(reqOptions);
-                                toast.success(response.data.message);
-                                getcatagarydata();
-                              }}
-                            />
-                          </td>
+                              let response = await axios.request(reqOptions);
+                              toast.success(response.data.message);
+                              getcatagarydata();
+                            }}
+                          />
+                        </td>
                         <td>
                           <span
                             className="mx-2"
@@ -156,7 +152,7 @@ const Subcategory = () => {
                                   getcatagarydata();
                                 }
                               } catch (error) {
-                                   handleTokenErrors(error);
+                                handleTokenErrors(error);
                                 toast.error(error?.response?.data?.error);
                               }
                             }}
@@ -167,12 +163,15 @@ const Subcategory = () => {
                             className=""
                             type="button"
                             onClick={() => {
-                              navigate(`/subcategorymastermanage/${e.categories?._id}`, {
-                                state: {
-                                  data: { ...e, id: e._id },
-                                  type: "Edit",
-                                },
-                              });
+                              navigate(
+                                `/sub-category-master-manage/${e.categories?._id}`,
+                                {
+                                  state: {
+                                    data: { ...e, id: e._id },
+                                    type: "Edit",
+                                  },
+                                }
+                              );
                             }}
                           >
                             <i className="dw dw-edit2 fa-lg" />

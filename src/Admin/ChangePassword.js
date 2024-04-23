@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ChangePassword = () => {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
   const [isSaving, setIsSaving] = useState(false);
 
   const {
@@ -38,7 +38,7 @@ const ChangePassword = () => {
           dataobject,
           {
             headers: {
-                      Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+              Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
               "Content-Type": "application/json",
             },
           }
@@ -50,7 +50,7 @@ const ChangePassword = () => {
           toast.error(data.message);
         }
       } catch (error) {
-        toast.error(error.response.data.error);
+        toast.error(error?.response?.data?.error);
         handleTokenErrors(error);
       }
       //   await dispatch(changePassword(dataobject));
@@ -156,7 +156,7 @@ const ChangePassword = () => {
                       <div className="col-md-8 mb-4 ">
                         <Button
                           className="btn btn-outline-dark btn-light my-2 mx-2"
-                          onClick={()=> navigate("/")}
+                          onClick={() => navigate("/")}
                         >
                           Back
                         </Button>

@@ -7,7 +7,6 @@ import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductForm = ({ data123, type }) => {
-
   // const [isActive, setIsActive] = useState(false);
   const [data, setdata] = useState(!data123 ? {} : data123);
   const [isActive, setIsActive] = useState(data?.isActive || false);
@@ -35,7 +34,10 @@ const ProductForm = ({ data123, type }) => {
   const handleSubcategoryChange = (subcategoryIndex) => {
     const updatedSubcategories = [...selectedSubcategories];
     if (updatedSubcategories.includes(subcategoryIndex)) {
-      updatedSubcategories.splice(updatedSubcategories.indexOf(subcategoryIndex), 1);
+      updatedSubcategories.splice(
+        updatedSubcategories.indexOf(subcategoryIndex),
+        1
+      );
     } else {
       updatedSubcategories.push(subcategoryIndex);
     }
@@ -45,14 +47,17 @@ const ProductForm = ({ data123, type }) => {
   const handleChildcategoryChange = (childcategoryIndex) => {
     const updatedChildcategories = [...selectedChildcategories];
     if (updatedChildcategories.includes(childcategoryIndex)) {
-      updatedChildcategories.splice(updatedChildcategories.indexOf(childcategoryIndex), 1);
+      updatedChildcategories.splice(
+        updatedChildcategories.indexOf(childcategoryIndex),
+        1
+      );
     } else {
       updatedChildcategories.push(childcategoryIndex);
     }
     setSelectedChildcategories(updatedChildcategories);
   };
   const navigate = useNavigate();
-  
+
   const handalchange = (e) => {
     // e.preventdefault()
     const { name, value, checked, files } = e.target;
@@ -92,7 +97,7 @@ const ProductForm = ({ data123, type }) => {
     let data1 = await JSON.parse(data);
     setcategory(data1.data);
   };
- 
+
   return (
     <>
       <div className="row">
@@ -231,7 +236,7 @@ const ProductForm = ({ data123, type }) => {
                     id="customCheck1"
                     disabled={type === "View"}
                     name="isActive"
-                    defaultChecked={isActive }
+                    defaultChecked={isActive}
                     onChange={(e) => setIsActive(e.target.checked)}
                   />
                   <label
@@ -241,7 +246,7 @@ const ProductForm = ({ data123, type }) => {
                     Is Active
                   </label>
                 </div>
-                
+
                 <div className="custom-control custom-checkbox mb-5">
                   <label className="col-sm-12 col-md-4 col-form-label"></label>
                   <input
@@ -257,7 +262,7 @@ const ProductForm = ({ data123, type }) => {
                     className="custom-control-label"
                     htmlFor="customCheck2"
                   >
-                 Show in home
+                    Show in home
                   </label>
                 </div>
                 {/* <div className="custom-control custom-checkbox mb-5">
@@ -283,9 +288,8 @@ const ProductForm = ({ data123, type }) => {
                   </label>
                 </div> */}
 
-
                 <div className="modal-footer">
-                  <Link to="/categorymasterlist">
+                  <Link to="/category-master-list">
                     <button
                       type="button"
                       className="btn btn-secondary"
@@ -320,16 +324,18 @@ const ProductForm = ({ data123, type }) => {
                             // formdata.append("slug", data.productName);
                             formdata.append("category[]", data?.category);
 
-                            if (data?.category) { setSelectedCategories(data?.category); }
+                            if (data?.category) {
+                              setSelectedCategories(data?.category);
+                            }
 
                             formdata.append("banner_img", data.banner_img);
 
                             let bodyContent = formdata;
 
                             let headersList = {
-                              "Accept": "*/*",
-                              "Authorization": `Bearer ${accessToken}`
-                            }
+                              Accept: "*/*",
+                              Authorization: `Bearer ${accessToken}`,
+                            };
 
                             let reqOptions = {
                               url: `${process.env.REACT_APP_API_BASE_URL}api/product/addProduct`,
@@ -341,7 +347,7 @@ const ProductForm = ({ data123, type }) => {
                             let response = await axios.request(reqOptions);
                             if (response.data.status === 1) {
                               toast.success(response.data.message);
-                              navigate("/categorymasterlist");
+                              navigate("/category-master-list");
                             }
                           } else {
                             let formdata = new FormData();
@@ -351,23 +357,30 @@ const ProductForm = ({ data123, type }) => {
                             formdata.append("description", data.description);
                             formdata.append("productCode", data.productCode);
                             formdata.append("metaKeyword", data.metaKeyword);
-                            formdata.append("metaDescription", data.metaDescription);
+                            formdata.append(
+                              "metaDescription",
+                              data.metaDescription
+                            );
                             formdata.append("isActive", isActive);
                             formdata.append("showInHome", showInHome);
                             // formdata.append("slug", data.productName);
                             formdata.append("logo_img", data.logo_img);
-                            for (let i = 0; i < selectedCategories?.length; i++) {
-                              formdata.append('category[]', selectedCategories[i]);
+                            for (
+                              let i = 0;
+                              i < selectedCategories?.length;
+                              i++
+                            ) {
+                              formdata.append(
+                                "category[]",
+                                selectedCategories[i]
+                              );
                             }
-                            formdata.append(
-                              "banner_img",
-                              data.banner_img
-                            );
+                            formdata.append("banner_img", data.banner_img);
 
                             let headersList = {
-                              "Accept": "*/*",
-                              "Authorization": `Bearer ${accessToken}`
-                            }
+                              Accept: "*/*",
+                              Authorization: `Bearer ${accessToken}`,
+                            };
                             let bodyContent = formdata;
 
                             let reqOptions = {
@@ -380,7 +393,7 @@ const ProductForm = ({ data123, type }) => {
                             let response = await axios.request(reqOptions);
                             if (response.data.status === 1) {
                               toast.success(response.data.message);
-                              navigate("/categorymasterlist");
+                              navigate("/category-master-list");
                             }
                           }
                         }
@@ -403,7 +416,7 @@ const ProductForm = ({ data123, type }) => {
             <div className="modal-header ">
               <h4 className="text-dark h4">PRODUCT CATEGORIES</h4>
             </div>
-            {category?.map((e, i) => {         
+            {category?.map((e, i) => {
               return (
                 <ul className="dd-list" key={i}>
                   <li>
@@ -414,8 +427,10 @@ const ProductForm = ({ data123, type }) => {
                         htmlFor={e._id}
                         id={e._id}
                         // checked={selectedCategories.includes(e._id) || data?.category[0] === e._id}
-                        checked={selectedCategories.includes(e._id) || (data?.category?.[0] === e._id ?? false)}
-
+                        checked={
+                          selectedCategories.includes(e._id) ||
+                          (data?.category?.[0] === e._id ?? false)
+                        }
                         // checked={selectedCategories.includes(e._id) || data?.category[0] === e._id}
                         onChange={() => handleCategoryChange(e._id)}
                       />
@@ -434,8 +449,12 @@ const ProductForm = ({ data123, type }) => {
                                   type="checkbox"
                                   htmlFor={el._id}
                                   id={el._id}
-                                  checked={selectedSubcategories.includes(el._id)}
-                                  onChange={() => handleSubcategoryChange(el._id)}
+                                  checked={selectedSubcategories.includes(
+                                    el._id
+                                  )}
+                                  onChange={() =>
+                                    handleSubcategoryChange(el._id)
+                                  }
                                 />
                                 <label className="mx-2" _id={el._id}>
                                   {el.category}
@@ -452,8 +471,14 @@ const ProductForm = ({ data123, type }) => {
                                               className=""
                                               type="checkbox"
                                               htmlFor={el2._id}
-                                              checked={selectedChildcategories.includes(el2._id)}
-                                              onChange={() => handleChildcategoryChange(el2._id)}
+                                              checked={selectedChildcategories.includes(
+                                                el2._id
+                                              )}
+                                              onChange={() =>
+                                                handleChildcategoryChange(
+                                                  el2._id
+                                                )
+                                              }
                                             />
                                             <label
                                               className="mx-2"

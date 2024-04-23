@@ -4,39 +4,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
-const ProductFileForm = ({ data123,
+const ProductFileForm = ({
+  data123,
   showForm,
   activedata,
   setShowForm,
-  type, }) => {
+  type,
+}) => {
   const [data, setdata] = useState(activedata ? activedata : {});
-  const [isActive, setIsActive] = useState(false)
+  const [isActive, setIsActive] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null); // Added state for tracking selected file
 
   const navigate = useNavigate();
-  // const handalchange = (e) => {
-  //   console.log("e",e)
-  //   const { name, value, checked, files } = e.target;
-  //   console.log("File selected:", files[0]);
-  //   if (name !== "file") {
-  //     if (name === "isActive") {
-  //       setdata({ ...data, [name]: checked });
-  //     } else {
-  //       setdata({ ...data, [name]: value });
-  //     }
-  //   } else {
-  //     setSelectedFile(files[0]);
-  //     setdata({ ...data, [name]: files[0].name });
-  //     console.log(files[0].name)
-  //   }
-  // };
   const handalchange = (e) => {
-    console.log("Event object:", e); // Log the entire event object
-
     const { name, value, checked, files } = e.target;
-  
-    console.log("Selected files:", files); // Log selected files
-  
+
     if (name !== "file") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -50,8 +32,7 @@ const ProductFileForm = ({ data123,
       }
     }
   };
-  
-  
+
   return (
     <>
       <div className="row">
@@ -114,19 +95,8 @@ const ProductFileForm = ({ data123,
 
                 <div className="custom-control custom-checkbox mb-5">
                   <label className="col-sm-12 col-md-4 col-form-label"></label>
-                  {/* <input
-                    type="checkbox"
-                    className="custom-control-input my-5"
-                    name="isActive"
-                    // defaultChecked={data.isActive}
-                    // onChange={(e) => handalchange(e)}
-                    defaultChecked={isActive || data?.isActive}
-                    onChange={(e) => setIsActive(e.target.checked)}
-                  /> */}
                   <input
                     type="checkbox"
-                    // className="custom-control-input my-5"
-                    // id="customCheck3"
                     name="isActive"
                     checked={data.isActive ?? isActive}
                     onChange={(e) => setIsActive(e.target.checked)}
@@ -134,10 +104,9 @@ const ProductFileForm = ({ data123,
                   <label className="" htmlFor="customCheck3">
                     Is Active
                   </label>
-
                 </div>
                 <div className="modal-footer">
-                  <Link to="/categorymasterlist">
+                  <Link to="/category-master-list">
                     <button
                       type="button"
                       className="btn btn-secondary"
@@ -153,30 +122,28 @@ const ProductFileForm = ({ data123,
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                          Authorization: `Bearer ${localStorage.getItem(
+                            "accessToken"
+                          )}`,
                           "Content-Type": "multipart/form-data", // Updated Content-Type
                         };
                         let formdata = new FormData();
+                        console.log(data, "data");
+                        console.log(data123, "data123");
                         formdata.append("contentText", data.contentText);
                         formdata.append("isActive", isActive);
                         formdata.append("product_id", data123[0].product_id);
-                        formdata.append("id",data123[0]._id);
-                        console.log("_idformdata",data123[0]._id);
-                        console.log("data123",data123);
-                        // formdata.append("uploadType", data.uploadType);
+                        formdata.append("id", data123[0]._id);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
-                        // formdata.append("file", data.file);
-                        // if (data.file instanceof File) {
-                        //   formdata.append("file", data.file);
-                          if (selectedFile instanceof File) {
-                            console.log("Selected file:", selectedFile); 
-                            formdata.append("file", selectedFile);
+                        if (selectedFile instanceof File) {
+                          formdata.append("file", selectedFile);
                         } else if (activedata.file) {
-                          const blob = await fetch(activedata.file).then((res) => res.blob());
+                          const blob = await fetch(activedata.file).then(
+                            (res) => res.blob()
+                          );
                           formdata.append("file", blob, `${activedata.file}`);
                         }
-                        console.log("Form data:", formdata);
                         let bodyContent = formdata;
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/productfile`,
@@ -184,19 +151,15 @@ const ProductFileForm = ({ data123,
                           headers: headersList,
                           data: bodyContent,
                         };
-                        console.log("Request options:", reqOptions);
                         let response = await axios.request(reqOptions);
                         if (response.data.status === 1) {
                           toast.success(response.data.message);
-                          navigate("/categorymasterlist");
+                          navigate("/category-master-list");
                         }
-                      } catch (error) {
-                        handleTokenErrors(error);
-                        toast.error(error?.response?.data?.error);
-                      }
+                      } catch (error) {}
                     }}
                   >
-                    Save                 
+                    Save
                   </button>
                 </div>
               </form>

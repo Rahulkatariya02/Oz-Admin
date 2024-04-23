@@ -9,7 +9,7 @@ const AddnewsubCategory = () => {
   const location = useLocation();
   const subcatData = location.state?.data?.categories;
   const subcatName = subcatData?.category;
-  const parentCatName = location.state[0].categories.category
+  const parentCatName = location.state[0].categories.category;
 
   const [data, setData] = useState({
     productName: subcatData?.category || "",
@@ -94,8 +94,9 @@ const AddnewsubCategory = () => {
                       <input
                         type="text"
                         name="productName"
-                        className={`form-control ${errors.productName ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.productName ? "is-invalid" : ""
+                        }`}
                         value={data.productName}
                         onChange={(e) => handleChange(e)}
                       />
@@ -111,8 +112,9 @@ const AddnewsubCategory = () => {
                     </label>
                     <div className="col-md-8 mb-4">
                       <input
-                        className={`form-control ${errors.SortOrder ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.SortOrder ? "is-invalid" : ""
+                        }`}
                         type="text"
                         name="SortOrder"
                         value={data.SortOrder}
@@ -130,8 +132,9 @@ const AddnewsubCategory = () => {
                     </label>
                     <div className="col-md-8 mb-4">
                       <textarea
-                        className={`form-control ${errors.Description ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.Description ? "is-invalid" : ""
+                        }`}
                         name="Description"
                         value={data.Description}
                         onChange={(e) => handleChange(e)}
@@ -145,13 +148,22 @@ const AddnewsubCategory = () => {
                     </label>
                     <div className="col-md-8 mb-4">
                       <input
-                        className={`form-control ${errors.CategoryImage ? "is-invalid" : ""}`}
+                        className={`form-control ${
+                          errors.CategoryImage ? "is-invalid" : ""
+                        }`}
                         type="file"
                         name="CategoryImage"
                         onChange={(e) => handleChange(e)}
                       />
-                      {subcatData?.category_image ? <img src={`${process.env.REACT_APP_API_BASE_URL} +
-                            ${subcatData?.category_image}`} alt="category_image" /> : ''}
+                      {subcatData?.category_image ? (
+                        <img
+                          src={`${process.env.REACT_APP_API_BASE_URL} +
+                            ${subcatData?.category_image}`}
+                          alt="category_image"
+                        />
+                      ) : (
+                        ""
+                      )}
                       {errors.CategoryImage && (
                         <div className="invalid-feedback">
                           {errors.CategoryImage}
@@ -168,8 +180,9 @@ const AddnewsubCategory = () => {
                     </label>
                     <div className="col-md-8 mb-4">
                       <input
-                        className={`form-control ${errors.MetaTitle ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.MetaTitle ? "is-invalid" : ""
+                        }`}
                         type="text"
                         name="MetaTitle"
                         value={data.MetaTitle}
@@ -186,8 +199,9 @@ const AddnewsubCategory = () => {
                     </label>
                     <div className="col-md-8 mb-4">
                       <textarea
-                        className={`form-control ${errors.MetaKeyWord ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.MetaKeyWord ? "is-invalid" : ""
+                        }`}
                         name="MetaKeyWord"
                         value={data.MetaKeyWord}
                         onChange={(e) => handleChange(e)}
@@ -203,8 +217,9 @@ const AddnewsubCategory = () => {
                     </label>
                     <div className="col-md-8 mb-4">
                       <textarea
-                        className={`form-control ${errors.MetaDescription ? "is-invalid" : ""
-                          }`}
+                        className={`form-control ${
+                          errors.MetaDescription ? "is-invalid" : ""
+                        }`}
                         name="MetaDescription"
                         value={data.MetaDescription}
                         onChange={(e) => handleChange(e)}
@@ -235,7 +250,7 @@ const AddnewsubCategory = () => {
                     </label>
                   </div>
                   <div className="modal-footer">
-                    <Link to="/categorymasterlist">
+                    <Link to="/category-master-list">
                       <button
                         type="button"
                         className="btn btn-secondary"
@@ -251,21 +266,41 @@ const AddnewsubCategory = () => {
                         if (handleCustomValidation()) {
                           try {
                             let formdata = new FormData();
-                            formdata.append("id", subcatData?._id ? subcatData?._id : '');
-                            formdata.append("parentCategory", subcatData ? subcatData.parentCategory : location.pathname.split("/")[2]);
+                            formdata.append(
+                              "id",
+                              subcatData?._id ? subcatData?._id : ""
+                            );
+                            formdata.append(
+                              "parentCategory",
+                              subcatData
+                                ? subcatData.parentCategory
+                                : location.pathname.split("/")[2]
+                            );
                             formdata.append("sortOrder", data.SortOrder);
                             // formdata.append("productName", data.productName);
                             formdata.append("category", data.productName);
                             formdata.append("description", data.Description);
                             formdata.append("metaTitle", data.MetaTitle);
                             formdata.append("metaKeyword", data.MetaKeyWord);
-                            formdata.append("metaDescription", data.MetaDescription);
+                            formdata.append(
+                              "metaDescription",
+                              data.MetaDescription
+                            );
                             // formdata.append("subcategory_img",data.CategoryImage);
                             if (data.CategoryImage instanceof File) {
-                              formdata.append("category_image", data.CategoryImage);
+                              formdata.append(
+                                "category_image",
+                                data.CategoryImage
+                              );
                             } else if (subcatData?.category_image) {
-                              const blob = await fetch(subcatData?.subcategory_img).then((res) => res.blob());
-                              formdata.append("category_image", blob, `${subcatData?.category_image}.jpg`);
+                              const blob = await fetch(
+                                subcatData?.subcategory_img
+                              ).then((res) => res.blob());
+                              formdata.append(
+                                "category_image",
+                                blob,
+                                `${subcatData?.category_image}.jpg`
+                              );
                             }
                             let reqOptions = {
                               url: `${process.env.REACT_APP_API_BASE_URL}api/category/addCategory`,
@@ -282,7 +317,7 @@ const AddnewsubCategory = () => {
 
                             if (response.data.status === 1) {
                               toast.success(response.data.message);
-                              navigate("/categorymasterlist");
+                              navigate("/category-master-list");
                             }
                           } catch (error) {
                             handleTokenErrors(error);

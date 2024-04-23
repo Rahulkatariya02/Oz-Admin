@@ -135,7 +135,7 @@ function App() {
             }
           />
           <Route
-            path="/bannermastermanage"
+            path="/banner-master-manage"
             element={
               <RequireAuth>
                 <AddNewBanner />
@@ -143,7 +143,7 @@ function App() {
             }
           />
           <Route
-            path="/clientmasterlist"
+            path="/client-master-list"
             element={
               <RequireAuth>
                 <Clients />
@@ -199,7 +199,7 @@ function App() {
             }
           />
           <Route
-            path="/categorymasterlist"
+            path="/category-master-list"
             element={
               <RequireAuth>
                 <Category />
@@ -215,7 +215,7 @@ function App() {
             }
           />
           <Route
-            path="/categorymastermanage"
+            path="/category-master-manage"
             element={
               <RequireAuth>
                 <AddnewCategory />
@@ -223,7 +223,7 @@ function App() {
             }
           />
           <Route
-            path="/subcategorymastermanage/:id"
+            path="/sub-category-master-manage/:id"
             element={
               <RequireAuth>
                 <AddnewsubCategory />
@@ -231,7 +231,7 @@ function App() {
             }
           />
           <Route
-            path="/productmasterlist"
+            path="/product-master-list"
             element={
               <RequireAuth>
                 <ProductList />
@@ -239,7 +239,7 @@ function App() {
             }
           />
           <Route
-            path="/subproductmasterlist"
+            path="/sub-product-master-list"
             element={
               <RequireAuth>
                 <SubProductList />
@@ -247,7 +247,7 @@ function App() {
             }
           />
           <Route
-            path="/productmanage"
+            path="/product-manage"
             element={
               <RequireAuth>
                 <ProductManage />
@@ -255,7 +255,7 @@ function App() {
             }
           />
           <Route
-            path="/editproduct"
+            path="/edit-product"
             element={
               <RequireAuth>
                 <EditProduct />
@@ -263,7 +263,7 @@ function App() {
             }
           />
           <Route
-            path="/productform"
+            path="/product-form"
             element={
               <RequireAuth>
                 <ProductForm />
