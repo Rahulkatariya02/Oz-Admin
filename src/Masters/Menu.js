@@ -48,7 +48,7 @@ const Menu = () => {
         //   ? "CMS"
         //   : ACTIVEDATA.menuType == 2
         //     ? "Product"
-        //     : "Other"
+        //     : ACTIVEDATA.menuType == 3 "Other"
       );
       setMenuName(ACTIVEDATA.name);
       setshowInHeader(ACTIVEDATA.showInHeader);
@@ -62,7 +62,42 @@ const Menu = () => {
     }
   }, [ACTIVEDATA]);
 
+  const [category, setcategory] = useState([]);
+  useEffect(() => {
+    getcatagarydata();
+  }, []);
+  const getcatagarydata = async () => {
+    let reqOptions = {
+      url: `${process.env.REACT_APP_API_BASE_URL}api/getcategory`,
+      method: "POST",
+    };
+
+    let response = await axios.request(reqOptions);
+    setcategory(response.data.data);
+  };
+  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
+
+  const handleSelectChange = (event) => {
+    setSelectedCategoryId(event.target.value);
+  };
+
   const Description1 = ACTIVEDATA.Description;
+  // const handleMenuTypeChange = (e) => {
+  //   const selectedMenuType = e.target.value;
+  //   setMenuType(selectedMenuType);
+
+  //   if (selectedMenuType === "CMS") {
+  //     setShowCategoryList(false);
+  //     setShowCmsList(true);
+  //   } else if (selectedMenuType === "Product") {
+  //     setShowCategoryList(true);
+  //     setShowCmsList(false);
+  //   } else {
+  //     setShowCategoryList(false);
+  //     setShowCmsList(false);
+  //   }
+  // };
+
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
     setMenuType(selectedMenuType);
@@ -154,6 +189,41 @@ const Menu = () => {
             }}
           />
         </>
+        // <>
+        //   <div className="custom-control custom-switch" key={index}>
+        //     <input
+        //       type="checkbox"
+        //       className="custom-control-input"
+        //       id={`customSwitch${index + 1}`}
+        //       defaultChecked={object.isActive}
+        //       onChange={async () => {
+        //         let headersList = {
+        //           Accept: "*/*",
+        //           Authorization: `Bearer ${localStorage.getItem(
+        //             "accessToken"
+        //           )}`,
+        //           "Content-Type": "application/json",
+        //         };
+        //         let bodyContent = JSON.stringify({
+        //           isActive: !object.isActive,
+        //           id: object._id,
+        //         });
+        //         let reqOptions = {
+        //           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menustatus`,
+        //           method: "POST",
+        //           headers: headersList,
+        //           data: bodyContent,
+        //         };
+        //         let response = await axios.request(reqOptions);
+        //         toast.success(response.data.message);
+        //       }}
+        //     />
+        //     <label
+        //       className="custom-control-label"
+        //       htmlFor={`customSwitch${index + 1}`}
+        //     ></label>
+        //   </div>
+        // </>
       ),
     },
     {
@@ -402,8 +472,8 @@ const Menu = () => {
                                   : menuType === 2
                                   ? "Product"
                                   : menuType === 3
-                                  ? "Other"
-                                  : "--- Select menu type ---"
+                                  ? "Others"
+                                  : ""
                                 : "--- Select menu type ---"}
                             </option>
                             <option value="1">CMS</option>
@@ -600,19 +670,9 @@ const Menu = () => {
                             onChange={(value) => setDescription(value)}
                             modules={{
                               toolbar: [
-                                [
-                                  { header: "1" },
-                                  { header: "2" },
-                                  { font: [] },
-                                ],
+                                [{ header: "1" }, { header: "2" }, { font: [] }],
                                 [{ size: [] }],
-                                [
-                                  "bold",
-                                  "italic",
-                                  "underline",
-                                  "strike",
-                                  "blockquote",
-                                ],
+                                ["bold", "italic", "underline", "strike", "blockquote"],
                                 [
                                   { list: "ordered" },
                                   { list: "bullet" },
@@ -741,27 +801,6 @@ const Menu = () => {
 
                           if (parentId !== null && parentId !== "--Base Menu--")
                             bodyContent.parentId = parentId;
-                          // let bodyContent1 = {
-                          //   menuName: MenuName,
-                          //   sortOrder: sortOrder
-                          //     ? sortOrder
-                          //     : data12?.length > 0
-                          //       ? data12[0].sortOrder + 1
-                          //       : 0,
-                          //   menu_URL_unique_key: menu_URL_unique_key,
-                          //   menuType: menuType,
-                          //   // menuType:
-                          //   //   menuType === "CMS"
-                          //   //     ? 1
-                          //   //     : menuType === "Product"
-                          //   //       ? 2
-                          //   //       : 3,
-                          //   showInHeader: showInHeader,
-                          //   showInFooter: showInFooter,
-                          //   isActive: Active,
-                          //   Description: Description,
-                          //   id: ACTIVEDATA._id,
-                          // };
                           let reqOptions = {
                             url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu`,
                             method: "POST",

@@ -6,8 +6,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ReactQuill, { Quill } from "react-quill";
 import "react-quill/dist/quill.snow.css"; // Import the styles
 import { ImageResize } from "quill-image-resize-module-react";
-
-// Quill.register("modules/imageResize", ImageResize);
+import { handleTokenErrors } from "../component/handleTokenErrors";
+import CommonEditor from "../component/CommonEditor";
 
 const CmsMaster = () => {
   const [cmsData, setCmsData] = useState();

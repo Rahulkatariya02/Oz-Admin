@@ -1,8 +1,8 @@
-import React, { useState, useEffect,useMemo } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import JoditEditor from "jodit-react";
 
 const CommonEditor = ({ placeholder, value, onChange }) => {
-  const [content, setContent] = useState(value || '');
+  const [content, setContent] = useState(value || "");
   const config = useMemo(
     () => ({
       readonly: false,
@@ -18,11 +18,11 @@ const CommonEditor = ({ placeholder, value, onChange }) => {
   const handleEditorChange = (newContent) => {
     setContent(newContent);
     onChange(newContent);
-    console.log("editor change",newContent)
+    console.log("editor change", newContent);
   };
 
   useEffect(() => {
-    setContent(value || '');
+    setContent(value || "");
   }, [value]);
 
   return (
