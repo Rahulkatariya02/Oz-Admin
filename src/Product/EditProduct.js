@@ -5,7 +5,7 @@ import ProductContent from "./ProductContent";
 import ProductContentForm from "./ProductContentForm";
 import ProductFile from "./ProductFile";
 import ProductImage from "./ProductImage";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const EditProduct = () => {
   const location = useLocation();
@@ -36,7 +36,7 @@ const EditProduct = () => {
                       type={location?.state?.type}
                     />
                   </Tab>
-                  <Tab eventKey="File" title="Product File / Url">
+                  <Tab eventKey="File" title="Product Files">
                     <ProductFile data123={data} type={location?.state?.type} />
                   </Tab>
                   {/* <Tab eventKey="image" title="Product Image">

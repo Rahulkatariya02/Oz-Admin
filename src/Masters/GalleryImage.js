@@ -174,7 +174,7 @@ const GalleryImage = () => {
                 style={{ float: "inline-end" }}
               >
                 <i className="icon-copy fi-plus mx-2" />
-                Add new Gallery Type
+                Add Gallery Type
               </Button>
             </div>
           </div>

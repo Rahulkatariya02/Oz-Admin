@@ -5,6 +5,7 @@ import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductFileForm = ({
+  productid,
   data123,
   showForm,
   activedata,
@@ -13,12 +14,9 @@ const ProductFileForm = ({
 }) => {
   const [data, setdata] = useState(activedata ? activedata : {});
   const [isActive, setIsActive] = useState(false);
-  const [selectedFile, setSelectedFile] = useState(null); // Added state for tracking selected file
-
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-
     if (name !== "file") {
       if (name === "isActive") {
         setdata({ ...data, [name]: checked });
@@ -26,13 +24,9 @@ const ProductFileForm = ({
         setdata({ ...data, [name]: value });
       }
     } else {
-      if (files.length > 0) {
-        setSelectedFile(files[0]); // Set selected file
-        setdata({ ...data, [name]: files[0].name }); // Set file name in the data state
-      }
+      setdata({ ...data, [name]: files[0] });
     }
   };
-
   return (
     <>
       <div className="row">
@@ -79,6 +73,7 @@ const ProductFileForm = ({
                       onChange={(e) => handalchange(e)}
                     />
                   </div>
+
                   <label className="col-sm-12 col-md-4 mb-4 col-form-label">
                     Content Text
                   </label>
@@ -127,17 +122,16 @@ const ProductFileForm = ({
                           )}`,
                           "Content-Type": "multipart/form-data", // Updated Content-Type
                         };
+
                         let formdata = new FormData();
-                        console.log(data, "data");
-                        console.log(data123, "data123");
+                        if (data._id && formdata.append("id", data._id));
                         formdata.append("contentText", data.contentText);
                         formdata.append("isActive", isActive);
-                        formdata.append("product_id", data123[0].product_id);
-                        formdata.append("id", data123[0]._id);
+                        formdata.append("product_id", productid);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
-                        if (selectedFile instanceof File) {
-                          formdata.append("file", selectedFile);
+                        if (data.file instanceof File) {
+                          formdata.append("file", data.file);
                         } else if (activedata.file) {
                           const blob = await fetch(activedata.file).then(
                             (res) => res.blob()
@@ -156,7 +150,10 @@ const ProductFileForm = ({
                           toast.success(response.data.message);
                           navigate("/category-master-list");
                         }
-                      } catch (error) {}
+                      } catch (error) {
+                        handleTokenErrors(error);
+                        toast.error(error?.response?.data?.error);
+                      }
                     }}
                   >
                     Save
@@ -166,14 +163,6 @@ const ProductFileForm = ({
             </div>
           </div>
         </div>
-
-        {/* <div className="col-md-4 col-sm-12 mb-30">
-          <div className="pd-20 card-box h-25">
-            <div className="modal-header ">
-              <h4 className="text-dark h4">Preview Image</h4>
-            </div>
-          </div>
-        </div> */}
       </div>
     </>
   );

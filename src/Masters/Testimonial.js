@@ -137,7 +137,7 @@ const Testimonial = () => {
                     size="large"
                     style={{ float: "inline-end" }}
                   >
-                    Add New Testimonial
+                    Add Testimonial
                     <i className="icon-copy bi bi-plus-circle mx-2" />
                   </Button>
                 </Link>

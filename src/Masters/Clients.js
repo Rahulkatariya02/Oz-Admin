@@ -170,7 +170,7 @@ const Clients = () => {
                   type="primary"
                 >
                   {" "}
-                  Add New Client
+                  Add Client
                   <i className="icon-copy bi bi-plus-circle mx-2" />
                 </Button>
               </div>

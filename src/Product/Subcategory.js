@@ -49,7 +49,7 @@ const Subcategory = () => {
               <span onClick={addSubcat}>
                 <Button className="text-white h4 btn btn-outline-primary">
                   <i className="icon-copy fi-plus mx-2" />
-                  Add New Category
+                  Add Category
                 </Button>
               </span>
             </div>

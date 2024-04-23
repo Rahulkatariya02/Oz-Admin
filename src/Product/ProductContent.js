@@ -55,7 +55,7 @@ const ProductContent = ({ data123, type }) => {
               onClick={toggleForm}
             >
               <i className="icon-copy fi-plus mx-2" />
-              Add New Product
+              Add Product Content
             </Button>
           </div>
           <div className="pb-20 pd-20 table-responsive">

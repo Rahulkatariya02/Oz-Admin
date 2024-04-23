@@ -52,7 +52,7 @@ const ProductList = () => {
                 }
               >
                 <i className="icon-copy fi-plus mx-2" />
-                Add New Product
+                Add Product
               </Button>
 
               <Button

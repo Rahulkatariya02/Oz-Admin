@@ -42,6 +42,7 @@ const ProductFile = ({ data123, type }) => {
     <>
       {showForm ? (
         <ProductFileForm
+          productid={data123._id}
           data123={ProductFiledata1}
           showForm={showForm}
           activedata={activedata}
@@ -56,7 +57,7 @@ const ProductFile = ({ data123, type }) => {
               onClick={toggleForm}
             >
               <i className="icon-copy fi-plus mx-2" />
-              Add New Product
+              Add Product File
             </Button>
           </div>
           <div className="pb-20 pd-20 table-responsive">
