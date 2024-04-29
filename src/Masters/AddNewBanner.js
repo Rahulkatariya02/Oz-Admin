@@ -20,16 +20,16 @@ const AddNewBanner = ({ data12 }) => {
     !location.state
       ? { BannerType: "", sortOrder: "" }
       : {
-          id: location.state._id,
-          sortOrder: location.state.sortOrder,
-          BannerType: location.state.bannerType,
-          menuName: "",
-          BannerTitle: location.state.title,
-          BannerDescription: location.state.description,
-          ClickUrl: location.state.click_url,
-          MobileBannerImage: location.state.banner_mobile_image,
-          BannerImage: location.state.banner_image,
-        }
+        id: location.state._id || '',
+        sortOrder: location.state.sortOrder || '',
+        BannerType: location.state.bannerType || '',
+        menuName: "",
+        BannerTitle: location.state.title || '',
+        BannerDescription: location.state.description || '',
+        ClickUrl: location.state.click_url || '',
+        MobileBannerImage: location.state.banner_mobile_image || '',
+        BannerImage: location.state.banner_image || '',
+      }
   );
 
   const [formErrors, setFormErrors] = useState({});
@@ -179,9 +179,8 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control ${
-                                formErrors.sortOrder ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
+                                }`}
                               name="sortOrder"
                               value={data.sortOrder}
                               type="number"
@@ -202,9 +201,8 @@ const AddNewBanner = ({ data12 }) => {
                           <div className="col-sm-12 col-md-9">
                             <select
                               name="MenuName"
-                              className={`form-control ${
-                                formErrors.MenuName ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
+                                }`}
                               defaultValue={data.MenuName}
                               onChange={(e) => handalchange(e)}
                             >
@@ -234,9 +232,8 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <select
-                              className={`form-control ${
-                                formErrors.BannerType ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.BannerType ? "is-invalid" : ""
+                                }`}
                               defaultValue={data.BannerType}
                               onChange={(e) =>
                                 setSelectedBannerType(e.target.value)
@@ -260,9 +257,8 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control ${
-                                formErrors.BannerTitle ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.BannerTitle ? "is-invalid" : ""
+                                }`}
                               value={data.BannerTitle}
                               name="BannerTitle"
                               type="text"
@@ -282,9 +278,8 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control ${
-                                formErrors.ClickUrl ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.ClickUrl ? "is-invalid" : ""
+                                }`}
                               value={data.ClickUrl}
                               name="ClickUrl"
                               onChange={(e) => handalchange(e)}
@@ -307,11 +302,10 @@ const AddNewBanner = ({ data12 }) => {
                               <textarea
                                 name="BannerDescription"
                                 value={data.BannerDescription}
-                                className={`form-control ${
-                                  formErrors.BannerDescription
-                                    ? "is-invalid"
-                                    : ""
-                                }`}
+                                className={`form-control ${formErrors.BannerDescription
+                                  ? "is-invalid"
+                                  : ""
+                                  }`}
                                 onChange={(e) => handalchange(e)}
                               />
                               {formErrors.BannerDescription && (
@@ -329,9 +323,8 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control-file ${
-                                formErrors.BannerImage ? "is-invalid" : ""
-                              }`}
+                              className={`form-control-file ${formErrors.BannerImage ? "is-invalid" : ""
+                                }`}
                               type="file"
                               name="BannerImage"
                               onChange={(event) => {
@@ -358,9 +351,8 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <input
-                              className={`form-control-file ${
-                                formErrors.MobileBannerImage ? "is-invalid" : ""
-                              }`}
+                              className={`form-control-file ${formErrors.MobileBannerImage ? "is-invalid" : ""
+                                }`}
                               type="file"
                               name="MobileBannerImage"
                               onChange={(event) => {
@@ -520,7 +512,7 @@ const AddNewBanner = ({ data12 }) => {
                           previewImage
                             ? previewImage
                             : process.env.REACT_APP_API_BASE_URL +
-                              data.BannerImage
+                            data.BannerImage
                         }
                         alt="Preview"
                         className="preview-image"
@@ -534,7 +526,7 @@ const AddNewBanner = ({ data12 }) => {
                           previewImage1
                             ? previewImage1
                             : process.env.REACT_APP_API_BASE_URL +
-                              data.MobileBannerImage
+                            data.MobileBannerImage
                         }
                         alt="Preview"
                         className="preview-image"
