@@ -6,14 +6,10 @@ import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductFileForm = ({
   productid,
-  data123,
-  showForm,
-  activedata,
-  setShowForm,
-  type,
+  activedata
 }) => {
   const [data, setdata] = useState(activedata ? activedata : {});
-  
+
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
@@ -94,7 +90,7 @@ const ProductFileForm = ({
                     type="checkbox"
                     name="isActive"
                     checked={data.isActive}
-                    onChange={(e)=>handalchange(e)}
+                    onChange={(e) => handalchange(e)}
                   />
                   <label className="" htmlFor="customCheck3">
                     Is Active
