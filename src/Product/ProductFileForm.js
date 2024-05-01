@@ -13,7 +13,7 @@ const ProductFileForm = ({
   type,
 }) => {
   const [data, setdata] = useState(activedata ? activedata : {});
-  const [isActive, setIsActive] = useState(false);
+  
   const navigate = useNavigate();
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
@@ -93,8 +93,8 @@ const ProductFileForm = ({
                   <input
                     type="checkbox"
                     name="isActive"
-                    checked={data.isActive ?? isActive}
-                    onChange={(e) => setIsActive(e.target.checked)}
+                    checked={data.isActive}
+                    onChange={(e)=>handalchange(e)}
                   />
                   <label className="" htmlFor="customCheck3">
                     Is Active
@@ -126,7 +126,7 @@ const ProductFileForm = ({
                         let formdata = new FormData();
                         if (data._id && formdata.append("id", data._id));
                         formdata.append("contentText", data.contentText);
-                        formdata.append("isActive", isActive);
+                        formdata.append("isActive", data.isActive);
                         formdata.append("product_id", productid);
                         formdata.append("title", data.title);
                         formdata.append("sortOrder", data.sortOrder);
