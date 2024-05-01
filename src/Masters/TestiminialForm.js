@@ -12,7 +12,7 @@ const TestiminialForm = () => {
     !location?.state?.data ? {} : location?.state?.data
   );
   const [isActive, setIsActive] = useState(
-    location.state.data.isActive || false
+    location?.state?.data?.isActive || false
   );
   const navigate = useNavigate();
   const handalchange = (e) => {
