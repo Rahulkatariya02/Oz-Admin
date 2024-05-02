@@ -16,6 +16,7 @@ const AddNewBanner = ({ data12 }) => {
   const [menuNameId, setmenuNameId] = useState("");
   const [menudata1, setmenudata] = useState([]);
   const [editerdata, setediterdata] = useState(EditorState.createEmpty());
+  console.log(location.state.menuName);
   const [data, setdata] = useState(
     !location.state
       ? { BannerType: "", sortOrder: "" }
@@ -23,7 +24,7 @@ const AddNewBanner = ({ data12 }) => {
         id: location.state._id || '',
         sortOrder: location.state.sortOrder || '',
         BannerType: location.state.bannerType || '',
-        menuName: "",
+        menuName: location.state.menuName || "",
         BannerTitle: location.state.title || '',
         BannerDescription: location.state.description || '',
         ClickUrl: location.state.click_url || '',
@@ -31,15 +32,17 @@ const AddNewBanner = ({ data12 }) => {
         BannerImage: location.state.banner_image || '',
       }
   );
+  
+  console.log("data", data, "menudata1", menudata1);
 
   const [formErrors, setFormErrors] = useState({});
   const [isActive, setIsActive] = useState(location.state.isActive || false);
   const handleContentChange = (newContent) => {
     setContent(newContent);
   };
-  useEffect(() => {
-    setdata({ ...data, menuName: menuNameId });
-  }, [menuNameId]);
+  // useEffect(() => {
+  //   setdata({ ...data, menuName: menuNameId });
+  // }, [menuNameId]);
 
   useEffect(() => {
     menudata();
@@ -66,7 +69,7 @@ const AddNewBanner = ({ data12 }) => {
 
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-
+    console.log(value, 'gdfg')
     if (name === "SortOrder") {
       if (!/^\d+$/.test(value) || parseInt(value) <= 0) {
         setFormErrors({
@@ -93,9 +96,9 @@ const AddNewBanner = ({ data12 }) => {
     } else {
       setdata({ ...data, [name]: files[0] });
     }
-    if (name === "MenuName") {
-      setmenuNameId(value); // Update menuNameId with the selected menu id
-    }
+    // if (name === "menuName") {
+    //   setmenuNameId(value); // Update menuNameId with the selected menu id
+    // }
     if (name === "BannerType") {
       setSelectedBannerType(value); // Update selectedBannerType with the selected BannerType value
       setdata({ ...data, [name]: value });
@@ -152,7 +155,7 @@ const AddNewBanner = ({ data12 }) => {
       const data1222 = response.data.document?.find((e) => {
         return e.name === location.state.menuName;
       });
-      setmenuNameId(data1222?._id);
+      // setmenuNameId(data1222?._id);
     } catch (error) {
       handleTokenErrors(error);
       console.error(error);
@@ -200,10 +203,10 @@ const AddNewBanner = ({ data12 }) => {
                           </label>
                           <div className="col-sm-12 col-md-9">
                             <select
-                              name="MenuName"
-                              className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
+                              name="menuName"
+                              className={`form-control ${formErrors.menuName ? "is-invalid" : ""
                                 }`}
-                              defaultValue={data.MenuName}
+                              defaultValue={data.menuName}
                               onChange={(e) => handalchange(e)}
                             >
                               <option disabled value="">
