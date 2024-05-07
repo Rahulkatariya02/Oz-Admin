@@ -14,6 +14,8 @@ const Banners = () => {
     cmsdata();
   }, []);
 
+  console.log("banner", banner);
+
   const cmsdata = async () => {
     try {
       let headersList = {
@@ -64,8 +66,8 @@ const Banners = () => {
           {object.bannerType === 1
             ? "Home Slider"
             : object.bannerType === 2
-            ? "Box Image"
-            : "Default"}
+              ? "Box Image"
+              : "Default"}
         </>
       ),
       align: "center",

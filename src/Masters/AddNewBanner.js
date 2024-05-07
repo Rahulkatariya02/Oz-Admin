@@ -16,7 +16,6 @@ const AddNewBanner = ({ data12 }) => {
   const [menuNameId, setmenuNameId] = useState("");
   const [menudata1, setmenudata] = useState([]);
   const [editerdata, setediterdata] = useState(EditorState.createEmpty());
-  console.log(location.state.menuName);
   const [data, setdata] = useState(
     !location.state
       ? { BannerType: "", sortOrder: "" }
@@ -33,7 +32,6 @@ const AddNewBanner = ({ data12 }) => {
       }
   );
   
-  console.log("data", data, "menudata1", menudata1);
 
   const [formErrors, setFormErrors] = useState({});
   const [isActive, setIsActive] = useState(location.state.isActive || false);
@@ -69,7 +67,6 @@ const AddNewBanner = ({ data12 }) => {
 
   const handalchange = (e) => {
     const { name, value, checked, files } = e.target;
-    console.log(value, 'gdfg')
     if (name === "SortOrder") {
       if (!/^\d+$/.test(value) || parseInt(value) <= 0) {
         setFormErrors({
