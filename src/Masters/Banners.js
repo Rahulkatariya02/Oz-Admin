@@ -10,7 +10,6 @@ const Banners = () => {
   const [banner, setbanner] = useState([]);
   const navigate = useNavigate();
   useEffect(() => {
-    // new DataTable("#myTable");
     cmsdata();
   }, []);
 
@@ -55,6 +54,11 @@ const Banners = () => {
       title: "Menu Name",
       dataIndex: "menuName",
       sorter: (a, b) => a.menuName.localeCompare(b.menuName),
+      render: (text, object, index) => (
+        <>
+          <p>{object?.menuName?.name}</p>
+        </>
+      ),
       align: "center",
     },
     {
@@ -66,8 +70,8 @@ const Banners = () => {
           {object.bannerType === 1
             ? "Home Slider"
             : object.bannerType === 2
-              ? "Box Image"
-              : "Default"}
+            ? "Box Image"
+            : "Default"}
         </>
       ),
       align: "center",
