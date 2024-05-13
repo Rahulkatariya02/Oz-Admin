@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { EditorState, convertToRaw } from "draft-js";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -12,10 +10,7 @@ const AddNewBanner = ({ data12 }) => {
   const location = useLocation();
 
   const navigate = useNavigate();
-  const [content, setContent] = useState("");
-  const [menuNameId, setmenuNameId] = useState("");
   const [menudata1, setmenudata] = useState([]);
-  const [editerdata, setediterdata] = useState(EditorState.createEmpty());
   const [data, setdata] = useState(
     !location.state
       ? { BannerType: "", sortOrder: "" }
@@ -31,22 +26,12 @@ const AddNewBanner = ({ data12 }) => {
         BannerImage: location.state.banner_image || '',
       }
   );
-  
 
   const [formErrors, setFormErrors] = useState({});
   const [isActive, setIsActive] = useState(location.state.isActive || false);
-  const handleContentChange = (newContent) => {
-    setContent(newContent);
-  };
-  // useEffect(() => {
-  //   setdata({ ...data, menuName: menuNameId });
-  // }, [menuNameId]);
 
   useEffect(() => {
     menudata();
-    // if (!data1222) {
-    //   setdata({ ...data, menuName: data1222?._id });
-    // }
   }, []);
   const [previewImage, setPreviewImage] = useState("");
   const [previewImage1, setPreviewImage1] = useState("");
@@ -93,11 +78,9 @@ const AddNewBanner = ({ data12 }) => {
     } else {
       setdata({ ...data, [name]: files[0] });
     }
-    // if (name === "menuName") {
-    //   setmenuNameId(value); // Update menuNameId with the selected menu id
-    // }
+
     if (name === "BannerType") {
-      setSelectedBannerType(value); // Update selectedBannerType with the selected BannerType value
+      setSelectedBannerType(value);
       setdata({ ...data, [name]: value });
     }
   };
@@ -108,11 +91,6 @@ const AddNewBanner = ({ data12 }) => {
     if (!/^\d+$/.test(data.sortOrder) || parseInt(data.sortOrder) <= 0) {
       errors.sortOrder = "Sort Order must be a positive integer.";
     }
-
-    // if (!data.MenuName && !menuNameId) {
-    //   // errors.MenuName = "Menu Name is required.";
-    // }
-
     if (!data.BannerType && !selectedBannerType) {
       errors.BannerType = "Banner Type is required.";
     }
@@ -149,10 +127,6 @@ const AddNewBanner = ({ data12 }) => {
       };
       const response = await axios.request(reqOptions);
       setmenudata(response.data);
-      const data1222 = response.data.document?.find((e) => {
-        return e.name === location.state.menuName;
-      });
-      // setmenuNameId(data1222?._id);
     } catch (error) {
       handleTokenErrors(error);
       console.error(error);
@@ -218,11 +192,6 @@ const AddNewBanner = ({ data12 }) => {
                                   );
                                 })}
                             </select>
-                            {/* {formErrors.MenuName && (
-                              <div className="invalid-feedback">
-                                {formErrors.MenuName}
-                              </div>
-                            )} */}
                           </div>
                         </div>
 

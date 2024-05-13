@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { Button } from "react-bootstrap";
 import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ReactQuill from "react-quill";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 import CommonEditor from "../component/CommonEditor";
 
@@ -14,28 +13,6 @@ const PackageForm = () => {
   const [data, setdata] = useState(
     !location?.state?.data ? { isActive: true } : location?.state?.data
   );
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
-    // imageResize: {
-    //   parchment: Quill.import("parchment"),
-    //   modules: ["Resize", "DisplaySize"],
-    // },
-  };
 
   const addpackage = async () => {
     try {

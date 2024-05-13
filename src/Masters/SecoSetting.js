@@ -1,19 +1,16 @@
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const SecoSetting = () => {
   const url = process.env.REACT_APP_API_BASE_URL;
-  const baseurl = process.env.REACT_APP_API_BASE_URL;
-  const navigate = useNavigate();
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
   } = useForm({});
   const [data, setData] = useState([]);
 
@@ -31,7 +28,7 @@ const SecoSetting = () => {
         // id: object._id,
       });
       let reqOptions = {
-        url: `${process.env.REACT_APP_API_BASE_URL}api/admin/seo`,
+        url: `${url}api/admin/seo`,
         method: "POST",
         headers: headersList,
         data: bodyContent,
@@ -69,7 +66,8 @@ const SecoSetting = () => {
 
   useEffect(() => {
     reset(data?.[0]);
-  }, [data]);
+  }, [data, reset]);
+
 
   return (
     <>

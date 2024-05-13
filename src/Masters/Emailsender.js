@@ -1,6 +1,5 @@
-import React from "react";
-import { json, useNavigate, useParams } from "react-router-dom";
-import { useState } from "react";
+import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -9,8 +8,6 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const Emailsender = (props) => {
   const editParams = useParams();
-  const navigator = useNavigate();
-  const [authenticationData, setAuthenticationData] = useState(null);
   const {
     register,
     handleSubmit,
@@ -62,12 +59,11 @@ const Emailsender = (props) => {
       });
 
       const data = await response.json();
-      setAuthenticationData(data.document[0]);
       reset({ ...data.document[0] });
     };
 
     getRecordTestimonial();
-  }, []);
+  }, [reset]);
 
   return (
     <div>
@@ -97,9 +93,8 @@ const Emailsender = (props) => {
                                 placeholder="email"
                                 formcontrolname="email"
                                 name="email"
-                                className={`form-control ${
-                                  errors.email ? "border border-danger" : ""
-                                }`}
+                                className={`form-control ${errors.email ? "border border-danger" : ""
+                                  }`}
                                 {...register("email", { required: true })}
                               />
 
@@ -121,11 +116,10 @@ const Emailsender = (props) => {
                                   placeholder="password"
                                   formcontrolname="password"
                                   name="password"
-                                  className={`form-control ${
-                                    errors.password
-                                      ? "border border-danger"
-                                      : ""
-                                  }`}
+                                  className={`form-control ${errors.password
+                                    ? "border border-danger"
+                                    : ""
+                                    }`}
                                   {...register("password", { required: true })}
                                 />
                                 <div className="input-group-append">
@@ -155,9 +149,8 @@ const Emailsender = (props) => {
                                 placeholder=""
                                 formcontrolname="host"
                                 name="host"
-                                className={`form-control ${
-                                  errors.host ? "border border-danger" : ""
-                                }`}
+                                className={`form-control ${errors.host ? "border border-danger" : ""
+                                  }`}
                                 {...register("host", { required: true })}
                               />
 
@@ -174,9 +167,8 @@ const Emailsender = (props) => {
                                 placeholder=""
                                 formcontrolname="port"
                                 name="port"
-                                className={`form-control ${
-                                  errors.port ? "border border-danger" : ""
-                                }`}
+                                className={`form-control ${errors.port ? "border border-danger" : ""
+                                  }`}
                                 {...register("port", { required: true })}
                               />
 

@@ -22,8 +22,6 @@ const AdminsidebarSetting = () => {
       if (!response.ok) {
         throw new Error("Logout failed");
       }
-
-      const data = await response.json();
     } catch (error) {
       console.log("error", error);
     }

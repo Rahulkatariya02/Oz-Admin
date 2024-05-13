@@ -10,13 +10,11 @@ const SocialMediaSetting = () => {
     register,
     handleSubmit,
     reset,
-    watch,
     formState: { errors },
   } = useForm({});
   const onSubmit = async (data) => {
     var data1 = data;
     try {
-      const token = localStorage.getItem("accessToken");
       const response = await axios.post(
         `${process.env.REACT_APP_API_BASE_URL}api/admin/socialmedia`,
         data1,
@@ -39,11 +37,9 @@ const SocialMediaSetting = () => {
   };
 
   const [socialMediaData, setSocialMediaData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       let accessToken = localStorage.getItem('accessToken');
       let headersList = {
         "Accept": "*/*",
@@ -53,10 +49,8 @@ const SocialMediaSetting = () => {
         headers: headersList,
       });
       setSocialMediaData(response.data.document);
-      setLoading(false);
     } catch (error) {
       handleTokenErrors(error);
-      setLoading(false);
     }
   };
 
@@ -65,10 +59,12 @@ const SocialMediaSetting = () => {
   }, []);
 
   useEffect(() => {
-    if (socialMediaData[0]) {
-      reset(socialMediaData[0]);
+    const social = socialMediaData[0];
+    const resetFunction = reset;
+    if (social && resetFunction) {
+      resetFunction(social);
     }
-  }, [socialMediaData[0]]);
+  }, [socialMediaData, reset]);
 
   return (
     <>

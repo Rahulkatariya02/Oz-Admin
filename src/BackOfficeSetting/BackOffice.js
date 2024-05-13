@@ -5,15 +5,13 @@ import {
   Button,
   useAccordionButton,
 } from "react-bootstrap";
-import { Link } from "react-router-dom";
 import ContactSetting from "./ContactSetting";
 import SocialMediaSetting from "./SocialMediaSetting";
-import EmailConfiguration from "./EmailConfiguration";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
-function ContextAwareToggle({ children, eventKey, callback }) {
+function ContextAwareToggle({ eventKey, callback }) {
   const { activeEventKey } = useContext(AccordionContext);
 
   const Grey = "#c8cfd5";
@@ -47,10 +45,8 @@ function ContextAwareToggle({ children, eventKey, callback }) {
 
 const BackOffice = () => {
   const [LogoImage, setLogoImage] = useState({});
-  const [loading, setLoading] = useState();
   const fetchData = async () => {
     try {
-      setLoading(true);
       let accessToken = localStorage.getItem("accessToken");
       let headersList = {
         Accept: "*/*",
@@ -63,10 +59,8 @@ const BackOffice = () => {
         }
       );
       setLogoImage(response.data.document);
-      setLoading(false);
     } catch (error) {
       handleTokenErrors(error);
-      setLoading(false);
     }
   };
 
@@ -106,7 +100,7 @@ const BackOffice = () => {
                                       type="file"
                                       className="form-control"
                                       onChange={(e) => {
-                                        const { name, value, checked, files } =
+                                        const { files } =
                                           e.target;
                                         setLogoImage(files[0]);
                                       }}
@@ -117,6 +111,7 @@ const BackOffice = () => {
                                     <img
                                       src={LogoImage[0]?.logo_image}
                                       width={50}
+                                      alt="Logo"
                                     />
                                   </div>
                                 </div>
@@ -158,7 +153,7 @@ const BackOffice = () => {
                                         toast.error(
                                           error?.response?.data?.originalError
                                             ? error?.response?.data
-                                                ?.originalError
+                                              ?.originalError
                                             : error?.response?.data?.error
                                         );
                                         handleTokenErrors(error);
@@ -201,20 +196,6 @@ const BackOffice = () => {
                         </Accordion.Collapse>
                       </div>
                     </div>
-
-                    {/* <div className="col-sm-12 col-md-12 mb-30">
-                      <div className="card card-box mb-5 mt-5 rounded-0">
-                        <div className="card-header d-flex justify-content-between">
-                          <div>EMAIL CONFIGURATION SETTING</div>
-                          <ContextAwareToggle eventKey="3">
-                            Click me!
-                          </ContextAwareToggle>
-                        </div>
-                        <Accordion.Collapse eventKey="3">
-                          <EmailConfiguration />
-                        </Accordion.Collapse>
-                      </div>
-                    </div> */}
                   </Accordion>
                 </div>
               </div>

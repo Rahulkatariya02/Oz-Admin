@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Cms = () => {
@@ -43,7 +43,7 @@ const Cms = () => {
     {
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
           <Switch
             key={index}
@@ -77,8 +77,8 @@ const Cms = () => {
     {
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <div className="dropdown">
             <div
               className="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
@@ -144,7 +144,7 @@ const Cms = () => {
               </div>
             </div>
           </div>
-        </>
+        </React.Fragment>
       ),
     },
   ];

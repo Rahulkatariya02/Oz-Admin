@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";

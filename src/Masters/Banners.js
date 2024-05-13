@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import { toast } from "react-toastify";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Banners = () => {
@@ -12,8 +12,6 @@ const Banners = () => {
   useEffect(() => {
     cmsdata();
   }, []);
-
-  console.log("banner", banner);
 
   const cmsdata = async () => {
     try {
@@ -54,9 +52,9 @@ const Banners = () => {
       title: "Menu Name",
       dataIndex: "menuName",
       sorter: (a, b) => a.menuName.localeCompare(b.menuName),
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
-          <p>{object?.menuName?.name}</p>
+          <p key={index}>{object?.menuName?.name}</p>
         </>
       ),
       align: "center",
@@ -65,14 +63,14 @@ const Banners = () => {
       title: "Banner Type	",
       dataIndex: "bannerType",
       sorter: (a, b) => a.menuName.localeCompare(b.menuName),
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           {object.bannerType === 1
             ? "Home Slider"
             : object.bannerType === 2
-            ? "Box Image"
-            : "Default"}
-        </>
+              ? "Box Image"
+              : "Default"}
+        </React.Fragment>
       ),
       align: "center",
     },
@@ -80,21 +78,21 @@ const Banners = () => {
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.banner_image.localeCompare(b.banner_image),
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <img
             src={process.env.REACT_APP_API_BASE_URL + object.banner_image}
             alt="slider-img"
             width={100}
           />
-        </>
+        </React.Fragment>
       ),
       align: "center",
     },
     {
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
           <Switch
             key={index}
@@ -129,8 +127,8 @@ const Banners = () => {
     {
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <span
             className="mx-2"
             type="button"
@@ -168,7 +166,7 @@ const Banners = () => {
           >
             <i className="dw dw-edit2 fa-lg" />
           </span>
-        </>
+        </React.Fragment>
       ),
       align: "center",
     },

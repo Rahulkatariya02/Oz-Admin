@@ -3,14 +3,12 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Login = () => {
   const navigate = useNavigate();
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({});
 
@@ -57,9 +55,8 @@ const Login = () => {
                   <div className="input-group ">
                     <input
                       type="text"
-                      className={`form-control ${
-                        errors.username ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.username ? "is-invalid" : ""
+                        }`}
                       name="username"
                       {...register("username", {
                         required: "Please Enter a User Name",
@@ -81,9 +78,8 @@ const Login = () => {
                     <input
                       type="password"
                       placeholder="**********"
-                      className={`form-control ${
-                        errors.password ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.password ? "is-invalid" : ""
+                        }`}
                       name="password"
                       {...register("password", {
                         required: "Please Enter a Password",

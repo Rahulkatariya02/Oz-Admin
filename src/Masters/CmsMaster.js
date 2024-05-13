@@ -3,9 +3,6 @@ import axios from "axios";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { useLocation, useNavigate } from "react-router-dom";
-import ReactQuill, { Quill } from "react-quill";
-import "react-quill/dist/quill.snow.css"; // Import the styles
-import { ImageResize } from "quill-image-resize-module-react";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 import CommonEditor from "../component/CommonEditor";
 
@@ -30,57 +27,19 @@ const CmsMaster = () => {
       console.error(error);
     }
   };
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
-    // imageResize: {
-    //   parchment: Quill.import("parchment"),
-    //   modules: ["Resize", "DisplaySize"],
-    // },
-  };
 
-  const formats = [
-    "header",
-    "font",
-    "size",
-    "bold",
-    "italic",
-    "underline",
-    "strike",
-    "blockquote",
-    "list",
-    "bullet",
-    "indent",
-    "link",
-    "image",
-    "video",
-  ];
   const navigate = useNavigate();
   const location = useLocation();
   const [data, setdata] = useState(
     !location?.state?.data
       ? {
-          sortOrder: "",
-          title: "",
-          description: "",
-          metaTitle: "",
-          metaKeyword: "",
-          metaDescription: "",
-        }
+        sortOrder: "",
+        title: "",
+        description: "",
+        metaTitle: "",
+        metaKeyword: "",
+        metaDescription: "",
+      }
       : location?.state?.data
   );
 
@@ -151,9 +110,8 @@ const CmsMaster = () => {
                       type="text"
                       name="title"
                       value={data?.title}
-                      className={`form-control ${
-                        formErrors.title ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${formErrors.title ? "is-invalid" : ""
+                        }`}
                       id="validationCustom01"
                       required
                       disabled={location?.state?.type === "View"}
@@ -181,9 +139,8 @@ const CmsMaster = () => {
                           ? data && data.sortOrder
                           : cmsData?.length + 1
                       }
-                      className={`form-control ${
-                        formErrors.sortOrder ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
+                        }`}
                       id="validationCustom01"
                       required
                       disabled={location?.state?.type === "View"}
@@ -269,9 +226,8 @@ const CmsMaster = () => {
                       type="text"
                       name="metaTitle"
                       value={data?.metaTitle}
-                      className={`form-control ${
-                        formErrors.metaTitle ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${formErrors.metaTitle ? "is-invalid" : ""
+                        }`}
                       id="validationCustom01"
                       required
                       disabled={location?.state?.type === "View"}
@@ -296,9 +252,8 @@ const CmsMaster = () => {
                       type="text"
                       name="metaKeyword"
                       value={data?.metaKeyword}
-                      className={`form-control ${
-                        formErrors.metaKeyword ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${formErrors.metaKeyword ? "is-invalid" : ""
+                        }`}
                       id="validationCustom01"
                       disabled={location?.state?.type === "View"}
                       onChange={(e) => handalchange(e)}
@@ -322,9 +277,8 @@ const CmsMaster = () => {
                       type="text"
                       name="metaDescription"
                       value={data?.metaDescription}
-                      className={`form-control ${
-                        formErrors.metaDescription ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${formErrors.metaDescription ? "is-invalid" : ""
+                        }`}
                       id="validationCustom01"
                       disabled={location?.state?.type === "View"}
                       onChange={(e) => handalchange(e)}

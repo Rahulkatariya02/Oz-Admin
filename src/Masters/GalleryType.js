@@ -1,14 +1,12 @@
 import axios from "axios";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
-import { Button, Spin, Switch, Table } from "antd";
-import { Link, useNavigate } from "react-router-dom";
+import { Button, Switch, Table } from "antd";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const GalleryType = () => {
   const [data, setdata] = useState({});
-  const navigate = useNavigate();
   const [AllGalleryType, setAllGalleryType] = useState([]);
   const [ACTIVEDATA, setACTIVEDATA] = useState({});
   const [type, settype] = useState("ADD");
@@ -54,19 +52,19 @@ const GalleryType = () => {
       align: "center",
       title: "Title",
       dataIndex: "title",
-      sorter: (a, b) => a.title.localeCompare(b.title),
+      sorter: (a, b) => a?.title.localeCompare(b?.title),
     },
     {
       align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <Switch
             key={index}
             checkedChildren={<CheckOutlined />}
             unCheckedChildren={<CloseOutlined />}
-            defaultChecked={object.isActive}
+            defaultChecked={object?.isActive}
             onChange={async () => {
               let headersList = {
                 Accept: "*/*",
@@ -74,7 +72,7 @@ const GalleryType = () => {
                 "Content-Type": "application/json",
               };
               let bodyContent = JSON.stringify({
-                isActive: !object.isActive,
+                isActive: !object?.isActive,
                 id: object._id,
               });
               let reqOptions = {
@@ -88,15 +86,15 @@ const GalleryType = () => {
               GalleryType();
             }}
           />
-        </>
+        </React.Fragment>
       ),
     },
     {
       align: "center",
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <span
             className="mx-2"
             data-toggle="modal"
@@ -137,11 +135,11 @@ const GalleryType = () => {
           >
             <i className="dw dw-delete-3 fa-lg text-danger" />
           </span>
-        </>
+        </React.Fragment>
       ),
     },
   ];
-  let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
+  // let data12 = AllGalleryType.sort((a, b) => b.sortOrder - a.sortOrder);
   return (
     <>
       <div className="main-container">
@@ -203,19 +201,6 @@ const GalleryType = () => {
                           <label>
                             Sort Order <span className="text-danger">*</span>
                           </label>
-                          {/* <input
-                            type="number"
-                            name="sortOrder"
-                            className="form-control"
-                            defaultValue={
-                              ACTIVEDATA.sortOrder
-                                ? ACTIVEDATA.sortOrder
-
-                                : AllGalleryType.length + 1
-
-                            }
-                            onChange={(e) => handalchange(e)}
-                          /> */}
                           <input
                             type="number"
                             defaultValue={
@@ -223,11 +208,9 @@ const GalleryType = () => {
                                 ? ACTIVEDATA.sortOrder
                                 : AllGalleryType.length + 1
                             }
-                            // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}
                             className="form-control"
                             name="sortOrder"
                             onChange={(e) => handalchange(e)}
-                            // onChange={(e) => setsortOrder(e.target.value)}
                           />
                         </div>
                       </div>
@@ -240,7 +223,7 @@ const GalleryType = () => {
                             type="text"
                             name="Title"
                             className="form-control"
-                            defaultValue={ACTIVEDATA.title}
+                            defaultValue={ACTIVEDATA?.title}
                             onChange={(e) => handalchange(e)}
                           />
                         </div>
@@ -257,7 +240,7 @@ const GalleryType = () => {
                               id="customCheck3"
                               name="isActive"
                               defaultChecked={
-                                isActive || ACTIVEDATA.isActive === true
+                                isActive || ACTIVEDATA?.isActive === true
                               }
                               onChange={(e) => setIsActive(e.target.checked)}
                             />
@@ -287,13 +270,10 @@ const GalleryType = () => {
                     className="btn btn-primary"
                     data-dismiss="modal"
                     onClick={async () => {
-                      //   if (location?.state?.type !== "View") {
                       try {
                         let headersList = {
                           Accept: "*/*",
-                          Authorization: `Bearer ${localStorage.getItem(
-                            "accessToken"
-                          )}`,
+                          Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
                         };
                         let reqOptions = {
                           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/gallery`,
@@ -303,9 +283,7 @@ const GalleryType = () => {
                             id: ACTIVEDATA._id,
                             isActive: isActive,
                             sortOrder: data.sortOrder,
-                            title: ACTIVEDATA.title
-                              ? ACTIVEDATA.title
-                              : data.Title,
+                            title: ACTIVEDATA?.title ? ACTIVEDATA?.title : data?.title,
                           },
                         };
 
@@ -318,11 +296,11 @@ const GalleryType = () => {
                         handleTokenErrors(error);
                         toast.error(error?.response?.data?.originalError);
                       }
-                      //   }
                     }}
                   >
                     Save changes
                   </button>
+
                 </div>
               </div>
             </div>

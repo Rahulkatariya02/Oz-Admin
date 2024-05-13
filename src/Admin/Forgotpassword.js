@@ -1,32 +1,27 @@
+import React from "react";
 import axios from "axios";
-import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
 const ForgotPassword = () => {
   const url = process.env.REACT_APP_API_BASE_URL;
-  const [loading1, setLoading1] = useState(false);
-  const [data, setData] = useState([]);
   const navigate = useNavigate();
   const { register, handleSubmit, reset, watch } = useForm({});
   const user = watch("username");
 
   const onSubmit = async (data) => {
-    setLoading1(true);
     try {
       const response = await axios.post(
-        `${process.env.REACT_APP_API_BASE_URL}api/admin/forgotpassword`,
+        `${url}api/admin/forgotpassword`,
         data
       );
       if (response.data.status === 1) {
-        setData(response.data);
         toast.success(response.data.message);
         reset();
         navigate("/login");
       } else {
         toast.error(data.error);
-        setLoading1(false);
       }
     } catch (error) {
       toast.error(error?.response?.data?.error);

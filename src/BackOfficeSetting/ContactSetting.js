@@ -12,10 +12,8 @@ const ContactSetting = () => {
     handleSubmit,
     reset,
     watch,
-    setValue,
     formState: { errors },
   } = useForm({});
-  // let accessToken = localStorage.getItem("accessToken");
 
   const onSubmit = async (data) => {
     try {
@@ -27,7 +25,6 @@ const ContactSetting = () => {
         Email: data.Email,
       };
       try {
-        const token = localStorage.getItem("accessToken");
         const response = await axios.post(
           `${process.env.REACT_APP_API_BASE_URL}api/admin/contact`,
           dataobject,
@@ -48,18 +45,15 @@ const ContactSetting = () => {
         toast.error(error.response.data.originalError);
         handleTokenErrors(error);
       }
-      //   await dispatch(changePassword(dataobject));
     } catch (error) {
       console.error("An error occurred:", error);
     }
   };
 
   const [contactData, setContactData] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       let accessToken = localStorage.getItem('accessToken');
       let headersList = {
         "Accept": "*/*",
@@ -69,12 +63,8 @@ const ContactSetting = () => {
         headers: headersList,
       });
       setContactData(response.data.document);
-
-      setLoading(false);
     } catch (error) {
       handleTokenErrors(error);
-      setLoading(false);
-
     }
   };
 
@@ -83,10 +73,13 @@ const ContactSetting = () => {
   }, []);
 
   useEffect(() => {
-    if (contactData[0]) {
-      reset(contactData[0]);
+    const contact = contactData[0];
+    const resetFunction = reset;
+    if (contact && resetFunction) {
+      resetFunction(contact);
     }
-  }, [contactData[0]]);
+  }, [contactData, reset]);
+
 
   return (
     <>

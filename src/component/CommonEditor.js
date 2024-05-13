@@ -10,8 +10,6 @@ const CommonEditor = ({ placeholder, value, onChange }) => {
       uploader: {
         insertImageAsBase64URI: true,
       },
-      // buttons:
-      // "source,bold,italic,underline,strikethrough,|,ul,ol,|,font,fontsize,|,image,table,link,|,align,undo,redo,|,eraser,brush,paragraph,indent,|,selectall,cut,copy,paste,|,hr,symbol,|,left,center,right,|,superscript,subscript,|,removeformat,formatBlock,|,about,fullscreen", // Added fullscreen button
     }),
     [placeholder]
   );

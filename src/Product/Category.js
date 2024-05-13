@@ -1,8 +1,7 @@
+import React, { useEffect } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Switch } from "antd";
 import axios from "axios";
-import DataTable from "datatables.net-dt";
-import React, { useEffect } from "react";
 import { useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
@@ -12,7 +11,6 @@ import { handleTokenErrors } from "../component/handleTokenErrors";
 const Category = () => {
   const navigate = useNavigate();
   const [category, setcategory] = useState([]);
-  const [categoryId, setcategoryId] = useState([]);
   useEffect(() => {
     getcatagarydata();
   }, []);
@@ -124,36 +122,27 @@ const Category = () => {
                             type="button"
                             onClick={async () => {
                               try {
-                                // if (e.products === 0)
-                                {
-                                  let headersList = {
-                                    Accept: "*/*",
-                                    Authorization: `Bearer ${localStorage.getItem(
-                                      "accessToken"
-                                    )}`,
-                                  };
-                                  let reqOptions = {
-                                    url: `${process.env.REACT_APP_API_BASE_URL}api/category/${e.category._id}`,
-                                    method: "DELETE",
-                                    headers: headersList,
-                                  };
+                                let headersList = {
+                                  Accept: "*/*",
+                                  Authorization: `Bearer ${localStorage.getItem("accessToken")}`,
+                                };
+                                let reqOptions = {
+                                  url: `${process.env.REACT_APP_API_BASE_URL}api/category/${e.category._id}`,
+                                  method: "DELETE",
+                                  headers: headersList,
+                                };
 
-                                  let response = await axios.request(
-                                    reqOptions
-                                  );
-                                  if (response.data.status === 1) {
-                                    toast.success(response.data.message);
-                                    getcatagarydata();
-                                  }
+                                let response = await axios.request(reqOptions);
+                                if (response.data.status === 1) {
+                                  toast.success(response.data.message);
+                                  getcatagarydata();
                                 }
-                                //  else {
-                                //   toast.warning("Please delete all products");
-                                // }
                               } catch (error) {
                                 handleTokenErrors(error);
                                 toast.error(error?.response?.data?.error);
                               }
                             }}
+
                           >
                             <i className="dw dw-delete-3 text-danger fa-lg" />
                           </span>

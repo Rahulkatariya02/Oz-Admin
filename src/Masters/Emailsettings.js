@@ -9,13 +9,10 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const EmailSettings = (props) => {
 
-
     const [selectedSection, setSelectedSection] = useState('packageinquiry');
     const {
         register,
         handleSubmit,
-        reset,
-        formState: { errors },
     } = useForm();
 
 

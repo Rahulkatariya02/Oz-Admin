@@ -1,14 +1,11 @@
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Brands = () => {
-  const navigate = useNavigate();
-  const [data, setdata] = useState({});
   const [Brandsdata1, setBrandsdata1] = useState([]);
   const [ACTIVEDATA, setACTIVEDATA] = useState({});
   const [type, settype] = useState("ADD");
@@ -55,32 +52,6 @@ const Brands = () => {
       console.error(error);
     }
   };
-  // const handalchange = (e) => {
-  //   const { name, value, checked, files } = e.target;
-  //   if (name !== "BannerImage") {
-  //     if (name === "isActive") {
-  //       setdata({ ...data, [name]: checked });
-  //     } else {
-  //       setdata({ ...data, [name]: value });
-  //     }
-  //   } else {
-  //     setdata({ ...data, [name]: files[0] });
-  //   }
-  // };
-
-  const handalchange = (e) => {
-    const { name, value, checked, files } = e.target;
-
-    if (name !== "BannerImage") {
-      if (name === "isActive") {
-        setdata({ ...data, [name]: checked });
-      } else {
-        setdata({ ...data, [name]: value });
-      }
-    } else {
-      setdata({ ...data, [name]: files[0] });
-    }
-  };
 
   const columns = [
     {
@@ -100,21 +71,21 @@ const Brands = () => {
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.brand_image.localeCompare(b.brand_image),
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <img
             src={process.env.REACT_APP_API_BASE_URL + object.brand_image}
             alt="slider-img"
             width={150}
           />
-        </>
+        </React.Fragment>
       ),
     },
     {
       align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
           <Switch
             key={index}
@@ -149,8 +120,8 @@ const Brands = () => {
       align: "center",
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <span
             className=""
             data-toggle="modal"
@@ -191,7 +162,7 @@ const Brands = () => {
           >
             <i className="dw dw-delete-3 fa-lg text-danger" />
           </span>
-        </>
+        </React.Fragment>
       ),
     },
   ];
@@ -270,8 +241,8 @@ const Brands = () => {
                               ACTIVEDATA.sortOrder
                                 ? ACTIVEDATA.sortOrder
                                 : data12?.length > 0
-                                ? data12[0].sortOrder + 1
-                                : 0
+                                  ? data12[0].sortOrder + 1
+                                  : 0
                             }
                             // defaultValue={ACTIVEDATA && ACTIVEDATA.sortOrder ? data && data.sortOrder : Brandsdata1?.document?.length + 1}
                             className="form-control"
@@ -409,7 +380,7 @@ const Brands = () => {
                       } catch (error) {
                         toast.error(
                           error?.response?.data?.originalError ||
-                            error?.response?.data?.error
+                          error?.response?.data?.error
                         );
                         handleTokenErrors(error);
                       }

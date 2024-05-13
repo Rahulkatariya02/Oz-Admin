@@ -2,50 +2,22 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
-import ReactQuill from "react-quill";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const EmailTemplate = () => {
-  const modules = {
-    toolbar: [
-      [{ header: "1" }, { header: "2" }, { font: [] }],
-      [{ size: [] }],
-      ["bold", "italic", "underline", "strike", "blockquote"],
-      [
-        { list: "ordered" },
-        { list: "bullet" },
-        { indent: "-1" },
-        { indent: "+1" },
-      ],
-      ["link", "image", "video"],
-      ["clean"],
-    ],
-    clipboard: {
-      matchVisual: false,
-    },
-    // imageResize: {
-    //   parchment: Quill.import("parchment"),
-    //   modules: ["Resize", "DisplaySize"],
-    // },
-  };
 
   const [selectedItem, setSelectedItem] = useState(null);
   const [data, setData] = useState("");
-  const navigate = useNavigate();
 
   const {
     register,
     handleSubmit,
-    reset,
     formState: { errors },
   } = useForm({});
-  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     try {
-      setLoading(true);
       let accessToken = localStorage.getItem("accessToken");
       let headersList = {
         Accept: "*/*",
@@ -58,10 +30,8 @@ const EmailTemplate = () => {
         }
       );
       setData(response.data.document);
-      setLoading(false);
     } catch (error) {
       handleTokenErrors(error);
-      setLoading(false);
     }
   };
   const onSubmit = async (data) => {
@@ -150,9 +120,8 @@ const EmailTemplate = () => {
                   <div className="col-md-6 mb-4">
                     <label className="form-label">Email Template Name</label>
                     <select
-                      className={`form-control ${
-                        errors.name ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.name ? "is-invalid" : ""
+                        }`}
                       name="name"
                       {...register("name", {
                         required: true,
@@ -182,9 +151,8 @@ const EmailTemplate = () => {
                     </label>
                     <input
                       type="text"
-                      className={`form-control ${
-                        errors.subject ? "is-invalid" : ""
-                      }`}
+                      className={`form-control ${errors.subject ? "is-invalid" : ""
+                        }`}
                       name="subject"
                       {...register("subject", {
                         required: !selectedItem?.subject,
@@ -228,9 +196,8 @@ const EmailTemplate = () => {
                     </label>
                     <textarea
                       type="text"
-                      className={`form-control templateimg ${
-                        errors.description ? "is-invalid" : ""
-                      }`}
+                      className={`form-control templateimg ${errors.description ? "is-invalid" : ""
+                        }`}
                       name="description"
                       {...register("description", {
                         required: !selectedItem?.description,
@@ -243,7 +210,7 @@ const EmailTemplate = () => {
                         })
                       }
                     />
-                   
+
                     {errors.description && (
                       <small className="text-danger">
                         Please Enter a Email Template Content

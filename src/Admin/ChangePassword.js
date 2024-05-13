@@ -15,16 +15,11 @@ const ChangePassword = () => {
   const {
     register,
     handleSubmit,
-    reset,
-    watch,
     formState: { errors },
   } = useForm({});
-  // let accessToken = localStorage.getItem("accessToken");
-
-  const new_password = watch("new_password");
 
   const onSubmit = async (data) => {
-    setIsSaving(true); // Set the loading state to true
+    setIsSaving(true);
 
     try {
       let dataobject = {
@@ -32,7 +27,6 @@ const ChangePassword = () => {
         new_password: data.newpassword,
       };
       try {
-        const token = localStorage.getItem("accessToken");
         const response = await axios.post(
           `${process.env.REACT_APP_API_BASE_URL}api/admin/changepassword`,
           dataobject,
@@ -53,11 +47,10 @@ const ChangePassword = () => {
         toast.error(error?.response?.data?.error);
         handleTokenErrors(error);
       }
-      //   await dispatch(changePassword(dataobject));
 
-      setIsSaving(false); // Set the loading state back to false after dispatch
+      setIsSaving(false);
     } catch (error) {
-      setIsSaving(false); // Set the loading state to false in case of an error
+      setIsSaving(false);
       handleTokenErrors(error);
       console.error("An error occurred:", error);
     }
@@ -86,9 +79,8 @@ const ChangePassword = () => {
                         <input
                           type="text"
                           name="oldpassword"
-                          className={`form-control ${
-                            errors.oldpassword ? "is-invalid" : ""
-                          }`}
+                          className={`form-control ${errors.oldpassword ? "is-invalid" : ""
+                            }`}
                           {...register("oldpassword", {
                             required: true,
                           })}
@@ -109,9 +101,8 @@ const ChangePassword = () => {
                       <div className="col-md-8  mb-4 ">
                         <input
                           type="text"
-                          className={`form-control ${
-                            errors.newpassword ? "is-invalid" : ""
-                          }`}
+                          className={`form-control ${errors.newpassword ? "is-invalid" : ""
+                            }`}
                           name="newpassword"
                           {...register("newpassword", {
                             required: true,
@@ -134,9 +125,8 @@ const ChangePassword = () => {
                       <div className="col-md-8  mb-4 ">
                         <input
                           type="text"
-                          className={`form-control ${
-                            errors.retypepassword ? "is-invalid" : ""
-                          }`}
+                          className={`form-control ${errors.retypepassword ? "is-invalid" : ""
+                            }`}
                           name="retypepassword"
                           {...register("retypepassword", {
                             required: true,

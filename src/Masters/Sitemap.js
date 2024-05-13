@@ -1,39 +1,27 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Sitemap = () => {
   const url = process.env.REACT_APP_API_BASE_URL;
-  const baseurl = process.env.REACT_APP_API_BASE_URL;
-  const navigate = useNavigate();
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
-  const [data, setData] = useState([]);
 
-  const onSubmit = async (data) => {
+  const { handleSubmit } = useForm({});
+
+  const onSubmit = async () => {
     try {
       let reqOptions = {
-        url: `${process.env.REACT_APP_API_BASE_URL}api/admin/sitemap`,
+        url: `${url}api/admin/sitemap`,
         method: "GET",
       };
       const response = await axios.request(reqOptions);
-      // Handle the successful response here
-      setData(response.data);
       toast.success(response.data.message);
     } catch (error) {
       handleTokenErrors(error);
-      // Handle any errors here
       console.error(error);
     }
   };
-
 
   return (
     <>

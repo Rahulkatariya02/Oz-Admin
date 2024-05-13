@@ -1,17 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import { Tab, Tabs } from "react-bootstrap";
 import ProductForm from "./ProductForm";
 import ProductContent from "./ProductContent";
-import ProductContentForm from "./ProductContentForm";
 import ProductFile from "./ProductFile";
-import ProductImage from "./ProductImage";
 import { useLocation } from "react-router-dom";
 
 const EditProduct = () => {
   const location = useLocation();
-  const [data, setdata] = useState(
-    !location?.state?.data ? {} : location?.state?.data
-  );
+  const data = !location?.state?.data ? {} : location?.state?.data;
 
   return (
     <>
@@ -39,9 +35,6 @@ const EditProduct = () => {
                   <Tab eventKey="File" title="Product Files">
                     <ProductFile data123={data} type={location?.state?.type} />
                   </Tab>
-                  {/* <Tab eventKey="image" title="Product Image">
-                  <ProductImage />
-                </Tab> */}
                 </Tabs>
               </div>
             </div>

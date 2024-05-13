@@ -2,7 +2,7 @@ import axios from "axios";
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
@@ -78,7 +78,8 @@ const ProductForm = ({ data123, type }) => {
   useEffect(() => {
     getdata();
     setShowInHome(data.showInHome);
-  }, []);
+  }, [data.showInHome]);
+
 
   const getdata = async () => {
     let headersList = {
@@ -462,36 +463,46 @@ const ProductForm = ({ data123, type }) => {
                               </div>
                               <ul className="sub-menu mx-4">
                                 {el?.ChildCategory?.map((el2, i) => {
-                                  if (el2.category == el._id) {
+                                  if (el2.category === el._id) {
                                     return (
-                                      <ul className="dd-list">
-                                        <li>
-                                          <div className="checkbox checkbox-primary inline-block">
-                                            <input
-                                              className=""
-                                              type="checkbox"
-                                              htmlFor={el2._id}
-                                              checked={selectedChildcategories.includes(
-                                                el2._id
-                                              )}
-                                              onChange={() =>
-                                                handleChildcategoryChange(
-                                                  el2._id
-                                                )
-                                              }
-                                            />
-                                            <label
-                                              className="mx-2"
-                                              _id={el2._id}
-                                            >
-                                              {el2.name}
-                                            </label>
-                                          </div>
-                                          <ul className="sub-menu mx-4"></ul>
-                                        </li>
-                                      </ul>
+                                      <li key={el2._id}>
+                                        <div className="checkbox checkbox-primary inline-block">
+                                          <input
+                                            className=""
+                                            type="checkbox"
+                                            id={el2._id}
+                                            checked={selectedChildcategories.includes(el2._id)}
+                                            onChange={() => handleChildcategoryChange(el2._id)}
+                                          />
+                                          <label className="mx-2" htmlFor={el2._id}>
+                                            {el2.name}
+                                          </label>
+                                        </div>
+                                        {/* Nested sub-menu, if any */}
+                                        {el2.ChildCategory && el2.ChildCategory.length > 0 && (
+                                          <ul className="dd-list">
+                                            {el2.ChildCategory.map((el3, j) => (
+                                              <li key={el3._id}>
+                                                <div className="checkbox checkbox-primary inline-block">
+                                                  <input
+                                                    className=""
+                                                    type="checkbox"
+                                                    id={el3._id}
+                                                    checked={selectedChildcategories.includes(el3._id)}
+                                                    onChange={() => handleChildcategoryChange(el3._id)}
+                                                  />
+                                                  <label className="mx-2" htmlFor={el3._id}>
+                                                    {el3.name}
+                                                  </label>
+                                                </div>
+                                              </li>
+                                            ))}
+                                          </ul>
+                                        )}
+                                      </li>
                                     );
                                   }
+                                  return null;
                                 })}
                               </ul>
                             </li>

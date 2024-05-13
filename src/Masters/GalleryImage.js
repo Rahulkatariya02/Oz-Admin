@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { toast } from "react-toastify";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
@@ -65,18 +65,18 @@ const GalleryImage = () => {
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.gallery_image.localeCompare(b.gallery_image),
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <img src={object.gallery_image} alt="slider-img" width={150} />
-        </>
+        </React.Fragment>
       ),
     },
     {
       align: "center",
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <Switch
             key={index}
             checkedChildren={<CheckOutlined />}
@@ -103,15 +103,15 @@ const GalleryImage = () => {
               Galleryimges();
             }}
           />
-        </>
+        </React.Fragment>
       ),
     },
     {
       align: "center",
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <span
             type="button"
             onClick={async () => {
@@ -139,7 +139,7 @@ const GalleryImage = () => {
           >
             <i className="dw dw-delete-3 text-danger fa-lg" />
           </span>
-        </>
+        </React.Fragment>
       ),
     },
   ];

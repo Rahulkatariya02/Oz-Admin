@@ -1,16 +1,13 @@
 import axios from "axios";
-import DataTable from "datatables.net-dt";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const Clients = () => {
-  useEffect(() => {
-    // new DataTable("#myTable");
-  }, []);
+
 
   const [data, setdata] = useState({});
   const [Allclints, setAllclints] = useState([]);
@@ -68,16 +65,16 @@ const Clients = () => {
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.menuName.localeCompare(b.menuName),
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <img src={object.client_image} alt="slider-img" width={100} />
-        </>
+        </React.Fragment>
       ),
     },
     {
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
           <Switch
             key={index}
@@ -120,8 +117,8 @@ const Clients = () => {
     {
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <div
             className="dropdown-item"
             type="button"
@@ -150,7 +147,7 @@ const Clients = () => {
           >
             <i className="dw dw-delete-3" /> Delete
           </div>
-        </>
+        </React.Fragment>
       ),
     },
   ];
@@ -235,6 +232,9 @@ const Clients = () => {
                             handleFileChange(event, setPreviewImage);
                           }}
                         />
+                        {previewImage && (
+                          <img src={previewImage} alt="Preview" style={{ width: '100px' }} />
+                        )}
                         <small className="form-text text-muted">
                           Image Size Must Be : 1920 X 940 & Format Must Be
                           .jpeg, .jpg
@@ -306,7 +306,7 @@ const Clients = () => {
                         handleTokenErrors(error);
                         toast.error(
                           error?.response?.data?.originalError ||
-                            error?.response?.data?.error
+                          error?.response?.data?.error
                         );
                       }
                     }}

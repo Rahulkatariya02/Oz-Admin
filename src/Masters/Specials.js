@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { Button, Spin, Switch, Table } from "antd";
+import { Button, Switch, Table } from "antd";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
@@ -83,16 +83,16 @@ const Specials = () => {
       title: "Image",
       dataIndex: "Image",
       sorter: (a, b) => a.special_image.localeCompare(b.special_image),
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <img src={object.special_image} alt="slider-img" width={150} />
-        </>
+        </React.Fragment>
       ),
     },
     {
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
           <Switch
             key={index}
@@ -126,8 +126,8 @@ const Specials = () => {
     {
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <div
             className="dropdown-item"
             type="button"
@@ -156,7 +156,7 @@ const Specials = () => {
           >
             <i className="dw dw-delete-3" /> Delete
           </div>
-        </>
+        </React.Fragment>
       ),
     },
   ];

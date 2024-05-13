@@ -1,7 +1,6 @@
-import DataTable from "datatables.net-dt";
 import React, { useEffect } from "react";
 import { Button } from "react-bootstrap";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useState } from "react";
 import { toast } from "react-toastify";

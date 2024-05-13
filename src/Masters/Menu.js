@@ -2,21 +2,13 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Button, Switch, Table } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import ReactQuill from "react-quill";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 import CommonEditor from "../component/CommonEditor";
 
 const Menu = () => {
-  useEffect(() => {
-    cmsdata();
-    menudata();
-  }, []);
-
   const [data, setdata] = useState([]);
   const [cmsData, setcmsdata] = useState([]);
-  const navigate = useNavigate();
   const [showCategoryList, setShowCategoryList] = useState(false);
   const [showCmsList, setShowCmsList] = useState(false);
   const [ACTIVEDATA, setACTIVEDATA] = useState({});
@@ -39,17 +31,15 @@ const Menu = () => {
   const [formErrors, setFormErrors] = useState({});
 
   useEffect(() => {
+    cmsdata();
+    menudata();
+  }, []);
+
+  useEffect(() => {
     if (type !== "ADD") {
       setsortOrder(ACTIVEDATA.sortOrder);
       setFormErrors({});
-      setMenuType(
-        ACTIVEDATA.menuType
-        // ACTIVEDATA.menuType == 1
-        //   ? "CMS"
-        //   : ACTIVEDATA.menuType == 2
-        //     ? "Product"
-        //     : ACTIVEDATA.menuType == 3 "Other"
-      );
+      setMenuType(ACTIVEDATA.menuType);
       setMenuName(ACTIVEDATA.name);
       setshowInHeader(ACTIVEDATA.showInHeader);
       setshowInFooter(ACTIVEDATA.showInFooter);
@@ -57,10 +47,10 @@ const Menu = () => {
       setmenu_URL_unique_key(ACTIVEDATA.menu_URL_unique_key);
       setslug(ACTIVEDATA.slug);
       setDescription(ACTIVEDATA.Description);
-      // if (ACTIVEDATA.Description !== "") {
-      // }
     }
-  }, [ACTIVEDATA]);
+  }, [type, ACTIVEDATA]);
+
+
 
   const [category, setcategory] = useState([]);
   useEffect(() => {
@@ -75,28 +65,6 @@ const Menu = () => {
     let response = await axios.request(reqOptions);
     setcategory(response.data.data);
   };
-  const [selectedCategoryId, setSelectedCategoryId] = useState(null);
-
-  const handleSelectChange = (event) => {
-    setSelectedCategoryId(event.target.value);
-  };
-
-  const Description1 = ACTIVEDATA.Description;
-  // const handleMenuTypeChange = (e) => {
-  //   const selectedMenuType = e.target.value;
-  //   setMenuType(selectedMenuType);
-
-  //   if (selectedMenuType === "CMS") {
-  //     setShowCategoryList(false);
-  //     setShowCmsList(true);
-  //   } else if (selectedMenuType === "Product") {
-  //     setShowCategoryList(true);
-  //     setShowCmsList(false);
-  //   } else {
-  //     setShowCategoryList(false);
-  //     setShowCmsList(false);
-  //   }
-  // };
 
   const handleMenuTypeChange = (e) => {
     const selectedMenuType = e.target.value;
@@ -161,7 +129,7 @@ const Menu = () => {
     {
       title: "Is Active	",
       dataIndex: "isActive",
-      render: (text, object, index) => (
+      render: (object, index) => (
         <>
           <Switch
             key={index}
@@ -176,7 +144,7 @@ const Menu = () => {
               };
               let bodyContent = JSON.stringify({
                 isActive: !object.isActive,
-                id: object._id,
+                id: object?._id,
               });
               let reqOptions = {
                 url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menustatus`,
@@ -189,48 +157,13 @@ const Menu = () => {
             }}
           />
         </>
-        // <>
-        //   <div className="custom-control custom-switch" key={index}>
-        //     <input
-        //       type="checkbox"
-        //       className="custom-control-input"
-        //       id={`customSwitch${index + 1}`}
-        //       defaultChecked={object.isActive}
-        //       onChange={async () => {
-        //         let headersList = {
-        //           Accept: "*/*",
-        //           Authorization: `Bearer ${localStorage.getItem(
-        //             "accessToken"
-        //           )}`,
-        //           "Content-Type": "application/json",
-        //         };
-        //         let bodyContent = JSON.stringify({
-        //           isActive: !object.isActive,
-        //           id: object._id,
-        //         });
-        //         let reqOptions = {
-        //           url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menustatus`,
-        //           method: "POST",
-        //           headers: headersList,
-        //           data: bodyContent,
-        //         };
-        //         let response = await axios.request(reqOptions);
-        //         toast.success(response.data.message);
-        //       }}
-        //     />
-        //     <label
-        //       className="custom-control-label"
-        //       htmlFor={`customSwitch${index + 1}`}
-        //     ></label>
-        //   </div>
-        // </>
       ),
     },
     {
       title: "Action",
       dataIndex: "Action",
-      render: (text, object, index) => (
-        <>
+      render: (object, index) => (
+        <React.Fragment key={index}>
           <div className="dropdown">
             <div
               className="btn btn-link font-24 p-0 line-height-1 no-arrow dropdown-toggle"
@@ -277,7 +210,7 @@ const Menu = () => {
                       )}`,
                     };
                     let reqOptions = {
-                      url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu/${object._id}`,
+                      url: `${process.env.REACT_APP_API_BASE_URL}api/admin/menu/${object?._id}`,
                       method: "DELETE",
                       headers: headersList,
                     };
@@ -295,7 +228,7 @@ const Menu = () => {
               </div>
             </div>
           </div>
-        </>
+        </React.Fragment>
       ),
     },
   ];
@@ -304,14 +237,6 @@ const Menu = () => {
   const validateForm = () => {
     let valid = true;
     const errors = {};
-
-    // Add custom validation rules here
-    // if (
-    //   sortOrder ? sortOrder : data12?.length > 0 ? data12[0].sortOrder + 1 : 0
-    // ) {
-    //   valid = false;
-    //   errors.sortOrder = "Sort Order is required.";
-    // }
 
     if (MenuName === "") {
       valid = false;
@@ -345,11 +270,6 @@ const Menu = () => {
       valid = false;
       errors.slug = "Menu Slug is required.";
     }
-
-    // if (Description === "") {
-    //   valid = false;
-    //   errors.Description = "Description is required.";
-    // }
 
     setFormErrors(errors);
     return valid;
@@ -428,9 +348,8 @@ const Menu = () => {
                         <div className="form-group">
                           <label>Base Menu</label>
                           <select
-                            className={`form-control ${
-                              formErrors.parentId ? "is-invalid" : ""
-                            }`}
+                            className={`form-control ${formErrors.parentId ? "is-invalid" : ""
+                              }`}
                             disabled={type === "View"}
                             // defaultValue={data?.parentId}
                             onChange={(E) => {
@@ -441,7 +360,7 @@ const Menu = () => {
                             {data.document &&
                               data.document?.map((el, i) => {
                                 return (
-                                  <option key={i} value={el._id}>
+                                  <option key={i} value={el?._id}>
                                     {el.name}
                                   </option>
                                 );
@@ -458,9 +377,8 @@ const Menu = () => {
                         <div className="form-group">
                           <label>Menu Type</label>
                           <select
-                            className={`form-control ${
-                              formErrors.menuType ? "is-invalid" : ""
-                            }`}
+                            className={`form-control ${formErrors.menuType ? "is-invalid" : ""
+                              }`}
                             defaultValue={menuType}
                             disabled={type === "View"}
                             onChange={handleMenuTypeChange}
@@ -470,10 +388,10 @@ const Menu = () => {
                                 ? menuType === 1
                                   ? "CMS"
                                   : menuType === 2
-                                  ? "Product"
-                                  : menuType === 3
-                                  ? "Others"
-                                  : ""
+                                    ? "Product"
+                                    : menuType === 3
+                                      ? "Others"
+                                      : ""
                                 : "--- Select menu type ---"}
                             </option>
                             <option value="1">CMS</option>
@@ -492,9 +410,8 @@ const Menu = () => {
                           <div className="form-group">
                             <label>Category List</label>
                             <select
-                              className={`form-control ${
-                                formErrors.cms_id ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
+                                }`}
                               disabled={type === "View"}
                               onChange={(e) => {
                                 setcategoryName(e.target.value);
@@ -504,7 +421,7 @@ const Menu = () => {
                               {category &&
                                 category?.map((el, i) => {
                                   return (
-                                    <option key={i} value={el.category._id}>
+                                    <option key={i} value={el.category?._id}>
                                       {el.category.category}
                                     </option>
                                   );
@@ -524,9 +441,8 @@ const Menu = () => {
                           <div className="form-group">
                             <label>CMS List</label>
                             <select
-                              className={`form-control ${
-                                formErrors.cms_id ? "is-invalid" : ""
-                              }`}
+                              className={`form-control ${formErrors.cms_id ? "is-invalid" : ""
+                                }`}
                               disabled={type === "View"}
                               // onChange={handleMenuTypeChange}
                               onChange={(e) => {
@@ -536,7 +452,7 @@ const Menu = () => {
                               <option value="">-- Select CMS --</option>
                               {cmsData?.map((el, i) => {
                                 return (
-                                  <option key={i} value={el._id}>
+                                  <option key={i} value={el?._id}>
                                     {el.title}
                                   </option>
                                 );
@@ -561,12 +477,11 @@ const Menu = () => {
                               sortOrder
                                 ? sortOrder
                                 : data12?.length > 0
-                                ? data12[0].sortOrder + 1
-                                : 0
+                                  ? data12[0].sortOrder + 1
+                                  : 0
                             }
-                            className={`form-control ${
-                              formErrors.sortOrder ? "is-invalid" : ""
-                            }`}
+                            className={`form-control ${formErrors.sortOrder ? "is-invalid" : ""
+                              }`}
                             onChange={(e) => {
                               setsortOrder(e.target.value);
                             }}
@@ -587,9 +502,8 @@ const Menu = () => {
                             type="text"
                             disabled={type === "View"}
                             value={MenuName}
-                            className={`form-control ${
-                              formErrors.MenuName ? "is-invalid" : ""
-                            }`}
+                            className={`form-control ${formErrors.MenuName ? "is-invalid" : ""
+                              }`}
                             onChange={(e) => {
                               setMenuName(e.target.value);
                             }}
@@ -611,9 +525,8 @@ const Menu = () => {
                             type="text"
                             value={menu_URL_unique_key}
                             disabled={type === "View"}
-                            className={`form-control ${
-                              formErrors.menu_URL_unique_key ? "is-invalid" : ""
-                            }`}
+                            className={`form-control ${formErrors.menu_URL_unique_key ? "is-invalid" : ""
+                              }`}
                             onChange={(e) => {
                               setmenu_URL_unique_key(e.target.value);
                             }}
@@ -634,9 +547,8 @@ const Menu = () => {
                             type="text"
                             value={slug}
                             disabled={type === "View"}
-                            className={`form-control ${
-                              formErrors.slug ? "is-invalid" : ""
-                            }`}
+                            className={`form-control ${formErrors.slug ? "is-invalid" : ""
+                              }`}
                             onChange={(e) => {
                               setslug(e.target.value);
                             }}
@@ -654,40 +566,12 @@ const Menu = () => {
                           <label>
                             Description <span className="text-danger">*</span>
                           </label>
-                          {/* <CommonEditor value={Description}
-                            onChange={(value) => {
-                              setdata({ ...data, Description: value });
-                            }}
-                          /> */}
                           <CommonEditor
                             value={Description}
                             onChange={(value) => {
                               setDescription(value);
                             }}
                           />
-                          {/* <ReactQuill
-                            value={Description}
-                            onChange={(value) => setDescription(value)}
-                            modules={{
-                              toolbar: [
-                                [{ header: "1" }, { header: "2" }, { font: [] }],
-                                [{ size: [] }],
-                                ["bold", "italic", "underline", "strike", "blockquote"],
-                                [
-                                  { list: "ordered" },
-                                  { list: "bullet" },
-                                  { indent: "-1" },
-                                  { indent: "+1" },
-                                ],
-                                ["link", "image", "video"],
-                                ["clean"],
-                              ],
-                              clipboard: {
-                                matchVisual: false,
-                              },
-                            }}
-                            theme="snow"
-                          /> */}
                           <div className="invalid-feedback d-block">
                             {formErrors.Description}
                           </div>
@@ -781,8 +665,8 @@ const Menu = () => {
                             sortOrder: sortOrder
                               ? sortOrder
                               : data12?.length > 0
-                              ? data12[0].sortOrder + 1
-                              : 0,
+                                ? data12[0].sortOrder + 1
+                                : 0,
                             // cms: cms_id,
                             menuName: MenuName,
                             menuType: menuType,
@@ -794,7 +678,7 @@ const Menu = () => {
                             //     : 3
                             showInHeader: showInHeader,
                             showInFooter: showInFooter,
-                            id: ACTIVEDATA._id,
+                            id: ACTIVEDATA?._id,
                             isActive: Active,
                             Description: Description,
                           };

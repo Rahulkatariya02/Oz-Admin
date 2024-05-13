@@ -1,7 +1,5 @@
-import DataTable from "datatables.net-dt";
 import React, { useEffect, useState } from "react";
 import { Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
 import ProductContentForm from "./ProductContentForm";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -10,11 +8,10 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { handleTokenErrors } from "../component/handleTokenErrors";
 
 const ProductContent = ({ data123, type }) => {
-  const navigate = useNavigate(); // Assuming you're using react-router
 
   const [productcontent, setProductContent] = useState([]);
   const [activedata, setActiveData] = useState(null);
-  const [data, setData] = useState(!data123 ? {} : data123); // Initializing data state
+  const [data] = useState(!data123 ? {} : data123);
 
   useEffect(() => {
     getproductcontent();
@@ -156,7 +153,7 @@ const ProductContent = ({ data123, type }) => {
                       </tr>
                     );
                   } else {
-                    return null; // If condition is not met, return null
+                    return null;
                   }
                 })}
               </tbody>

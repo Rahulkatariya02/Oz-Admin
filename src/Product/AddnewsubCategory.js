@@ -24,7 +24,7 @@ const AddnewsubCategory = () => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    const { name, value, checked, files } = e.target;
+    const { name, value, files } = e.target;
     if (name !== "CategoryImage") {
       setData({ ...data, [name]: value });
     } else {

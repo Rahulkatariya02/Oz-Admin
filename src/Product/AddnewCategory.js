@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { handleTokenErrors } from "../component/handleTokenErrors";
@@ -21,7 +21,7 @@ const AddnewCategory = () => {
   const [errors, setErrors] = useState({});
 
   const handleChange = (e) => {
-    const { name, value, checked, files } = e.target;
+    const { name, value, files } = e.target;
     if (name !== "CategoryImage") {
       setData({ ...data, [name]: value });
     } else {
